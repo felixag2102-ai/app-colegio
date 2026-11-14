@@ -11,4 +11,4 @@ export const GOOGLE_CLIENT_ID = '898956008730-dfndfqn2jge5t2cvpvvaatov35mh18du.a
 
 // Dirección del programa de avisos en Cloudflare (sale al publicarlo; NO es secreta).
 // Si está vacía, la opción de notificaciones no aparece.
-export const AVISOS_URL = ''
+export const AVISOS_URL = 'https://colegio-avisos.colegio-app.workers.dev'

@@ -66,9 +66,24 @@ agregamos una copia de seguridad.
 ## Etapas
 
 1. ✅ Las 5 pantallas funcionando con datos guardados en el celular.
-2. Publicarla gratis en internet (HTTPS) para instalarla en el Samsung + copia de seguridad.
-3. Clima real con Open-Meteo.
-4. Iniciar sesión con Google.
-5. Conectar Google Calendar.
-6. Notificaciones de los recordatorios.
+2. ✅ Publicada en GitHub Pages (https://felixag2102-ai.github.io/app-colegio/) + copia de seguridad.
+3. ✅ Clima real con Open-Meteo (Buenos Aires o tu ubicación).
+4. ✅ Iniciar sesión con Google.
+5. ✅ Google Calendar y Google Tasks (solo lectura).
+6. ✅ Notificaciones de los recordatorios (Cloudflare Workers, carpeta `notificaciones/`).
 7. Asistente de estudio con IA y transcripción de fotos.
+
+## Servicios que usa la app
+
+| Servicio | Para qué | Dónde se configura |
+|---|---|---|
+| GitHub Pages | Publicar la app | Pestaña Actions → "Publicar la app" |
+| Open-Meteo | Clima (gratis, sin clave) | `src/datos/clima.js` |
+| Google Cloud (proyecto `app-colegio`) | Iniciar sesión, Calendar y Tasks | `GOOGLE_CLIENT_ID` en `src/config.js` |
+| Cloudflare Workers | Mandar las notificaciones | `AVISOS_URL` en `src/config.js`; se publica con Actions → "Publicar los avisos" |
+
+### ⚠️ Para acordarse
+- La **clave de API de Cloudflare** (secreto `CLOUDFLARE_API_TOKEN` en GitHub) **vence al año** de crearla
+  (noviembre de 2027). Antes de esa fecha hay que crear una nueva en Cloudflare
+  (Perfil → API Tokens) y reemplazar el secreto en GitHub (Settings → Secrets and variables → Actions).
+  Si vence, las notificaciones siguen funcionando: solo deja de poder publicarse una versión nueva del programa de avisos.
