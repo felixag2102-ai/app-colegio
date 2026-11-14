@@ -12,6 +12,7 @@ import FilaDeslizable from '../../componentes/FilaDeslizable'
 import RelojElegir from '../../componentes/RelojElegir'
 import { Tachado } from '../Ideas'
 import * as Icono from '../../componentes/Iconos'
+import EstadoAvisos from './EstadoAvisos'
 
 // Los próximos 7 días, para elegir en el reloj
 export function proximosSieteDias() {
@@ -112,6 +113,8 @@ export default function Recordatorios({ abierto, onCerrar, enfocar }) {
               <span className="subtitulo" style={{ fontSize: 12 }}>{resumen}</span>
             </div>
           </div>
+
+          <EstadoAvisos />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: 8, borderRadius: 20, background: '#F2F3F7', flexShrink: 0 }}>
             <div style={{ display: 'flex', gap: 8 }}>

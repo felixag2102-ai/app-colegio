@@ -33,6 +33,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Código extra para recibir notificaciones (ver public/push-sw.js)
+        importScripts: ['push-sw.js'],
       },
     }),
   ],

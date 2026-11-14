@@ -13,6 +13,7 @@ import Agenda from './pantallas/Agenda'
 import Boletin from './pantallas/Boletin'
 import Apuntes from './pantallas/apuntes/Apuntes'
 import Ideas from './pantallas/Ideas'
+import { SincronizarAvisos } from './datos/avisos'
 
 const PANTALLAS = [Inicio, Agenda, Boletin, Apuntes, Ideas]
 
@@ -43,6 +44,8 @@ export default function App() {
       {/* key: cada vez que cambiás de pantalla se "arma de nuevo" y se ven las animaciones de entrada */}
       <Pantalla key={nav.vez} accion={nav.accion} irA={irA} />
       <MenuAbajo actual={nav.pantalla} onIr={(i) => irA(i)} />
+      {/* Invisible: mantiene al día los avisos de los recordatorios */}
+      <SincronizarAvisos />
     </div>
   )
 }

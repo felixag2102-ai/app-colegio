@@ -1,0 +1,14 @@
+# Configuración del programa de avisos para Cloudflare Workers
+name = "colegio-avisos"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# Cada celular tiene su "cajita" (Durable Object) con sus recordatorios y su alarma
+[[durable_objects.bindings]]
+name = "DISPOSITIVO"
+class_name = "Dispositivo"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Dispositivo"]
