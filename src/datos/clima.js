@@ -10,13 +10,13 @@ import { useEffect, useState } from 'react'
 
 export const CIUDAD = { nombre: 'Buenos Aires', lat: -34.61, lon: -58.38, zona: 'America/Argentina/Buenos_Aires' }
 
-const CLAVE = 'colegio:clima'
+const CLAVE = 'colegio:clima-v2' // v2: cambió el cálculo; así se pide de nuevo
 const CADA = 30 * 60 * 1000 // 30 minutos
 
 const URL_CLIMA =
   'https://api.open-meteo.com/v1/forecast' +
   '?latitude=' + CIUDAD.lat + '&longitude=' + CIUDAD.lon +
-  '&current=temperature_2m,weather_code,is_day' +
+  '&current=temperature_2m,weather_code,is_day,precipitation,cloud_cover' +
   '&hourly=temperature_2m,weather_code,is_day' +
   '&daily=temperature_2m_max,temperature_2m_min' +
   '&timezone=' + encodeURIComponent(CIUDAD.zona) + '&forecast_days=2'
@@ -40,6 +40,23 @@ export function describir(codigo) {
   return { texto: 'Variable', dibujo: 'parcial' }
 }
 
+/*
+  El "código" de Open-Meteo sale de un pronóstico, y a veces dice llovizna
+  aunque no esté cayendo agua. Por eso lo comparamos con la lluvia real
+  (en milímetros) y, si no llueve, usamos cuánto cielo tapan las nubes.
+*/
+const LLUEVE = (codigo) => (codigo >= 51 && codigo <= 67) || (codigo >= 80 && codigo <= 82)
+
+function codigoCorregido(c) {
+  const agua = typeof c.precipitation === 'number' ? c.precipitation : null
+  if (!LLUEVE(c.weather_code) || agua === null || agua >= 0.1) return c.weather_code
+  const nubes = typeof c.cloud_cover === 'number' ? c.cloud_cover : 50
+  if (nubes < 20) return 0 // despejado
+  if (nubes < 50) return 1 // casi despejado
+  if (nubes < 85) return 2 // algo nublado
+  return 3 // nublado
+}
+
 // Convierte la respuesta de Open-Meteo en lo que muestra la tarjeta
 function resumir(datos, ahora = new Date()) {
   const c = datos.current
@@ -56,7 +73,7 @@ function resumir(datos, ahora = new Date()) {
   }
   return {
     temp: Math.round(c.temperature_2m),
-    ...describir(c.weather_code),
+    ...describir(codigoCorregido(c)),
     deDia: c.is_day === 1,
     max: Math.round(datos.daily.temperature_2m_max[0]),
     min: Math.round(datos.daily.temperature_2m_min[0]),
