@@ -10,6 +10,19 @@ import { desconectarCalendar, mensajeCalendar, sincronizarCalendar } from '../da
 import { googleDisponible } from '../datos/google'
 import { pad2 } from '../utilidades/fechas'
 
+// "3 eventos y 2 tareas"
+function resumen(d) {
+  const t = d.tareas || 0
+  const e = d.eventos.length - t
+  const textoE = e === 1 ? '1 evento' : e + ' eventos'
+  return t ? textoE + ' y ' + (t === 1 ? '1 tarea' : t + ' tareas') : textoE
+}
+
+const PROBLEMA_TAREAS = {
+  'api-apagada': 'Faltan tus tareas: hay que activar la API de Google Tasks en Google Cloud (es un paso que hacen ustedes).',
+  permiso: 'Faltan tus tareas: no se dio permiso para verlas. Tocá "Actualizar ahora" y aceptá el permiso de Tareas.',
+}
+
 function haceCuanto(ms) {
   const min = Math.round((Date.now() - ms) / 60000)
   if (min < 1) return 'recién'
@@ -30,7 +43,7 @@ export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo,
     try {
       const r = await sincronizarCalendar()
       onCerrar()
-      onListo(r.eventos.length === 1 ? 'Traje 1 evento de Google Calendar' : 'Traje ' + r.eventos.length + ' eventos de Google Calendar')
+      onListo('Traje ' + resumen(r) + ' de Google')
     } catch (err) {
       setError(mensajeCalendar(err))
     }
@@ -53,8 +66,8 @@ export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo,
           <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Google Calendar</h2>
           <span style={{ fontSize: 13, fontWeight: 500, color: '#3B404B', lineHeight: 1.4 }}>
             {google
-              ? 'Tus eventos de Google aparecen en la Agenda y en el Inicio con una "G". La app solo los lee: para cambiarlos, usá Google Calendar.'
-              : 'Mostrá en la app los eventos de tu Google Calendar (de un mes atrás a tres meses adelante). La app solo los lee: no puede cambiar ni borrar nada.'}
+              ? 'Tus eventos y tareas de Google aparecen en la Agenda y en el Inicio con una "G". La app solo los lee: para cambiarlos, usá Google Calendar.'
+              : 'Mostrá en la app los eventos de tu Google Calendar y tus tareas con fecha (de un mes atrás a tres meses adelante). La app solo los lee: no puede cambiar ni borrar nada.'}
           </span>
         </div>
       }
@@ -67,9 +80,15 @@ export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo,
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 12, borderRadius: 16, background: 'rgba(20,163,127,0.10)' }}>
           <span style={{ width: 9, height: 9, borderRadius: 5, background: '#14A37F', flexShrink: 0 }} />
           <span style={{ fontSize: 14, fontWeight: 600, color: '#0B5E48' }}>
-            {google.eventos.length} {google.eventos.length === 1 ? 'evento' : 'eventos'} · actualizado {haceCuanto(google.actualizado)}
+            {resumen(google)} · actualizado {haceCuanto(google.actualizado)}
           </span>
         </div>
+      )}
+
+      {google && google.problemaTareas && (
+        <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.4, padding: '10px 12px', borderRadius: 14, color: '#9A3C00', background: 'rgba(224,102,26,0.12)' }}>
+          {PROBLEMA_TAREAS[google.problemaTareas] || 'No pude traer tus tareas de Google. Probá de nuevo en un rato.'}
+        </span>
       )}
 
       {googleDisponible() && (

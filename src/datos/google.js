@@ -36,7 +36,9 @@ function cargarScript() {
 // El pase actual (solo en memoria)
 let token = null
 let vence = 0
+let permisosDados = '' // qué permisos aceptó la persona en el último pase
 export const tokenActual = () => (token && Date.now() < vence ? token : null)
+export const tienePermiso = (permiso) => permisosDados.split(' ').includes(permiso)
 
 // Pide un pase a Google. "permisos" se pueden ampliar más adelante (por ejemplo, Calendar).
 export async function pedirToken(permisos = PERMISOS_BASICOS, { silencioso = false } = {}) {
@@ -48,6 +50,7 @@ export async function pedirToken(permisos = PERMISOS_BASICOS, { silencioso = fal
       callback: (r) => {
         if (r.error) { mal(new Error(r.error)); return }
         token = r.access_token
+        permisosDados = r.scope || ''
         vence = Date.now() + (Number(r.expires_in) || 3600) * 1000 - 60000
         ok(token)
       },

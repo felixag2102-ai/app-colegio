@@ -8,11 +8,12 @@
   - Los convertimos al mismo formato que los eventos de la app, con google: true.
 */
 import { useGuardado, guardar } from './guardado'
-import { pedirToken, tokenActual } from './google'
+import { pedirToken, tienePermiso, tokenActual } from './google'
 import { claveDia, pad2, sumarDias, hoy } from '../utilidades/fechas'
 
 export const PERMISO_CALENDAR = 'https://www.googleapis.com/auth/calendar.events.readonly'
-const PERMISOS = 'openid email profile ' + PERMISO_CALENDAR
+export const PERMISO_TAREAS = 'https://www.googleapis.com/auth/tasks.readonly'
+const PERMISOS = 'openid email profile ' + PERMISO_CALENDAR + ' ' + PERMISO_TAREAS
 const CLAVE = 'eventosGoogle' // { eventos: [...], actualizado: número }
 
 // Adivina el tipo de evento según el título
@@ -80,11 +81,63 @@ async function traerEventos(token) {
   return todos.filter((e) => e.status !== 'cancelled').map(convertir).filter(Boolean)
 }
 
+/*
+  Google Tasks: traemos las tareas CON FECHA y SIN COMPLETAR de todas tus listas.
+  Google guarda la fecha de una tarea como "2026-11-20T00:00:00.000Z":
+  usamos solo la parte de la fecha (si la convertimos a la hora de Argentina, se correría un día).
+*/
+async function pedirGoogle(url, token) {
+  const r = await fetch(url, { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' })
+  if (r.status === 401) throw new Error('permiso')
+  if (r.status === 403) {
+    let razon = ''
+    try { const e = await r.json(); razon = JSON.stringify(e.error || '') } catch (err) { /* nada */ }
+    if (/accessNotConfigured|SERVICE_DISABLED|has not been used|is disabled/i.test(razon)) throw new Error('api-apagada')
+    throw new Error('permiso')
+  }
+  if (!r.ok) throw new Error('google-' + r.status)
+  return r.json()
+}
+
+async function traerTareas(token) {
+  const desde = sumarDias(hoy(), -31).toISOString()
+  const hasta = sumarDias(hoy(), 92).toISOString()
+  const listas = await pedirGoogle('https://tasks.googleapis.com/tasks/v1/users/@me/lists?maxResults=100', token)
+  const tareas = []
+  for (const lista of (listas.items || []).slice(0, 20)) {
+    let pagina = ''
+    for (let vuelta = 0; vuelta < 10; vuelta++) {
+      const url =
+        'https://tasks.googleapis.com/tasks/v1/lists/' + encodeURIComponent(lista.id) + '/tasks' +
+        '?showCompleted=false&maxResults=100&dueMin=' + encodeURIComponent(desde) + '&dueMax=' + encodeURIComponent(hasta) +
+        (pagina ? '&pageToken=' + encodeURIComponent(pagina) : '')
+      const datos = await pedirGoogle(url, token)
+      ;(datos.items || []).forEach((t) => {
+        if (!t.due || t.status === 'completed' || t.deleted || !t.title) return
+        tareas.push({
+          id: 't-' + t.id,
+          fecha: t.due.slice(0, 10),
+          hora: null,
+          titulo: t.title,
+          detalle: lista.title && lista.title !== 'Mis tareas' && lista.title !== 'My Tasks' ? 'Tarea · ' + lista.title : 'Tarea',
+          tipo: tipoSegunTitulo(t.title),
+          google: true,
+          tarea: true,
+        })
+      })
+      pagina = datos.nextPageToken
+      if (!pagina) break
+    }
+  }
+  return tareas
+}
+
 // Conecta (o actualiza). Necesita que la persona toque un botón (Google lo exige).
 export async function sincronizarCalendar() {
   let token = tokenActual()
-  if (!token || !tieneTokenConCalendar) {
-    token = await pedirToken(PERMISOS, { silencioso: !!leer() })
+  // Si no hay pase, o al pase le falta algún permiso (por ejemplo, el de Tareas, que es nuevo), pedimos uno
+  if (!token || !tieneTokenConCalendar || !tienePermiso(PERMISO_TAREAS)) {
+    token = await pedirToken(PERMISOS, { silencioso: false })
     tieneTokenConCalendar = true
   }
   let eventos
@@ -96,7 +149,14 @@ export async function sincronizarCalendar() {
     token = await pedirToken(PERMISOS)
     eventos = await traerEventos(token)
   }
-  const datos = { eventos, actualizado: Date.now() }
+  // Las tareas van aparte: si fallan, el calendario igual se muestra
+  let tareas = []
+  let problemaTareas = ''
+  if (!tienePermiso(PERMISO_TAREAS)) problemaTareas = 'permiso'
+  else {
+    try { tareas = await traerTareas(token) } catch (err) { problemaTareas = err.message || 'error' }
+  }
+  const datos = { eventos: eventos.concat(tareas), tareas: tareas.length, problemaTareas, actualizado: Date.now() }
   guardar(CLAVE, datos)
   return datos
 }
@@ -107,7 +167,13 @@ export async function actualizarSiSePuede() {
   const token = tokenActual()
   if (!token || !tieneTokenConCalendar || !leer()) return null
   const eventos = await traerEventos(token)
-  const datos = { eventos, actualizado: Date.now() }
+  let tareas = []
+  let problemaTareas = ''
+  if (!tienePermiso(PERMISO_TAREAS)) problemaTareas = 'permiso'
+  else {
+    try { tareas = await traerTareas(token) } catch (err) { problemaTareas = err.message || 'error' }
+  }
+  const datos = { eventos: eventos.concat(tareas), tareas: tareas.length, problemaTareas, actualizado: Date.now() }
   guardar(CLAVE, datos)
   return datos
 }

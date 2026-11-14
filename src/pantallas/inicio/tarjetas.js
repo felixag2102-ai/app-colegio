@@ -30,7 +30,7 @@ function tarjetaEvento(e, etiqueta, hoyD, ahora, categorias) {
     chip: chipEvento(e, dias, ahora),
     titulo: e.titulo,
     sub: (e.hora || 'Todo el día') + (e.detalle ? ' · ' + e.detalle : ''),
-    pie: e.google ? 'Desde Google Calendar' : cat ? cat.name : 'Agenda',
+    pie: e.tarea ? 'Desde Google Tasks' : e.google ? 'Desde Google Calendar' : cat ? cat.name : 'Agenda',
   }
 }
 
