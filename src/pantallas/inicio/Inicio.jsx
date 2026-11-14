@@ -67,6 +67,7 @@ export default function Inicio({ irA }) {
   // El nombre se guarda en el celular. null = todavía no lo preguntamos
   const [nombre, setNombre] = useGuardado('nombre', null)
   const [pidiendoNombre, setPidiendoNombre] = useState(false)
+  const [cuentaGoogle] = useGuardado('cuentaGoogle', null)
   useEffect(() => {
     if (nombre === null) {
       const t = setTimeout(() => setPidiendoNombre(true), 700)
@@ -183,8 +184,11 @@ export default function Inicio({ irA }) {
               <button
                 onClick={() => setPidiendoNombre(true)}
                 aria-label="Cambiar tu nombre"
-                style={{ all: 'unset', cursor: 'pointer' }}
+                style={{ all: 'unset', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 10 }}
               >
+                {cuentaGoogle && cuentaGoogle.foto && (
+                  <img src={cuentaGoogle.foto} alt="" referrerPolicy="no-referrer" style={{ width: 34, height: 34, borderRadius: 17, objectFit: 'cover', boxShadow: '0 0 0 2px #FFFFFF, 0 4px 10px rgba(30,40,80,0.18)' }} />
+                )}
                 {nombre ? 'Hola, ' + nombre : 'Hola'}
               </button>
             </h1>
