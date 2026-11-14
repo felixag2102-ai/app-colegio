@@ -17,7 +17,7 @@
 * { scrollbar-width: none; box-sizing: border-box; }
 *::-webkit-scrollbar { display: none; }
 
-html, body, #root { height: 100%; margin: 0; }
+html, body, #root { height: 100%; margin: 0; overflow: hidden; }
 
 body {
   background: #DCDFE8;
@@ -34,14 +34,15 @@ button:active { transform: scale(0.95); }
 button:disabled { cursor: default; }
 a { color: #1A3596; }
 
-/* La "pantalla del celular": en la compu queda centrada y angosta */
+/* La "pantalla del celular": en la compu queda centrada y angosta.
+   position: fixed + inset: 0 hace que ocupe exactamente la parte visible
+   de la pantalla (sin meterse debajo de la barra de botones de Android). */
 .app {
-  position: relative;
+  position: fixed;
+  inset: 0;
   isolation: isolate;
   width: 100%;
   max-width: 440px;
-  height: 100%;
-  height: 100dvh;
   margin: 0 auto;
   overflow: hidden;
   background: var(--fondo);
