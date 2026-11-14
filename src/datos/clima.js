@@ -2,20 +2,23 @@
   Clima real con Open-Meteo (https://open-meteo.com).
   Es gratis y no necesita cuenta ni clave.
 
-  Usamos Buenos Aires fijo para no tener que pedir la ubicación del celular.
+  Por defecto usamos Buenos Aires. Si la persona lo elige, usamos su ubicación:
+  se redondea (margen de ~1 km), se guarda solo en el celular y solo se le
+  manda a Open-Meteo para pedir el clima de ese lugar.
   El último clima se guarda en el celular: si no hay internet, se muestra ese.
   Se vuelve a pedir como mucho cada 30 minutos.
 */
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useGuardado } from './guardado'
 
 export const CIUDAD = { nombre: 'Buenos Aires', lat: -34.61, lon: -58.38, zona: 'America/Argentina/Buenos_Aires' }
 
 const CLAVE = 'colegio:clima-v2' // v2: cambió el cálculo; así se pide de nuevo
 const CADA = 30 * 60 * 1000 // 30 minutos
 
-const URL_CLIMA =
+const urlClima = (lat, lon) =>
   'https://api.open-meteo.com/v1/forecast' +
-  '?latitude=' + CIUDAD.lat + '&longitude=' + CIUDAD.lon +
+  '?latitude=' + lat + '&longitude=' + lon +
   '&current=temperature_2m,weather_code,is_day,precipitation,cloud_cover' +
   '&hourly=temperature_2m,weather_code,is_day' +
   '&daily=temperature_2m_max,temperature_2m_min' +
@@ -82,6 +85,21 @@ function resumir(datos, ahora = new Date()) {
   }
 }
 
+// Redondeamos a 2 decimales (más o menos 1 km): suficiente para el clima, sin dar la ubicación exacta
+const redondear = (x) => Math.round(x * 100) / 100
+
+// Le pide al celular la ubicación (Android muestra el cartel de permiso la primera vez)
+function pedirPosicion() {
+  return new Promise((ok, mal) => {
+    if (!navigator.geolocation) { mal({ code: 0 }); return }
+    navigator.geolocation.getCurrentPosition(
+      (p) => ok({ lat: redondear(p.coords.latitude), lon: redondear(p.coords.longitude) }),
+      mal,
+      { enableHighAccuracy: false, timeout: 15000, maximumAge: CADA }
+    )
+  })
+}
+
 function leerGuardado() {
   try {
     return JSON.parse(localStorage.getItem(CLAVE))
@@ -91,22 +109,28 @@ function leerGuardado() {
 }
 
 /*
-  Hook: devuelve { clima, estado }
+  Hook: devuelve { clima, estado, lugar, usarUbicacion, usarCiudad }
   estado: 'cargando' | 'listo' | 'viejo' (sin internet, mostramos el último) | 'error'
+  lugar:  null (todavía no eligió) | { modo: 'ciudad' } | { modo: 'ubicacion', lat, lon }
 */
 export function useClima() {
+  const [lugar, setLugar] = useGuardado('climaLugar', null)
   const [clima, setClima] = useState(leerGuardado)
   const [estado, setEstado] = useState(() => (leerGuardado() ? 'listo' : 'cargando'))
+
+  const coords = lugar && lugar.modo === 'ubicacion' ? lugar : CIUDAD
+  const claveLugar = coords.lat + ',' + coords.lon
 
   useEffect(() => {
     let cancelado = false
     const pedir = async () => {
       const guardado = leerGuardado()
-      if (guardado && Date.now() - guardado.actualizado < CADA) return // todavía está fresco
+      const mismoLugar = guardado && guardado.lugar === claveLugar
+      if (mismoLugar && Date.now() - guardado.actualizado < CADA) { setClima(guardado); setEstado('listo'); return } // todavía está fresco
       try {
-        const respuesta = await fetch(URL_CLIMA)
+        const respuesta = await fetch(urlClima(coords.lat, coords.lon))
         if (!respuesta.ok) throw new Error('Open-Meteo respondió ' + respuesta.status)
-        const nuevo = resumir(await respuesta.json())
+        const nuevo = { ...resumir(await respuesta.json()), lugar: claveLugar }
         localStorage.setItem(CLAVE, JSON.stringify(nuevo))
         if (!cancelado) { setClima(nuevo); setEstado('listo') }
       } catch (err) {
@@ -117,7 +141,34 @@ export function useClima() {
     // Si la app queda abierta, se actualiza sola cada 30 minutos
     const t = setInterval(pedir, CADA)
     return () => { cancelado = true; clearInterval(t) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [claveLugar])
+
+  // Si usa su ubicación y se movió (por ejemplo, está en otro barrio), la actualizamos sin molestar
+  useEffect(() => {
+    if (!lugar || lugar.modo !== 'ubicacion') return
+    pedirPosicion()
+      .then((p) => { if (p.lat !== lugar.lat || p.lon !== lugar.lon) setLugar({ modo: 'ubicacion', ...p }) })
+      .catch(() => {}) // si falla, seguimos con la última ubicación guardada
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { clima, estado }
+  const usarUbicacion = useCallback(async () => {
+    try {
+      const p = await pedirPosicion()
+      setLugar({ modo: 'ubicacion', ...p })
+      return { ok: true }
+    } catch (err) {
+      return {
+        ok: false,
+        mensaje: err && err.code === 1
+          ? 'No diste permiso para usar la ubicación. Si cambiás de idea, activalo en Ajustes → Aplicaciones → Colegio → Permisos → Ubicación.'
+          : 'No pude encontrar tu ubicación. Fijate que la ubicación del celular esté prendida y probá de nuevo.',
+      }
+    }
+  }, [setLugar])
+
+  const usarCiudad = useCallback(() => setLugar({ modo: 'ciudad' }), [setLugar])
+
+  return { clima, estado, lugar, usarUbicacion, usarCiudad }
 }
