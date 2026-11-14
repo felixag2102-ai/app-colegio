@@ -15,7 +15,7 @@ import RelojElegir from '../componentes/RelojElegir'
 import FilaDeslizable from '../componentes/FilaDeslizable'
 import Aviso, { useAviso } from '../componentes/Aviso'
 import HojaGoogleCalendar from './HojaGoogleCalendar'
-import { useEventosConGoogle } from '../datos/calendario'
+import { actualizarSiSePuede, useEventosConGoogle } from '../datos/calendario'
 import * as Icono from '../componentes/Iconos'
 
 const SIN_CATEGORIA = { name: 'Sin categoría', color: '#8E93A0' }
@@ -33,6 +33,11 @@ export default function Agenda({ accion }) {
   const { todos: eventos, locales, setLocales: setEventos, google } = useEventosConGoogle()
   const [hojaGoogle, setHojaGoogle] = useState(false)
   const { aviso, mostrarAviso } = useAviso()
+
+  // Al entrar a la Agenda, si la sesión de Google sigue activa, traemos los eventos nuevos solos
+  useEffect(() => {
+    actualizarSiSePuede().catch(() => {})
+  }, [])
   const [categorias, setCategorias] = useGuardado('categoriasAgenda', CATEGORIAS_AGENDA)
   const h0 = hoy()
   const [mes, setMes] = useState({ a: h0.getFullYear(), m: h0.getMonth() })

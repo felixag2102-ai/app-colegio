@@ -50,22 +50,34 @@ function convertir(g) {
 async function traerEventos(token) {
   const desde = sumarDias(hoy(), -31).toISOString()
   const hasta = sumarDias(hoy(), 92).toISOString()
-  let url =
+  const base =
     'https://www.googleapis.com/calendar/v3/calendars/primary/events' +
     '?singleEvents=true&orderBy=startTime&maxResults=250' +
     '&timeMin=' + encodeURIComponent(desde) + '&timeMax=' + encodeURIComponent(hasta)
-  const r = await fetch(url, { headers: { Authorization: 'Bearer ' + token } })
-  if (r.status === 401) throw new Error('permiso')
-  if (r.status === 403) {
-    // 403 puede ser "falta permiso" o "la API de Calendar no está activada en Google Cloud"
-    let razon = ''
-    try { const e = await r.json(); razon = JSON.stringify(e.error || '') } catch (err) { /* nada */ }
-    if (/accessNotConfigured|SERVICE_DISABLED|has not been used|is disabled/i.test(razon)) throw new Error('api-apagada')
-    throw new Error('permiso')
+
+  // Google manda los eventos de a "páginas" de hasta 250.
+  // Pedimos página por página hasta tenerlos todos (máximo 20 páginas).
+  const todos = []
+  let pagina = ''
+  for (let vuelta = 0; vuelta < 20; vuelta++) {
+    const url = base + (pagina ? '&pageToken=' + encodeURIComponent(pagina) : '')
+    // cache: 'no-store' → siempre la respuesta nueva, nunca una copia vieja del navegador
+    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' })
+    if (r.status === 401) throw new Error('permiso')
+    if (r.status === 403) {
+      // 403 puede ser "falta permiso" o "la API de Calendar no está activada en Google Cloud"
+      let razon = ''
+      try { const e = await r.json(); razon = JSON.stringify(e.error || '') } catch (err) { /* nada */ }
+      if (/accessNotConfigured|SERVICE_DISABLED|has not been used|is disabled/i.test(razon)) throw new Error('api-apagada')
+      throw new Error('permiso')
+    }
+    if (!r.ok) throw new Error('google-' + r.status)
+    const datos = await r.json()
+    todos.push(...(datos.items || []))
+    pagina = datos.nextPageToken
+    if (!pagina) break
   }
-  if (!r.ok) throw new Error('google-' + r.status)
-  const datos = await r.json()
-  return (datos.items || []).filter((e) => e.status !== 'cancelled').map(convertir).filter(Boolean)
+  return todos.filter((e) => e.status !== 'cancelled').map(convertir).filter(Boolean)
 }
 
 // Conecta (o actualiza). Necesita que la persona toque un botón (Google lo exige).
@@ -89,6 +101,16 @@ export async function sincronizarCalendar() {
   return datos
 }
 let tieneTokenConCalendar = false
+
+// Actualiza sin molestar SOLO si ya hay un pase vigente (no abre ventanas de Google)
+export async function actualizarSiSePuede() {
+  const token = tokenActual()
+  if (!token || !tieneTokenConCalendar || !leer()) return null
+  const eventos = await traerEventos(token)
+  const datos = { eventos, actualizado: Date.now() }
+  guardar(CLAVE, datos)
+  return datos
+}
 
 export function desconectarCalendar() {
   guardar(CLAVE, null)
