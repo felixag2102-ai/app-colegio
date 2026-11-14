@@ -194,7 +194,7 @@ export default function Agenda({ accion }) {
           </button>
         </div>
 
-        <div className="entra" style={{ display: 'flex', flexDirection: 'column', gap: 8, flexGrow: 1, minHeight: 0, animationDelay: '0.16s' }}>
+        <div className="entra" style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0, animationDelay: '0.16s' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, padding: '0 4px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
               <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.01em' }}>{tituloDia}</span>
@@ -207,7 +207,7 @@ export default function Agenda({ accion }) {
               <Icono.Mas tam={16} grosor={2.6} />Agregar
             </button>
           </div>
-          <div key={cambioDia} style={{ flexGrow: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 4, animation: 'listA 0.32s ease-out both' }}>
+          <div key={cambioDia} style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 12, animation: 'listA 0.32s ease-out backwards' }}>
             {delDia.length === 0 && (
               <div style={{ borderRadius: 22, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, textAlign: 'center', border: '2px dashed rgba(21,23,28,0.18)', background: 'rgba(255,255,255,0.5)' }}>
                 <span style={{ fontSize: 15, fontWeight: 700 }}>Nada agendado</span>

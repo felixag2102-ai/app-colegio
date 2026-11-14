@@ -3,7 +3,7 @@
   onduladas que se mueven despacio. Cada pantalla tiene sus propios colores
   y las manchas se deslizan suavemente al cambiar de pantalla.
 */
-import { memo } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import { ACENTO } from '../utilidades/colores'
 
 // Dibuja un haz de "n" líneas onduladas (fórmula copiada del diseño)
@@ -44,27 +44,44 @@ const MANCHAS = [
 const ANIM = { attributeName: 'd', repeatCount: 'indefinite', calcMode: 'spline', keyTimes: '0;0.333;0.667;1', keySplines: '0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1' }
 
 function Fondo({ pantalla }) {
+  const svg = useRef(null)
+
+  // Mientras cambia la pantalla, pausamos un ratito las ondas del fondo:
+  // así el celular usa toda su fuerza en la animación de la pantalla nueva.
+  useEffect(() => {
+    const el = svg.current
+    if (!el || !el.pauseAnimations) return
+    el.pauseAnimations()
+    const t = setTimeout(() => el.unpauseAnimations(), 900)
+    return () => clearTimeout(t)
+  }, [pantalla])
+
   return (
-    <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
-      {MANCHAS[pantalla].map((m, i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute', left: m.x, top: m.y, width: m.t, height: m.t, borderRadius: '50%',
-            background: m.c, opacity: m.o, filter: 'blur(70px)',
-            transition: 'left 1.2s cubic-bezier(.22,1,.36,1), top 1.2s cubic-bezier(.22,1,.36,1), background 1.2s, opacity 1.2s',
-          }}
-        />
-      ))}
-      <svg width="1080" height="780" viewBox="0 0 1080 780" style={{ position: 'absolute', left: 0, top: 0, filter: 'blur(1.1px)', animation: 'drift 70s linear infinite' }}>
-        <path d={OLA_A.d} fill="none" stroke="#15171C" strokeWidth="1.1" strokeOpacity="0.5">
+    <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none', contain: 'strict' }}>
+      {/* Las manchas de TODAS las pantallas están siempre dibujadas; solo cambiamos cuáles se ven.
+          Cambiar la opacidad es muy liviano para el celular (no hay que redibujar el difuminado). */}
+      {MANCHAS.map((manchas, p) =>
+        manchas.map((m, i) => (
+          <div
+            key={p + '-' + i}
+            style={{
+              position: 'absolute', left: m.x, top: m.y, width: m.t, height: m.t, borderRadius: '50%',
+              background: m.c, filter: 'blur(70px)', willChange: 'opacity',
+              opacity: p === pantalla ? m.o : 0, transition: 'opacity 0.9s ease',
+            }}
+          />
+        ))
+      )}
+      <svg ref={svg} width="1080" height="780" viewBox="0 0 1080 780" style={{ position: 'absolute', left: 0, top: 0, filter: 'blur(1.6px)', willChange: 'transform', animation: 'drift 70s linear infinite' }}>
+        <path d={OLA_A.d} fill="none" stroke="#15171C" strokeWidth="1.1" strokeOpacity="0.45">
           <animate {...ANIM} dur="18s" values={OLA_A.valores} />
         </path>
-        <path d={OLA_B.d} fill="none" stroke="#15171C" strokeWidth="1.1" strokeOpacity="0.42">
+        <path d={OLA_B.d} fill="none" stroke="#15171C" strokeWidth="1.1" strokeOpacity="0.38">
           <animate {...ANIM} dur="22s" values={OLA_B.valores} />
         </path>
       </svg>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(238,240,247,0.30)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }} />
+      {/* Velo claro encima (antes tenía desenfoque, que era muy pesado) */}
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(238,240,247,0.34)' }} />
     </div>
   )
 }
