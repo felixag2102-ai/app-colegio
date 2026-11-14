@@ -13,6 +13,9 @@ import HojaDeAbajo from '../componentes/HojaDeAbajo'
 import EditorLista from '../componentes/EditorLista'
 import RelojElegir from '../componentes/RelojElegir'
 import FilaDeslizable from '../componentes/FilaDeslizable'
+import Aviso, { useAviso } from '../componentes/Aviso'
+import HojaGoogleCalendar from './HojaGoogleCalendar'
+import { useEventosConGoogle } from '../datos/calendario'
 import * as Icono from '../componentes/Iconos'
 
 const SIN_CATEGORIA = { name: 'Sin categoría', color: '#8E93A0' }
@@ -26,7 +29,10 @@ const estiloOpcion = (activa) =>
     : { border: '1.5px solid rgba(21,23,28,0.14)', background: '#FFFFFF', color: '#15171C' }
 
 export default function Agenda({ accion }) {
-  const [eventos, setEventos] = useGuardado('eventos', [])
+  // "eventos" = los de la app + los de Google Calendar. Solo se guardan/cambian los de la app ("locales").
+  const { todos: eventos, locales, setLocales: setEventos, google } = useEventosConGoogle()
+  const [hojaGoogle, setHojaGoogle] = useState(false)
+  const { aviso, mostrarAviso } = useAviso()
   const [categorias, setCategorias] = useGuardado('categoriasAgenda', CATEGORIAS_AGENDA)
   const h0 = hoy()
   const [mes, setMes] = useState({ a: h0.getFullYear(), m: h0.getMonth() })
@@ -76,7 +82,7 @@ export default function Agenda({ accion }) {
   }
 
   const borrarEditado = () => {
-    setEventos(eventos.filter((x) => x.id !== form.editarId))
+    setEventos(locales.filter((x) => x.id !== form.editarId))
     setHoja(false)
   }
 
@@ -85,7 +91,7 @@ export default function Agenda({ accion }) {
     if (!titulo) return
     if (form.editarId) {
       // Editar: reemplazamos el evento, conservando su id y su fecha
-      setEventos(eventos.map((x) => (x.id === form.editarId
+      setEventos(locales.map((x) => (x.id === form.editarId
         ? { ...x, titulo, detalle: form.detalle.trim(), tipo: form.tipo, hora: form.todoElDia ? null : form.h + ':' + pad2(form.m) }
         : x)))
       setRecien(form.editarId)
@@ -100,7 +106,7 @@ export default function Agenda({ accion }) {
       detalle: form.detalle.trim(),
       tipo: form.tipo,
     }
-    setEventos(eventos.concat([nuevo]))
+    setEventos(locales.concat([nuevo]))
     setRecien(nuevo.id)
     setHoja(false)
   }
@@ -184,9 +190,13 @@ export default function Agenda({ accion }) {
       <div className="pantalla">
         <div className="entra" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-            <span style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#3B404B', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.85)' }}>
-              <span style={{ width: 7, height: 7, borderRadius: 4, background: '#8E93A0' }} />Google Calendar · sin conectar
-            </span>
+            <button
+              onClick={() => setHojaGoogle(true)}
+              style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#3B404B', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.85)', cursor: 'pointer' }}
+            >
+              <span style={{ width: 7, height: 7, borderRadius: 4, background: google ? '#14A37F' : '#8E93A0' }} />
+              Google Calendar · {google ? 'conectado' : 'sin conectar'}
+            </button>
             <h1 className="titulo">Agenda</h1>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -248,6 +258,7 @@ export default function Agenda({ accion }) {
               return (
                 <FilaDeslizable
                   key={e.id}
+                  habilitada={!e.google}
                   onBorrar={() => setEventos((lista) => lista.filter((x) => x.id !== e.id))}
                   margenRojo={0}
                   radioRojo={22}
@@ -255,7 +266,7 @@ export default function Agenda({ accion }) {
                 >
                   <button
                     className="vidrio"
-                    onClick={() => abrirEditar(e)}
+                    onClick={() => (e.google ? mostrarAviso('Este evento es de Google Calendar: editalo desde allá') : abrirEditar(e))}
                     aria-label={'Editar ' + e.titulo}
                     style={{ width: '100%', borderRadius: 22, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', textAlign: 'left', color: '#15171C', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 6px 16px rgba(30,40,80,0.08)' }}
                   >
@@ -265,7 +276,7 @@ export default function Agenda({ accion }) {
                       <span style={{ fontSize: 15, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.titulo}</span>
                       <span style={{ fontSize: 12, fontWeight: 500, color: '#3B404B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.detalle || cat.name}</span>
                     </span>
-                    <Icono.Lapiz tam={15} estilo={{ flexShrink: 0, color: '#8E93A0' }} />
+                    {e.google ? <LetraG /> : <Icono.Lapiz tam={15} estilo={{ flexShrink: 0, color: '#8E93A0' }} />}
                   </button>
                 </FilaDeslizable>
               )
@@ -380,6 +391,15 @@ export default function Agenda({ accion }) {
           return n ? (n === 1 ? 'Su evento queda en gris, sin categoría.' : 'Sus ' + n + ' eventos quedan en gris, sin categoría.') : ''
         }}
       />
+      <Aviso {...aviso} />
+      <HojaGoogleCalendar abierta={hojaGoogle} onCerrar={() => setHojaGoogle(false)} google={google} onListo={(texto) => mostrarAviso(texto)} />
     </>
+  )
+}
+
+// "G" chiquita para los eventos que vienen de Google Calendar
+function LetraG() {
+  return (
+    <span aria-label="De Google Calendar" style={{ flexShrink: 0, width: 20, height: 20, borderRadius: 10, background: 'rgba(61,99,240,0.12)', color: '#1A3596', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>G</span>
   )
 }

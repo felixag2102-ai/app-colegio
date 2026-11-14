@@ -75,6 +75,7 @@ export async function cerrarSesion() {
   token = null
   vence = 0
   guardar('cuentaGoogle', null)
+  guardar('eventosGoogle', null) // al cerrar sesión también sacamos los eventos de Google
 }
 
 // Texto claro para cada problema

@@ -14,6 +14,7 @@ import TuNombre from './TuNombre'
 import TextoQueCorre from '../../componentes/TextoQueCorre'
 import { CasillaIdea, Tachado } from '../Ideas'
 import { armarTarjetas } from './tarjetas'
+import { useEventosConGoogle } from '../../datos/calendario'
 import Recordatorios from './Recordatorios'
 import MenuMas from './MenuMas'
 import CopiaSeguridad from './CopiaSeguridad'
@@ -44,7 +45,7 @@ function useAhora() {
 }
 
 export default function Inicio({ irA }) {
-  const [eventos] = useGuardado('eventos', [])
+  const { todos: eventos } = useEventosConGoogle() // los de la app + los de Google Calendar
   const [categorias] = useGuardado('categoriasAgenda', CATEGORIAS_AGENDA)
   const [ideas, setIdeas] = useGuardado('ideas', [])
   const [recordatorios] = useGuardado('recordatorios', [])
