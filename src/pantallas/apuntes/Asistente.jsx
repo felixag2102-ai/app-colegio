@@ -77,7 +77,7 @@ export default function Asistente({ abierto, onCerrar, fuentes, pregunta }) {
         style={{
           position: 'absolute', zIndex: 38, left: 12, right: 12, top: 'calc(var(--arriba) + 54px)', bottom: 'calc(104px + var(--abajo))', borderRadius: 32,
           display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.94)',
-          backdropFilter: 'blur(30px) saturate(170%)', WebkitBackdropFilter: 'blur(30px) saturate(170%)',
+          backdropFilter: 'blur(16px) saturate(170%)', WebkitBackdropFilter: 'blur(16px) saturate(170%)',
           boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 24px 60px rgba(20,24,40,0.3)', transformOrigin: 'calc(100% - 100px) -30px',
           animation: saliendo ? undefined : 'aiPop 0.5s cubic-bezier(.34,1.25,.64,1) both',
         }}

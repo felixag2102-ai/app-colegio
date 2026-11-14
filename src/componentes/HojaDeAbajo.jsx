@@ -99,7 +99,7 @@ export default function HojaDeAbajo({
         style={{
           position: 'absolute', left: 0, right: 0, bottom: 0, maxHeight: alturaMaxima || 'calc(100% - 40px)',
           padding: relleno, paddingBottom: 'calc(24px + var(--abajo))', borderRadius: '32px 32px 0 0', background: fondo,
-          backdropFilter: 'blur(30px) saturate(170%)', WebkitBackdropFilter: 'blur(30px) saturate(170%)',
+          backdropFilter: 'blur(16px) saturate(170%)', WebkitBackdropFilter: 'blur(16px) saturate(170%)',
           boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 -20px 50px rgba(20,24,40,0.24)',
           display: 'flex', flexDirection: 'column', gap: separacion,
           animation: 'edUp 0.4s cubic-bezier(.22,1,.36,1) backwards', ...estiloPanel,

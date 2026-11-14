@@ -10,8 +10,8 @@ export default function Clima() {
       className="entra"
       style={{
         borderRadius: 24, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, animationDelay: '0.22s',
-        border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(30px) saturate(160%)',
-        WebkitBackdropFilter: 'blur(30px) saturate(160%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.10)',
+        border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(16px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(160%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.10)',
       }}
     >
       <svg width="50" height="50" viewBox="0 0 48 48" role="img" aria-label="Algo nublado" style={{ flexShrink: 0, overflow: 'visible' }}>

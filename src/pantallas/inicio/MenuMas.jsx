@@ -24,8 +24,8 @@ export default function MenuMas({ abierto, onCerrar, onElegir }) {
         className={saliendo ? 'sale-pop' : ''}
         style={{
           position: 'absolute', top: 'calc(var(--arriba) + 58px)', right: 16, width: 240, borderRadius: 26, padding: 8,
-          border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.86)', backdropFilter: 'blur(30px) saturate(170%)',
-          WebkitBackdropFilter: 'blur(30px) saturate(170%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 20px 50px rgba(20,24,40,0.25)',
+          border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.86)', backdropFilter: 'blur(16px) saturate(170%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(170%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 20px 50px rgba(20,24,40,0.25)',
           transformOrigin: 'top right', animation: saliendo ? undefined : 'popIn 0.28s cubic-bezier(.22,1,.36,1) both',
         }}
       >

@@ -19,7 +19,7 @@ import NuevoApunte from './NuevoApunte'
 import SubirArchivo, { Insignia, TIPOS, tipoDeArchivo } from './SubirArchivo'
 import * as Icono from '../../componentes/Iconos'
 
-const tarjeta = { border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(30px) saturate(160%)', WebkitBackdropFilter: 'blur(30px) saturate(160%)' }
+const tarjeta = { border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(16px) saturate(160%)', WebkitBackdropFilter: 'blur(16px) saturate(160%)' }
 
 function cuentaDe(c) {
   const a = c.notes.length + (c.notes.length === 1 ? ' apunte' : ' apuntes')

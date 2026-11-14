@@ -76,7 +76,7 @@ export default function MenuAbajo({ actual, onIr }) {
         position: 'relative', flexShrink: 0, margin: '12px 14px calc(16px + var(--abajo)) 14px', borderRadius: 32, padding: 7,
         display: 'flex', justifyContent: 'space-between', touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none',
         border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.72)',
-        backdropFilter: 'blur(30px) saturate(170%)', WebkitBackdropFilter: 'blur(30px) saturate(170%)',
+        backdropFilter: 'blur(16px) saturate(170%)', WebkitBackdropFilter: 'blur(16px) saturate(170%)',
         boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), inset 0 -1px 1px rgba(255,255,255,0.35), 0 14px 34px rgba(30,40,80,0.16)',
       }}
     >

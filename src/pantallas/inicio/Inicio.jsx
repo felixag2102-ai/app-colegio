@@ -227,8 +227,8 @@ export default function Inicio({ irA }) {
           className="entra"
           style={{
             borderRadius: 24, padding: '8px 4px', display: 'flex', justifyContent: 'space-between', flexShrink: 0, animationDelay: '0.08s',
-            border: '1px solid rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(30px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(30px) saturate(160%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 10px 30px rgba(30,40,80,0.10)',
+            border: '1px solid rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(16px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(16px) saturate(160%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 10px 30px rgba(30,40,80,0.10)',
           }}
         >
           {semana.map((d, i) => {
@@ -283,7 +283,7 @@ export default function Inicio({ irA }) {
             {!esHoy && (
               <button
                 onClick={() => elegirDia(indiceHoy)}
-                style={{ flexShrink: 0, whiteSpace: 'nowrap', minHeight: 40, padding: '0 14px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', color: '#15171C', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+                style={{ flexShrink: 0, whiteSpace: 'nowrap', minHeight: 40, padding: '0 14px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.8)', background: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', color: '#15171C', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
               >
                 Volver a hoy
               </button>
@@ -322,7 +322,7 @@ export default function Inicio({ irA }) {
                   style={{
                     position: 'absolute', top: 0, left: 0, right: 0, height: 220, borderRadius: 28, padding: 18, display: 'flex', flexDirection: 'column',
                     justifyContent: 'space-between', transformOrigin: '50% 0', touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none',
-                    cursor: adelante ? 'grab' : 'default', backdropFilter: 'blur(30px) saturate(160%)', WebkitBackdropFilter: 'blur(30px) saturate(160%)',
+                    cursor: adelante ? 'grab' : 'default', backdropFilter: 'blur(16px) saturate(160%)', WebkitBackdropFilter: 'blur(16px) saturate(160%)',
                     ...A.caja, zIndex: 10 - pos, opacity: opacidad, transform: transformar, transition: transicion,
                     pointerEvents: adelante ? 'auto' : 'none',
                   }}

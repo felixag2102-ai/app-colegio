@@ -98,7 +98,7 @@ export default function Recordatorios({ abierto, onCerrar, enfocar }) {
           style={{
             position: 'absolute', top: 'calc(var(--arriba) + 58px)', left: 14, right: 14, maxHeight: 'calc(100% - var(--arriba) - 90px)', borderRadius: 30, padding: 16,
             display: 'flex', flexDirection: 'column', gap: 12, border: '1px solid rgba(255,255,255,0.95)', background: 'rgba(255,255,255,0.97)',
-            backdropFilter: 'blur(44px) saturate(180%)', WebkitBackdropFilter: 'blur(44px) saturate(180%)',
+            backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)',
             boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 24px 60px rgba(20,24,40,0.3)', transformOrigin: 'calc(100% - 82px) -14px',
             animation: saliendo ? undefined : 'remPop 0.4s cubic-bezier(.34,1.3,.64,1) both',
           }}

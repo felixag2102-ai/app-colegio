@@ -39,6 +39,14 @@ export default function Agenda({ accion }) {
   const [editando, setEditando] = useState(false)
   const [recien, setRecien] = useState(null)
   const campoTitulo = useRef(null)
+  const lista = useRef(null)
+
+  // Cuando agregás un evento, la pantalla baja sola hasta la lista para que lo veas
+  useEffect(() => {
+    if (!recien) return
+    const t = setTimeout(() => lista.current && lista.current.scrollIntoView({ behavior: 'smooth', block: 'end' }), 450)
+    return () => clearTimeout(t)
+  }, [recien])
 
   const categoriaDe = (key) => categorias.find((c) => c.key === key) || { key, ...SIN_CATEGORIA }
 
@@ -87,7 +95,7 @@ export default function Agenda({ accion }) {
   })
 
   const celdas = []
-  for (let b = 0; b < huecos; b++) celdas.push(<span key={'h' + b} style={{ height: 42 }} />)
+  for (let b = 0; b < huecos; b++) celdas.push(<span key={'h' + b} style={{ height: 36 }} />)
   for (let d = 1; d <= diasDelMes; d++) {
     const fecha = new Date(mes.a, mes.m, d)
     const evs = delMes[claveDia(fecha)] || []
@@ -113,7 +121,7 @@ export default function Agenda({ accion }) {
         aria-label={d + ' de ' + MESES[mes.m] + (evs.length ? ', ' + evs.length + (evs.length === 1 ? ' evento' : ' eventos') : '') + (esHoy ? ', hoy' : '')}
         aria-pressed={elegido}
         style={{
-          height: 42, margin: '0 2px', borderRadius: 14, border: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          height: 36, margin: '0 2px', borderRadius: 12, border: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           gap: 3, cursor: 'pointer', padding: 0, transition: 'background 0.25s, color 0.25s, box-shadow 0.25s', ...estilo,
         }}
       >
@@ -148,7 +156,7 @@ export default function Agenda({ accion }) {
   const tituloDia = DIAS[fechaElegida.getDay()] + ' ' + dia + ' de ' + MESES[mes.m]
   const cuantos = delDia.length + (delDia.length === 1 ? ' cosa' : ' cosas')
 
-  const botonMes = { width: 44, height: 44, borderRadius: 22, border: 'none', background: 'rgba(21,23,28,0.06)', color: '#15171C', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }
+  const botonMes = { width: 38, height: 38, borderRadius: 19, border: 'none', background: 'rgba(21,23,28,0.06)', color: '#15171C', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }
 
   return (
     <>
@@ -166,7 +174,7 @@ export default function Agenda({ accion }) {
           </div>
         </div>
 
-        <div className="vidrio entra" style={{ borderRadius: 28, padding: '12px 12px 14px 12px', display: 'flex', flexDirection: 'column', gap: 6, animationDelay: '0.08s', flexShrink: 0, boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,40,80,0.12)' }}>
+        <div className="vidrio entra" style={{ borderRadius: 28, padding: '10px 10px 12px 10px', display: 'flex', flexDirection: 'column', gap: 4, animationDelay: '0.08s', flexShrink: 0, boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,40,80,0.12)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <button onClick={() => cambiarMes(-1)} aria-label="Mes anterior" style={botonMes}><Icono.Izquierda tam={18} grosor={2.4} /></button>
             <span aria-live="polite" style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}>{capitalizar(MESES[mes.m])} {mes.a}</span>
@@ -184,7 +192,7 @@ export default function Agenda({ accion }) {
           <button
             onClick={() => setEditando(true)}
             aria-label="Editar las categorías de colores"
-            style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 12px', padding: '12px 4px 0 4px', margin: 0, border: 'none', borderTop: '1px solid rgba(21,23,28,0.08)', background: 'transparent', cursor: 'pointer', textAlign: 'left' }}
+            style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: 12, padding: '10px 4px 0 4px', margin: 0, border: 'none', borderTop: '1px solid rgba(21,23,28,0.08)', background: 'transparent', cursor: 'pointer', textAlign: 'left' }}
           >
             {leyenda.map((c) => (
               <span key={c.key} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 600, color: '#3B404B' }}>
@@ -202,12 +210,12 @@ export default function Agenda({ accion }) {
             </div>
             <button
               onClick={() => abrirAgregar('evento')}
-              style={{ flexShrink: 0, minHeight: 40, padding: '0 14px 0 10px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', boxShadow: '0 6px 16px rgba(30,40,80,0.10)', color: '#15171C', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+              style={{ flexShrink: 0, minHeight: 40, padding: '0 14px 0 10px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.84)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', boxShadow: '0 6px 16px rgba(30,40,80,0.10)', color: '#15171C', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
             >
               <Icono.Mas tam={16} grosor={2.6} />Agregar
             </button>
           </div>
-          <div key={cambioDia} style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 12, animation: 'listA 0.32s ease-out backwards' }}>
+          <div key={cambioDia} ref={lista} style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingBottom: 12, animation: 'listA 0.32s ease-out backwards' }}>
             {delDia.length === 0 && (
               <div style={{ borderRadius: 22, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, textAlign: 'center', border: '2px dashed rgba(21,23,28,0.18)', background: 'rgba(255,255,255,0.5)' }}>
                 <span style={{ fontSize: 15, fontWeight: 700 }}>Nada agendado</span>

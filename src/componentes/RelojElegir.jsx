@@ -126,8 +126,8 @@ export default function RelojElegir({ abierto, titulo = 'Elegí la hora', color 
         className={saliendo ? 'sale-pop' : ''}
         style={{
           position: 'relative', width: '100%', padding: 18, borderRadius: 32, display: 'flex', flexDirection: 'column', gap: 14,
-          border: '1px solid rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(40px) saturate(170%)',
-          WebkitBackdropFilter: 'blur(40px) saturate(170%)', boxShadow: '0 30px 70px rgba(20,24,40,0.35)',
+          border: '1px solid rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px) saturate(170%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(170%)', boxShadow: '0 30px 70px rgba(20,24,40,0.35)',
           animation: saliendo ? undefined : 'clkPop 0.38s cubic-bezier(.34,1.3,.64,1) both',
         }}
       >
