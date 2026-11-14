@@ -2,7 +2,7 @@
   Pantalla AGENDA: calendario del mes con puntitos de colores por tipo.
   - Tocá un día para ver sus eventos.
   - "Agregar" abre una hoja: título, detalle, tipo y hora (reloj) o "Todo el día".
-  - Deslizá un evento a la izquierda para borrarlo.
+  - Tocá un evento para editarlo o borrarlo (también se borra deslizándolo a la izquierda).
   - El lápiz edita las categorías (nombre y color).
 */
 import { useEffect, useRef, useState } from 'react'
@@ -34,7 +34,7 @@ export default function Agenda({ accion }) {
   const [giro, setGiro] = useState({ n: 0, dir: 'R' }) // animación al cambiar de mes
   const [cambioDia, setCambioDia] = useState(0) // animación al cambiar de día
   const [hoja, setHoja] = useState(false)
-  const [form, setForm] = useState({ titulo: '', detalle: '', tipo: 'evento', todoElDia: true, h: 17, m: 30 })
+  const [form, setForm] = useState({ titulo: '', detalle: '', tipo: 'evento', todoElDia: true, h: 17, m: 30, editarId: null })
   const [reloj, setReloj] = useState(false)
   const [editando, setEditando] = useState(false)
   const [recien, setRecien] = useState(null)
@@ -54,7 +54,7 @@ export default function Agenda({ accion }) {
     const existe = (k) => categorias.some((c) => c.key === k)
     const t = existe(tipo) ? tipo : existe('evento') ? 'evento' : (categorias[0] || {}).key
     const esPrueba = tipo === 'prueba'
-    setForm({ titulo: '', detalle: '', tipo: t, todoElDia: !esPrueba, h: esPrueba ? 8 : 17, m: esPrueba ? 0 : 30 })
+    setForm({ titulo: '', detalle: '', tipo: t, todoElDia: !esPrueba, h: esPrueba ? 8 : 17, m: esPrueba ? 0 : 30, editarId: null })
     setHoja(true)
     setTimeout(() => campoTitulo.current && campoTitulo.current.focus(), 420)
   }
@@ -68,9 +68,30 @@ export default function Agenda({ accion }) {
   const fechaElegida = new Date(mes.a, mes.m, dia)
   const clave = claveDia(fechaElegida)
 
+  // Abre la hoja con los datos de un evento que ya existe
+  const abrirEditar = (e) => {
+    const [h, m] = e.hora ? e.hora.split(':').map(Number) : [17, 30]
+    setForm({ titulo: e.titulo, detalle: e.detalle || '', tipo: e.tipo, todoElDia: !e.hora, h, m, editarId: e.id })
+    setHoja(true)
+  }
+
+  const borrarEditado = () => {
+    setEventos(eventos.filter((x) => x.id !== form.editarId))
+    setHoja(false)
+  }
+
   const guardar = () => {
     const titulo = form.titulo.trim()
     if (!titulo) return
+    if (form.editarId) {
+      // Editar: reemplazamos el evento, conservando su id y su fecha
+      setEventos(eventos.map((x) => (x.id === form.editarId
+        ? { ...x, titulo, detalle: form.detalle.trim(), tipo: form.tipo, hora: form.todoElDia ? null : form.h + ':' + pad2(form.m) }
+        : x)))
+      setRecien(form.editarId)
+      setHoja(false)
+      return
+    }
     const nuevo = {
       id: nuevoId(),
       fecha: clave,
@@ -232,19 +253,25 @@ export default function Agenda({ accion }) {
                   radioRojo={22}
                   estilo={{ borderRadius: 22, animation: e.id === recien ? 'rowNew 0.4s cubic-bezier(.34,1.4,.64,1) both' : undefined }}
                 >
-                  <div className="vidrio" style={{ borderRadius: 22, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 6px 16px rgba(30,40,80,0.08)' }}>
+                  <button
+                    className="vidrio"
+                    onClick={() => abrirEditar(e)}
+                    aria-label={'Editar ' + e.titulo}
+                    style={{ width: '100%', borderRadius: 22, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', textAlign: 'left', color: '#15171C', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 6px 16px rgba(30,40,80,0.08)' }}
+                  >
                     <span style={{ width: 44, flexShrink: 0, fontSize: 13, fontWeight: 700, color: '#2B2F38' }}>{e.hora || 'Todo'}</span>
                     <span style={{ width: 4, height: 36, borderRadius: 2, flexShrink: 0, transition: 'background 0.3s', background: cat.color }} />
                     <span style={{ flexGrow: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                       <span style={{ fontSize: 15, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.titulo}</span>
                       <span style={{ fontSize: 12, fontWeight: 500, color: '#3B404B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.detalle || cat.name}</span>
                     </span>
-                  </div>
+                    <Icono.Lapiz tam={15} estilo={{ flexShrink: 0, color: '#8E93A0' }} />
+                  </button>
                 </FilaDeslizable>
               )
             })}
             {delDia.length > 0 && (
-              <span style={{ textAlign: 'center', fontSize: 11, fontWeight: 500, color: '#4A4F5A', padding: '2px 0 6px 0' }}>Deslizá un evento a la izquierda para borrarlo</span>
+              <span style={{ textAlign: 'center', fontSize: 11, fontWeight: 500, color: '#4A4F5A', padding: '2px 0 6px 0' }}>Tocá para editar · deslizá a la izquierda para borrar</span>
             )}
           </div>
         </div>
@@ -253,10 +280,10 @@ export default function Agenda({ accion }) {
       <HojaDeAbajo
         abierta={hoja}
         onCerrar={() => setHoja(false)}
-        etiqueta="Nuevo evento"
+        etiqueta={form.editarId ? 'Editar evento' : 'Nuevo evento'}
         encabezado={
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Nuevo evento</h2>
+            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>{form.editarId ? 'Editar evento' : 'Nuevo evento'}</h2>
             <span className="subtitulo">{tituloDia}</span>
           </div>
         }
@@ -326,8 +353,10 @@ export default function Agenda({ accion }) {
           </div>
         </div>
         <div className="fila-botones">
-          <button className="btn-gris" onClick={() => setHoja(false)} style={{ fontWeight: 700 }}>Cancelar</button>
-          <button className={'btn-principal' + (form.titulo.trim() ? '' : ' apagado')} onClick={guardar}>Guardar evento</button>
+          {form.editarId
+            ? <button className="btn-borrar" onClick={borrarEditado}>Borrar</button>
+            : <button className="btn-gris" onClick={() => setHoja(false)} style={{ fontWeight: 700 }}>Cancelar</button>}
+          <button className={'btn-principal' + (form.titulo.trim() ? '' : ' apagado')} onClick={guardar}>{form.editarId ? 'Guardar cambios' : 'Guardar evento'}</button>
         </div>
       </HojaDeAbajo>
 
