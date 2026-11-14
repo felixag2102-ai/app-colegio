@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Inicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+@keyframes aiPop{from{opacity:0;transform:scale(0.1)}to{opacity:1;transform:none}}
+@keyframes aiFade{from{opacity:0}to{opacity:1}}
+@keyframes aiMsg{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes aiDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+@keyframes aiTwinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
+@keyframes edUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes edIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+body{-webkit-font-smoothing:antialiased}
+@keyframes clkPop{from{opacity:0;transform:scale(0.86)}to{opacity:1;transform:none}}
+@keyframes clkA{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes clkB{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes exFade{to{opacity:0}}
+@keyframes navIn{from{scale:0.5;opacity:0}to{scale:1;opacity:1}}
+@keyframes exPop{to{opacity:0;transform:scale(0.86)}}
+@keyframes exSlide{to{opacity:0;transform:translateY(24px)}}
+@keyframes exUp{to{opacity:0;transform:translateY(-6px)}}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,-14px)}}
+a{color:#1A3596}a:hover{color:#10246B}
+button{font-family:inherit}
+button:active{transform:scale(0.95)}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-360px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:scale(0.85) translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes titleIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes marquee{0%,12%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes pop{0%{transform:scale(0.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes remPop{from{opacity:0;transform:scale(0.3)}to{opacity:1;transform:none}}
+@keyframes ringA{0%{transform:rotate(0)}15%{transform:rotate(16deg)}30%{transform:rotate(-13deg)}45%{transform:rotate(9deg)}60%{transform:rotate(-6deg)}75%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+@keyframes ringB{0%{transform:rotate(0)}15%{transform:rotate(16deg)}30%{transform:rotate(-13deg)}45%{transform:rotate(9deg)}60%{transform:rotate(-6deg)}75%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+@keyframes cloud{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="width: 360px; height: 780px; box-sizing: border-box; background: #EEF0F7; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif; color: #15171C; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<div style="position: absolute; width: 260px; height: 260px; left: -80px; top: 150px; border-radius: 50%; background: {{accent}}; opacity: 0.30; filter: blur(70px)"></div>
+<div style="position: absolute; width: 240px; height: 240px; right: -90px; top: 470px; border-radius: 50%; background: #FF9A5C; opacity: 0.32; filter: blur(70px)"></div>
+<svg width="720" height="780" viewBox="0 0 720 780" style="position: absolute; left: 0; top: 0; filter: blur(1.1px); animation: drift 70s linear infinite">
+<path d="{{ waveA }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.5"><animate attributeName="d" dur="18s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveAValues }}"></animate></path>
+<path d="{{ waveB }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.42"><animate attributeName="d" dur="22s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveBValues }}"></animate></path>
+</svg>
+<div style="position: absolute; inset: 0; background: rgba(238,240,247,0.30); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+</div>
+
+<div style="position: relative; padding: 44px 16px 0 16px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<p style="margin: 0; font-size: 13px; font-weight: 600; color: #3B404B">Jueves 29 de octubre</p>
+<h1 style="margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em">Hola, Felix</h1>
+<p style="margin: 0; font-size: 15px; font-weight: 500; color: #2B2F38">Hoy tenés 4 cosas en agenda</p>
+</div>
+<div style="display: flex; gap: 8px; align-items: center">
+<button onClick="{{ remToggle }}" aria-label="{{ remLabel }}" aria-expanded="{{ remOpen }}" style="position: relative; z-index: 60; width: 48px; height: 48px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 24px rgba(30,40,80,0.16); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform-origin: 50% 10%; {{ bellAnim }}"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+<sc-if value="{{ remHasPending }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="position: absolute; top: -3px; right: -3px; min-width: 20px; height: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 10px; background: #D93A2B; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #EEF0F7; {{ badgeAnim }}">{{ remPending }}</span></sc-if>
+</button>
+<button onClick="{{ toggleMenu }}" aria-label="Agregar algo nuevo" aria-expanded="{{ menuOpen }}" style="position: relative; z-index: 60; width: 48px; height: 48px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 24px rgba(30,40,80,0.16); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="transition: transform 0.3s cubic-bezier(.22,1,.36,1); {{ plusStyle }}"><path d="M12 5v14M5 12h14"></path></svg>
+</button>
+</div>
+</div>
+
+<div style="border-radius: 24px; padding: 8px 4px; display: flex; justify-content: space-between; border: 1px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.72); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 10px 30px rgba(30,40,80,0.10); animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.08s both">
+<sc-for list="{{ week }}" as="day" hint-placeholder-count="7">
+<button onClick="{{ day.pick }}" aria-label="{{ day.aria }}" aria-pressed="{{ day.selected }}" style="width: 44px; padding: 8px 0; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s; {{ day.style }}">
+<span style="font-size: 11px; font-weight: 600; {{ day.labelStyle }}">{{ day.label }}</span>
+<span style="font-size: 16px; font-weight: 700">{{ day.num }}</span>
+<span aria-hidden="true" style="position: relative; display: block; width: 22px; height: 14px">
+<sc-for list="{{ day.pills }}" as="pl" hint-placeholder-count="2"><span style="position: absolute; height: 5px; border-radius: 3px; transition: top 0.35s cubic-bezier(.22,1,.36,1), left 0.35s cubic-bezier(.22,1,.36,1), width 0.35s cubic-bezier(.22,1,.36,1), background 0.3s, opacity 0.3s; {{ pl.style }}"></span></sc-for>
+</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.16s both">
+
+<div style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 0 4px">
+<div style="display: flex; gap: 9px; align-items: baseline; animation: titleIn 0.35s ease-out both">
+<span style="font-size: 19px; font-weight: 700; letter-spacing: -0.02em">{{ dayTitle }}</span>
+<span style="font-size: 13px; font-weight: 600; color: #3B404B">{{ dayMeta }}</span>
+</div>
+<sc-if value="{{ notToday }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ goToday }}" style="min-height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); color: #15171C; font-size: 13px; font-weight: 600; cursor: pointer">Volver a hoy</button>
+</sc-if>
+</div>
+
+<div style="position: relative; height: 248px">
+<sc-for list="{{ cards }}" as="c" hint-placeholder-count="3">
+<div onPointerDown="{{ c.down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" style="position: absolute; top: 0; left: 0; right: 0; height: 220px; box-sizing: border-box; border-radius: 28px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; transform-origin: 50% 0; touch-action: pan-y; user-select: none; cursor: grab; backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); {{ c.look }} {{ c.pos }}">
+
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; {{ c.labelStyle }}">{{ c.label }}</span>
+<span style="font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 999px; {{ c.chipStyle }}">{{ c.chip }}</span>
+</div>
+
+<sc-if value="{{ c.isEvento }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<div style="font-size: 21px; font-weight: 700; letter-spacing: -0.02em">
+<div data-mq="{{ c.title.key }}" style="overflow: hidden; white-space: nowrap; {{ c.title.mask }}"><div style="display: inline-flex; white-space: nowrap; {{ c.title.anim }}"><span data-mq-t="1" style="{{ c.title.pad }}">{{ c.title.t }}</span><sc-if value="{{ c.title.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true">{{ c.title.t }}</span></sc-if></div></div>
+</div>
+<div style="font-size: 14px; font-weight: 500; color: #D5D8DF">
+<div data-mq="{{ c.sub.key }}" style="overflow: hidden; white-space: nowrap; {{ c.sub.mask }}"><div style="display: inline-flex; white-space: nowrap; {{ c.sub.anim }}"><span data-mq-t="1" style="{{ c.sub.pad }}">{{ c.sub.t }}</span><sc-if value="{{ c.sub.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true">{{ c.sub.t }}</span></sc-if></div></div>
+</div>
+</div>
+<sc-if value="{{ c.hasBar }}" hint-placeholder-val="{{ false }}">
+<div style="height: 6px; border-radius: 3px; background: rgba(255,255,255,0.16)"><div style="width: 62%; height: 6px; border-radius: 3px; background: #FFFFFF"></div></div>
+</sc-if>
+<div style="display: flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 500; color: #C9CCD4">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+<span>Desde Google Calendar</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.isPrueba }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 14px; align-items: center">
+<div style="width: 72px; height: 72px; border-radius: 20px; background: #C24E00; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 8px 18px rgba(194,78,0,0.35)">
+<span style="font-size: 28px; font-weight: 700; line-height: 1">{{ c.num }}</span>
+<span style="font-size: 11px; font-weight: 600">{{ c.unit }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex-grow: 1">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em">
+<div data-mq="{{ c.title.key }}" style="overflow: hidden; white-space: nowrap; {{ c.title.mask }}"><div style="display: inline-flex; white-space: nowrap; {{ c.title.anim }}"><span data-mq-t="1" style="{{ c.title.pad }}">{{ c.title.t }}</span><sc-if value="{{ c.title.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true">{{ c.title.t }}</span></sc-if></div></div>
+</div>
+<div style="font-size: 13px; font-weight: 500; color: #4A2408">
+<div data-mq="{{ c.sub.key }}" style="overflow: hidden; white-space: nowrap; {{ c.sub.mask }}"><div style="display: inline-flex; white-space: nowrap; {{ c.sub.anim }}"><span data-mq-t="1" style="{{ c.sub.pad }}">{{ c.sub.t }}</span><sc-if value="{{ c.sub.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true">{{ c.sub.t }}</span></sc-if></div></div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: #4A2408"><span>Temas estudiados</span><span>{{ c.progressText }}</span></div>
+<div style="height: 8px; border-radius: 4px; background: rgba(194,78,0,0.18)"><div style="height: 8px; border-radius: 4px; background: #C24E00; width: {{ c.progress }}"></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.isEntrega }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1; justify-content: center; padding-top: 6px">
+<sc-for list="{{ c.items }}" as="it" hint-placeholder-count="2">
+<div style="display: flex; gap: 12px; align-items: center">
+<span style="width: 8px; height: 42px; border-radius: 4px; flex-shrink: 0; background: {{ it.color }}"></span>
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; min-width: 0">
+<div style="font-size: 15px; font-weight: 600">
+<div data-mq="{{ it.t.key }}" style="overflow: hidden; white-space: nowrap; {{ it.t.mask }}"><div style="display: inline-flex; white-space: nowrap; {{ it.t.anim }}"><span data-mq-t="1" style="{{ it.t.pad }}">{{ it.t.t }}</span><sc-if value="{{ it.t.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true">{{ it.t.t }}</span></sc-if></div></div>
+</div>
+<span style="font-size: 13px; font-weight: 500; color: #3B404B">{{ it.s }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ c.isIdeas }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: flex-start; margin-top: 4px">
+<sc-for list="{{ ideas }}" as="g" hint-placeholder-count="3">
+<button role="checkbox" aria-checked="{{ g.done }}" onClick="{{ g.toggle }}" style="width: 100%; min-height: 38px; border: none; background: transparent; padding: 0; border-radius: 12px; display: flex; gap: 12px; align-items: center; cursor: pointer; text-align: left; color: inherit; font-size: 15px; font-weight: 500; transition: transform 0.15s">
+<span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 9px; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; transition: background 0.25s, border-color 0.25s, box-shadow 0.25s; {{ g.boxStyle }}">
+<sc-if value="{{ g.done }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="animation: pop 0.3s ease-out"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+</span>
+<span style="display: block; flex-grow: 1; min-width: 0; transition: color 0.25s; {{ g.textStyle }}">
+<span data-mq="{{ g.t.key }}" style="display: block; overflow: hidden; white-space: nowrap; {{ g.t.mask }}"><span style="display: inline-flex; white-space: nowrap; {{ g.t.anim }}"><span data-mq-t="1" style="{{ g.t.pad }}"><span style="background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 56%; transition: background-size 0.35s cubic-bezier(.22,1,.36,1); {{ g.strike }}">{{ g.t.t }}</span></span><sc-if value="{{ g.t.long }}" hint-placeholder-val="{{ false }}"><span style="padding-right: 48px" aria-hidden="true"><span style="background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 56%; transition: background-size 0.35s cubic-bezier(.22,1,.36,1); {{ g.strike }}">{{ g.t.t }}</span></span></sc-if></span></span>
+</span>
+</button>
+</sc-for>
+<sc-if value="{{ ideasEmpty }}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; font-weight: 500; color: #3B404B; padding: 8px 0">No tenés ideas anotadas</span></sc-if>
+<sc-if value="{{ ideasMore }}" hint-placeholder-val="{{ true }}">
+<a href="Ideas.dc.html" draggable="false" style="align-self: flex-start; margin-top: 4px; min-height: 34px; padding: 0 12px 0 14px; border-radius: 17px; background: rgba(26,53,150,0.10); color: #10246B; font-size: 13px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px">{{ ideasMoreLabel }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+</sc-if>
+</div>
+</sc-if>
+
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 6px">
+<sc-for list="{{ dots }}" as="dot" hint-placeholder-count="4">
+<span style="height: 7px; border-radius: 4px; transition: width 0.35s cubic-bezier(.22,1,.36,1), background 0.35s; {{ dot.style }}"></span>
+</sc-for>
+</div>
+
+</div>
+
+<section aria-label="Clima" style="border-radius: 24px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.10); animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.22s both">
+<svg width="50" height="50" viewBox="0 0 48 48" role="img" aria-label="Algo nublado en Buenos Aires" style="flex-shrink: 0; overflow: visible">
+<g style="transform-box: fill-box; transform-origin: center; animation: spin 24s linear infinite">
+<circle cx="18" cy="18" r="7.5" fill="#F2A93B"></circle>
+<path d="M18 5.5v3M18 27.5v3M5.5 18h3M27.5 18h3M9.2 9.2l2.1 2.1M24.7 24.7l2.1 2.1M9.2 26.8l2.1-2.1M24.7 11.3l2.1-2.1" stroke="#F2A93B" stroke-width="2.2" stroke-linecap="round"></path>
+</g>
+<g style="animation: cloud 6s ease-in-out infinite">
+<path d="M14 39a6 6 0 0 1 1-11.9a9 9 0 0 1 17.3-2.6A7 7 0 0 1 40 39z" fill="#FFFFFF" stroke="rgba(21,23,28,0.22)" stroke-width="1.4" stroke-linejoin="round"></path>
+</g>
+</svg>
+<div style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0">
+<span style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1">19°</span>
+<span style="font-size: 13px; font-weight: 600; color: #2B2F38">Algo nublado</span>
+<span style="font-size: 12px; font-weight: 500; color: #3B404B">Máx 23° · Mín 14°</span>
+</div>
+<div style="display: flex; gap: 2px; flex-shrink: 0">
+<div style="width: 34px; padding: 6px 0; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 10px; font-weight: 600; color: #3B404B">Ahora</span><span style="font-size: 14px; font-weight: 700">19°</span></div>
+<div style="width: 34px; padding: 6px 0; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(21,23,28,0.06)"><span style="font-size: 10px; font-weight: 600; color: #3B404B">18 h</span><span style="font-size: 14px; font-weight: 700">21°</span></div>
+<div style="width: 34px; padding: 6px 0; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 10px; font-weight: 600; color: #3B404B">21 h</span><span style="font-size: 14px; font-weight: 700">17°</span></div>
+</div>
+</section>
+
+</div>
+
+<nav ref="{{ nav.ref }}" aria-label="Secciones" onPointerDown="{{ nav.down }}" onPointerMove="{{ nav.move }}" onPointerUp="{{ nav.up }}" onPointerCancel="{{ nav.cancel }}" style="position: relative; margin: 12px 14px 20px 14px; border-radius: 32px; padding: 7px; display: flex; justify-content: space-between; touch-action: none; user-select: none; -webkit-user-select: none; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.72); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), inset 0 -1px 1px rgba(255,255,255,0.35), 0 14px 34px rgba(30,40,80,0.16)">
+<span aria-hidden="true" style="position: absolute; z-index: 0; top: 7px; bottom: 7px; left: 7px; width: calc((100% - 14px) / 5); border-radius: 25px; box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 6px 16px rgba(21,23,28,0.3); pointer-events: none; {{ nav.pill }}"></span>
+<button onClick="{{ nav.go0 }}" aria-current="page" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s0 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i0 }}"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</button>
+<button onClick="{{ nav.go1 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s1 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i1 }}"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Agenda</button>
+<button onClick="{{ nav.go2 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s2 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i2 }}"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Boletín</button>
+<button onClick="{{ nav.go3 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s3 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i3 }}"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Apuntes</button>
+<button onClick="{{ nav.go4 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s4 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i4 }}"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path></svg>Ideas</button>
+<a href="Main.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Agenda.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Notas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Apuntes.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Ideas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+</nav>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 50; animation: fadeIn 0.2s ease-out both; {{ menuOutBack }}">
+<button onClick="{{ closeMenu }}" aria-label="Cerrar menú" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: default"></button>
+<div style="position: absolute; top: 100px; right: 16px; width: 240px; box-sizing: border-box; border-radius: 26px; padding: 8px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.86); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 20px 50px rgba(20,24,40,0.25); transform-origin: top right; animation: popIn 0.28s cubic-bezier(.22,1,.36,1) both; {{ menuOutPanel }}">
+<p style="margin: 8px 12px 6px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #3B404B">AGREGAR</p>
+<button onClick="{{ remFromMenu }}" style="width: 100%; min-height: 50px; border: none; background: transparent; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; color: #15171C; font-size: 15px; font-weight: 600; text-align: left">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: #E0661A; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg></span>Recordatorio</button>
+<a href="Agenda.dc.html" onClick="{{ actEvento }}" style="width: 100%; box-sizing: border-box; min-height: 50px; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; color: #15171C; font-size: 15px; font-weight: 600; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: #15171C; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Evento</a>
+<a href="Agenda.dc.html" onClick="{{ actPrueba }}" style="width: 100%; box-sizing: border-box; min-height: 50px; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; color: #15171C; font-size: 15px; font-weight: 600; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: #C24E00; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg></span>Prueba</a>
+<a href="Notas.dc.html" onClick="{{ actNota }}" style="width: 100%; box-sizing: border-box; min-height: 50px; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; color: #15171C; font-size: 15px; font-weight: 600; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: #14A37F; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Nota de una prueba</a>
+<a href="Apuntes.dc.html" onClick="{{ actScan }}" style="width: 100%; box-sizing: border-box; min-height: 50px; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; color: #15171C; font-size: 15px; font-weight: 600; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span>Apunte con foto</a>
+<a href="Ideas.dc.html" onClick="{{ actIdea }}" style="width: 100%; box-sizing: border-box; min-height: 50px; border-radius: 18px; padding: 0 10px; display: flex; align-items: center; gap: 12px; color: #15171C; font-size: 15px; font-weight: 600; text-decoration: none">
+<span style="width: 34px; height: 34px; border-radius: 11px; background: #8A4DE8; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path></svg></span>Idea</a>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ remOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 50; animation: fadeIn 0.2s ease-out both; {{ remOutBack }}">
+<button onClick="{{ remClose }}" aria-label="Cerrar recordatorios" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.34); backdrop-filter: blur(18px) saturate(120%); -webkit-backdrop-filter: blur(18px) saturate(120%); cursor: default"></button>
+<section role="dialog" aria-label="Recordatorios" style="position: absolute; top: 100px; left: 14px; right: 14px; max-height: 560px; box-sizing: border-box; border-radius: 30px; padding: 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(255,255,255,0.95); background: rgba(255,255,255,0.97); backdrop-filter: blur(44px) saturate(180%); -webkit-backdrop-filter: blur(44px) saturate(180%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 24px 60px rgba(20,24,40,0.3); transform-origin: calc(100% - 82px) -14px; animation: remPop 0.4s cubic-bezier(.34,1.3,.64,1) both; {{ remOutPanel }}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 42px; height: 42px; border-radius: 14px; flex-shrink: 0; background: #E0661A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 8px 18px rgba(224,102,26,0.35)"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em">Recordatorios</h2>
+<span style="font-size: 12px; font-weight: 600; color: #3B404B">{{ remSummary }}</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 8px; border-radius: 20px; background: #F2F3F7">
+<div style="display: flex; gap: 8px">
+<input type="text" ref="{{ remInputRef }}" aria-label="Nuevo recordatorio" value="{{ remDraft }}" onChange="{{ remSetDraft }}" onKeyDown="{{ remKey }}" placeholder="Recordame…" style="flex-grow: 1; min-width: 0; min-height: 44px; border-radius: 14px; border: none; background: #FFFFFF; padding: 0 12px; font-size: 15px; font-weight: 500; color: #15171C; outline-color: #15171C">
+<button onClick="{{ remAdd }}" aria-label="Agregar recordatorio" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; border: none; background: #15171C; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.2s; {{ remAddStyle }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+<button onClick="{{ remPickWhen }}" style="min-height: 50px; border-radius: 14px; border: none; background: #FFFFFF; padding: 0 12px 0 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #15171C; text-align: left; font-family: inherit">
+<span aria-hidden="true" style="width: 34px; height: 34px; border-radius: 11px; flex-shrink: 0; background: rgba(224,102,26,0.14); color: #C24E00; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4M12 13.5v2.5l1.6 1"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0"><span style="font-size: 11px; font-weight: 500; color: #3B404B">Seleccioná día y hora</span><span style="font-size: 15px; font-weight: 600">{{ remWhenLabel }}</span></span>
+<span style="font-size: 13px; font-weight: 600; color: #9A3C00">Cambiar</span>
+</button>
+</div>
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column">
+<sc-for list="{{ rems }}" as="r" hint-placeholder-count="4">
+<div style="position: relative; overflow: hidden; {{ r.rowStyle }}">
+<div aria-hidden="true" style="position: absolute; top: 5px; bottom: 5px; right: 0; border-radius: 14px; background: #D93A2B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 6px; overflow: hidden; white-space: nowrap; font-size: 13px; font-weight: 600; {{ r.sw.bg }}"><sc-if value="{{ r.sw.label }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg>Eliminar</sc-if></div>
+<div onPointerDown="{{ r.sw.down }}" onPointerMove="{{ r.sw.move }}" onPointerUp="{{ r.sw.up }}" onPointerCancel="{{ r.sw.up }}" style="position: relative; display: flex; align-items: center; gap: 4px; touch-action: pan-y; {{ r.sw.fg }}">
+<button role="checkbox" aria-checked="{{ r.done }}" onClick="{{ r.toggle }}" style="flex-grow: 1; min-width: 0; min-height: 54px; padding: 8px 0; border: none; background: transparent; display: flex; gap: 12px; align-items: center; cursor: pointer; text-align: left; color: inherit">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 12px; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; transition: background 0.25s, border-color 0.25s; {{ r.boxStyle }}">
+<sc-if value="{{ r.done }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="animation: pop 0.3s ease-out"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+</span>
+<span style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0">
+<span style="font-size: 15px; font-weight: 500; line-height: 1.3; transition: color 0.25s; {{ r.textStyle }}"><span style="background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 58%; transition: background-size 0.4s cubic-bezier(.22,1,.36,1); {{ r.strike }}">{{ r.t }}</span></span>
+<span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; {{ r.whenStyle }}">{{ r.when }}</span>
+</span>
+</button>
+<sc-if value="{{ r.done }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="Deslizá a la izquierda para eliminar" style="flex-shrink: 0; padding: 0 6px; color: #8E93A0; display: flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"></path></svg></span></sc-if>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ remEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 16px 4px; text-align: center; font-size: 14px; font-weight: 600; color: #3B404B">No tenés recordatorios</div>
+</sc-if>
+</div>
+</section>
+</div>
+</sc-if>
+
+
+<sc-if value="{{ clk.open }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 120; animation: aiFade 0.2s ease-out both; {{ clk.outBack }}">
+<button onClick="{{ clk.cancel }}" aria-label="Cerrar sin guardar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.32); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); cursor: default"></button>
+<div role="dialog" aria-label="{{ clk.title }}" style="position: absolute; left: 16px; right: 16px; box-sizing: border-box; padding: 18px; border-radius: 32px; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.97); backdrop-filter: blur(40px) saturate(170%); -webkit-backdrop-filter: blur(40px) saturate(170%); box-shadow: 0 30px 70px rgba(20,24,40,0.35); animation: clkPop 0.38s cubic-bezier(.34,1.3,.64,1) both; top: {{ clk.top }}; {{ clk.outPanel }}">
+<h2 style="margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.02em">{{ clk.title }}</h2>
+<sc-if value="{{ clk.week }}" hint-placeholder-val="{{ false }}">
+<div role="group" aria-label="Día" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{ clk.days }}" as="dy" hint-placeholder-count="7">
+<button onClick="{{ dy.pick }}" aria-label="{{ dy.aria }}" aria-pressed="{{ dy.sel }}" style="min-height: 58px; border-radius: 16px; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; transition: background 0.25s, color 0.25s, transform 0.2s; {{ dy.style }}"><span style="font-size: 11px; font-weight: 600">{{ dy.s }}</span><span style="font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums">{{ dy.n }}</span></button>
+</sc-for>
+</div>
+</sc-if>
+<div style="display: flex; justify-content: center; align-items: center; gap: 2px">
+<button onClick="{{ clk.hMode }}" aria-label="Elegir la hora" aria-pressed="{{ clk.isH }}" style="min-width: 88px; height: 66px; border-radius: 18px; border: none; padding: 0 8px; font-family: inherit; font-size: 46px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 0.25s, color 0.25s; {{ clk.hStyle }}">{{ clk.hh }}</button>
+<span aria-hidden="true" style="font-size: 42px; font-weight: 600; color: #15171C; padding-bottom: 6px">:</span>
+<button onClick="{{ clk.mMode }}" aria-label="Elegir los minutos" aria-pressed="{{ clk.isM }}" style="min-width: 88px; height: 66px; border-radius: 18px; border: none; padding: 0 8px; font-family: inherit; font-size: 46px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 0.25s, color 0.25s; {{ clk.mStyle }}">{{ clk.mm }}</button>
+</div>
+<div onPointerDown="{{ clk.down }}" onPointerMove="{{ clk.move }}" onPointerUp="{{ clk.up }}" onPointerCancel="{{ clk.up }}" style="position: relative; width: 236px; height: 236px; margin: 0 auto; flex-shrink: 0; border-radius: 50%; background: #F0F1F5; box-shadow: inset 0 2px 10px rgba(21,23,28,0.07); touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer">
+<span aria-hidden="true" style="position: absolute; left: 117px; width: 2px; border-radius: 1px; transform-origin: 50% 100%; transition: transform 0.35s cubic-bezier(.34,1.3,.64,1), height 0.3s ease, top 0.3s ease; {{ clk.hand }}"></span>
+<span aria-hidden="true" style="position: absolute; left: 114px; top: 114px; width: 8px; height: 8px; border-radius: 4px; {{ clk.dot }}"></span>
+<div style="position: absolute; inset: 0; {{ clk.dialAnim }}">
+<sc-for list="{{ clk.nums }}" as="nm" hint-placeholder-count="24">
+<button onClick="{{ nm.pick }}" aria-label="{{ nm.aria }}" aria-pressed="{{ nm.sel }}" style="position: absolute; border-radius: 50%; border: none; padding: 0; display: flex; align-items: center; justify-content: center; font-family: inherit; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 0.2s, color 0.2s; {{ nm.style }}">{{ nm.t }}</button>
+</sc-for>
+</div>
+</div>
+<span style="text-align: center; font-size: 12px; font-weight: 500; color: #3B404B">{{ clk.hint }}</span>
+<div style="display: flex; gap: 10px">
+<button onClick="{{ clk.cancel }}" style="flex: 1 1 0; min-height: 50px; border-radius: 18px; border: none; background: #E9EAEF; color: #15171C; font-size: 15px; font-weight: 600; cursor: pointer">Cancelar</button>
+<button onClick="{{ clk.done }}" style="flex: 2 1 0; min-height: 50px; border-radius: 18px; border: none; background: #15171C; color: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 20px rgba(21,23,28,0.25)">{{ clk.doneLabel }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3D63F0","options":["#3D63F0","#14A37F","#8A4DE8","#E0567A"]},"$preview":{"width":360,"height":780}}'>
+var TODAY = 3;
+function ribbon(y0, A, n, spread, ph, tw) {
+var d = '';
+for (var i = 0; i < n; i++) {
+var u = (i - (n - 1) / 2) / ((n - 1) / 2);
+for (var x = 0; x <= 720; x += 12) {
+var t = 2 * Math.PI * x / 360;
+var y = y0 + A * Math.sin(t + ph) + 0.35 * A * Math.sin(2 * t - ph * 1.3) + u * spread * Math.cos(t + tw) + u * spread * 0.35 * Math.sin(2 * t + tw * 0.7);
+d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(1) + ' ';
+}
+}
+return d;
+}
+function frames(y0, A, n, spread, ph, tw) {
+var f = [];
+for (var k = 0; k < 3; k++) f.push(ribbon(y0, A, n, spread, ph + k * 2.1, tw + k * 2.1));
+return { d: f[0], values: f.concat([f[0]]).join(';') };
+}
+var WA = frames(220, 42, 18, 36, 0, 0.6);
+var WB = frames(570, 48, 18, 40, 2.4, 2.0);
+var WEEK = [
+{ label: 'Lun', name: 'Lunes', num: 26, cards: [
+{ kind: 'evento', label: 'EVENTO', chip: 'Ya pasó', title: 'Speaking practice de Inglés', sub: '15:00 – 16:00 · Aula 12' },
+{ kind: 'entrega', label: 'ENTREGAS', chip: 'Classroom', items: [{ t: 'Resumen de Biología — Células', s: 'Entregado', color: '#14A37F' }] }
+]},
+{ label: 'Mar', name: 'Martes', num: 27, cards: [
+{ kind: 'prueba', label: 'PRUEBA', chip: 'Rendida', num: '27', unit: 'oct', title: 'Matemática', sub: 'Funciones lineales y cuadráticas', progress: '100%', progressText: '5 de 5' },
+{ kind: 'evento', label: 'EVENTO', chip: 'Ya pasó', title: 'Cumple de Tomi', sub: '20:00 · Palermo' }
+]},
+{ label: 'Mié', name: 'Miércoles', num: 28, cards: [
+{ kind: 'evento', label: 'EVENTO', chip: 'Ya pasó', title: 'Club de robótica', sub: '16:30 – 18:00 · Laboratorio' }
+]},
+{ label: 'Jue', name: 'Jueves', num: 29, cards: [
+{ kind: 'evento', label: 'LO PRÓXIMO', chip: 'en 45 min', title: 'Entrenamiento de rugby', sub: '17:30 – 19:00 · Campo de deportes', bar: true },
+{ kind: 'prueba', label: 'PRÓXIMA PRUEBA', chip: 'Mañana', num: '1', unit: 'día', title: 'Historia', sub: 'Revolución de Mayo y primeros gobiernos patrios', progress: '40%', progressText: '2 de 5' },
+{ kind: 'entrega', label: 'PARA ENTREGAR', chip: 'Classroom', items: [{ t: 'TP de Física — Movimiento', s: 'Mañana, 23:59', color: 'ACCENT' }, { t: 'Essay de Literatura (English)', s: 'Martes 3 de noviembre', color: '#8E93A0' }] },
+{ kind: 'ideas', label: 'IDEAS', chip: '+ Agregar' }
+]},
+{ label: 'Vie', name: 'Viernes', num: 30, cards: [
+{ kind: 'prueba', label: 'PRUEBA', chip: 'Mañana', num: '1', unit: 'día', title: 'Historia', sub: 'Revolución de Mayo y primeros gobiernos patrios', progress: '40%', progressText: '2 de 5' },
+{ kind: 'entrega', label: 'PARA ENTREGAR', chip: 'Classroom', items: [{ t: 'TP de Física — Movimiento', s: 'Hasta las 23:59', color: 'ACCENT' }] },
+{ kind: 'evento', label: 'EVENTO', chip: 'Mañana', title: 'Cine con amigos', sub: '21:00 · Abasto' }
+]},
+{ label: 'Sáb', name: 'Sábado', num: 31, cards: [
+{ kind: 'evento', label: 'EVENTO', chip: 'En 2 días', title: 'Partido de rugby', sub: '10:00 · Intercolegial, cancha del colegio' }
+]},
+{ label: 'Dom', name: 'Domingo', num: 1, cards: [
+{ kind: 'evento', label: 'EVENTO', chip: 'En 3 días', title: 'Almuerzo familiar', sub: '13:00 · Casa de los abuelos' }
+]}
+];
+var IDEA_KEY = 'colegioIdeas';
+var IDEA_START = [
+{ id: 1, t: 'Ir a la Feria del Libro con amigos', c: 'planes', done: false },
+{ id: 2, t: 'Armar mi primera app en Python', c: 'aprender', done: false },
+{ id: 3, t: 'Probar la hamburguesería nueva', c: 'lugares', done: true },
+{ id: 4, t: 'Construir un robot seguidor de línea', c: 'aprender', done: false },
+{ id: 5, t: 'Aprender a tocar la guitarra', c: 'aprender', done: false },
+{ id: 6, t: 'Ir a ver un partido de los Pumas', c: 'planes', done: false },
+{ id: 7, t: 'Conocer el Planetario', c: 'lugares', done: true }
+];
+var IDEA_SRC = 'p' + Math.random().toString(36).slice(2);
+function ideasMemGet() {
+try { if (window.top && window.top.__colegioIdeas) return window.top.__colegioIdeas; } catch (err) {}
+try { if (window.parent && window.parent.__colegioIdeas) return window.parent.__colegioIdeas; } catch (err) {}
+try { return window.__colegioIdeas || null; } catch (err) { return null; }
+}
+function ideasMemSet(d) {
+try { window.__colegioIdeas = d; } catch (err) {}
+try { if (window.parent) window.parent.__colegioIdeas = d; } catch (err) {}
+try { if (window.top) window.top.__colegioIdeas = d; } catch (err) {}
+}
+function ideasLoad() {
+var best = ideasMemGet();
+try {
+var r = window.localStorage.getItem(IDEA_KEY);
+var d = r ? JSON.parse(r) : null;
+if (d && Array.isArray(d.items) && (!best || (d.v || 0) >= (best.v || 0))) best = d;
+} catch (err) {}
+return best && Array.isArray(best.items) ? best : null;
+}
+function ideasPostAll(w, msg, depth) {
+if (!w || depth > 4) return;
+try { w.postMessage(msg, '*'); } catch (err) {}
+try { for (var i = 0; i < w.frames.length; i++) ideasPostAll(w.frames[i], msg, depth + 1); } catch (err) {}
+}
+function ideasSave(patch) {
+var d = Object.assign({}, ideasLoad() || {}, patch, { v: Date.now() + Math.random(), src: IDEA_SRC });
+ideasMemSet(d);
+try { window.localStorage.setItem(IDEA_KEY, JSON.stringify(d)); } catch (err) {}
+try { window.dispatchEvent(new CustomEvent('colegio-ideas', { detail: d })); } catch (err) {}
+try { if (!window.__colegioBC && window.BroadcastChannel) window.__colegioBC = new BroadcastChannel('colegio-ideas'); if (window.__colegioBC) window.__colegioBC.postMessage(d); } catch (err) {}
+var top = null;
+try { top = window.top; } catch (err) {}
+ideasPostAll(top || window, { colegioIdeas: d }, 0);
+}
+function ideasListen(fn) {
+var seen = 0;
+var take = (d) => {
+if (!d || !Array.isArray(d.items) || d.src === IDEA_SRC) return;
+if ((d.v || 0) <= seen) return;
+seen = d.v || 0;
+ideasMemSet(d);
+fn(d);
+};
+var h1 = (e) => { if (e && e.key === IDEA_KEY) { try { take(JSON.parse(e.newValue)); } catch (err) {} } };
+var h2 = (e) => take(e && e.detail);
+var h3 = (e) => take(e && e.data && e.data.colegioIdeas);
+var h4 = () => { var d = ideasLoad(); if (d) take(d); };
+var bc = null;
+try { window.addEventListener('storage', h1); window.addEventListener('colegio-ideas', h2); window.addEventListener('message', h3); window.addEventListener('focus', h4); } catch (err) {}
+try { if (window.BroadcastChannel) { bc = new BroadcastChannel('colegio-ideas'); bc.onmessage = (e) => take(e.data); } } catch (err) {}
+var poll = setInterval(h4, 1500);
+return () => {
+clearInterval(poll);
+try { window.removeEventListener('storage', h1); window.removeEventListener('colegio-ideas', h2); window.removeEventListener('message', h3); window.removeEventListener('focus', h4); } catch (err) {}
+try { if (bc) bc.close(); } catch (err) {}
+};
+}
+var LOOKS = {
+evento: { look: 'color: #FFFFFF; background: rgba(22,24,32,0.86); border: 1px solid rgba(255,255,255,0.16); box-shadow: inset 0 1px 1px rgba(255,255,255,0.22), 0 16px 36px rgba(20,24,40,0.26);', label: 'color: #C9CCD4;', chip: 'background: rgba(255,255,255,0.14); color: #FFFFFF;' },
+prueba: { look: 'color: #15171C; background: rgba(255,233,216,0.86); border: 1px solid rgba(255,255,255,0.8); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(120,60,20,0.16);', label: 'color: #7A3000;', chip: 'background: rgba(194,78,0,0.12); color: #7A3000;' },
+entrega: { look: 'color: #15171C; background: rgba(255,255,255,0.86); border: 1px solid rgba(255,255,255,0.85); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,40,80,0.14);', label: 'color: #3B404B;', chip: 'background: rgba(21,23,28,0.06); color: #3B404B;' },
+ideas: { look: 'color: #15171C; background: rgba(226,232,255,0.86); border: 1px solid rgba(255,255,255,0.85); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,50,140,0.16);', label: 'color: #10246B;', chip: 'background: rgba(26,53,150,0.10); color: #10246B;' }
+};
+var MASK = '-webkit-mask-image: linear-gradient(90deg,#000 0,#000 86%,transparent); mask-image: linear-gradient(90deg,#000 0,#000 86%,transparent);';
+var NAV_CUR = 0;
+function navIdxAt(c, x) {
+var el = c.navEl;
+if (!el) return NAV_CUR;
+var r = el.getBoundingClientRect();
+var w = (r.width - 14) / 5;
+if (w <= 0) return NAV_CUR;
+return Math.max(0, Math.min(4, Math.floor((x - r.left - 7) / w)));
+}
+function navInit(c) {
+c.navReady = true; c.navEl = null; c.navHover = null; c.navPill = null; c.navActive = false; c.navGoing = false; c.navBlock = false; c.navBump = 0;
+c.navRefFn = (el) => { c.navEl = el; };
+c.navGo = (i) => {
+if (c.navGoing) return;
+if (i === NAV_CUR) { c.navPill = null; c.navBump++; c.forceUpdate(); return; }
+c.navGoing = true; c.navPill = i; c.forceUpdate();
+c.navTimer = setTimeout(() => {
+var as = c.navEl ? c.navEl.querySelectorAll('a') : [];
+if (as[i]) as[i].click();
+c.navReset = setTimeout(() => { c.navGoing = false; c.navPill = null; c.forceUpdate(); }, 700);
+}, 300);
+};
+c.navGoFns = [0, 1, 2, 3, 4].map((i) => () => { if (c.navBlock) return; c.navGo(i); });
+c.navDown = (e) => { c.navActive = true; c.navMoved = false; c.navStartX = e.clientX; c.navPid = e.pointerId; c.navTarget = e.currentTarget; };
+c.navMove = (e) => {
+if (!c.navActive) return;
+if (!c.navMoved) {
+if (Math.abs(e.clientX - c.navStartX) < 10) return;
+c.navMoved = true;
+try { c.navTarget.setPointerCapture(c.navPid); } catch (err) {}
+}
+var i = navIdxAt(c, e.clientX);
+if (i !== c.navHover) { c.navHover = i; c.forceUpdate(); }
+};
+c.navUp = () => {
+if (!c.navActive) return;
+c.navActive = false;
+if (!c.navMoved) return;
+var i = c.navHover === null ? NAV_CUR : c.navHover;
+c.navHover = null;
+c.navBlock = true;
+setTimeout(() => { c.navBlock = false; }, 0);
+c.navGo(i);
+};
+c.navCancel = () => { c.navActive = false; if (c.navHover !== null) { c.navHover = null; c.forceUpdate(); } };
+}
+function navMount(c) { if (!c.navReady) navInit(c); }
+function navVals(c) {
+if (!c.navReady) navInit(c);
+var dragging = c.navHover !== null;
+var idx = dragging ? c.navHover : (c.navPill !== null ? c.navPill : NAV_CUR);
+var o = {
+ref: c.navRefFn, down: c.navDown, move: c.navMove, up: c.navUp, cancel: c.navCancel,
+pill: 'transform: translateX(' + (idx * 100) + '%)' + (dragging ? ' scale(1.06, 1.1)' : '') + '; transition: ' + (dragging ? 'transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s' : 'transform 0.5s cubic-bezier(.34,1.35,.64,1), background 0.3s') + '; background: ' + (dragging ? 'rgba(21,23,28,0.78)' : '#15171C') + ';'
+};
+for (var k = 0; k < 5; k++) {
+o['go' + k] = c.navGoFns[k];
+o['s' + k] = k === idx ? 'color: #FFFFFF;' : 'color: #2B2F38;';
+o['i' + k] = k === idx ? 'transform: scale(1.12) translateY(-1px);' : 'transform: scale(1);';
+}
+return o;
+}
+var REMS = [
+{ id: 1, t: 'Llevar la camiseta de rugby', when: 'Hoy 17:00', done: false },
+{ id: 2, t: 'Repasar Historia: Primera Junta', when: 'Hoy 20:00', done: false },
+{ id: 3, t: 'Subir el TP de Física a Classroom', when: 'Mañana 21:00', done: false },
+{ id: 4, t: 'Comprar el regalo para el cumple de Sofi', when: '13 nov', done: false },
+{ id: 5, t: 'Pedirle a Juli los apuntes de Química', when: 'Ayer', done: true }
+];
+function whenStyle(w) {
+if (w.indexOf('Hoy') === 0) return 'color: #9A3C00; background: rgba(224,102,26,0.14);';
+if (w.indexOf('Mañana') === 0) return 'color: #1A3596; background: rgba(61,99,240,0.12);';
+return 'color: #3B404B; background: rgba(21,23,28,0.06);';
+}
+var NOOP = () => {};
+function actSet(a) { try { window.sessionStorage.setItem('appAction', a); } catch (err) {} }
+function actTake(prefix) {
+try {
+var a = window.sessionStorage.getItem('appAction');
+if (a && a.indexOf(prefix + ':') === 0) { window.sessionStorage.removeItem('appAction'); return a.slice(prefix.length + 1); }
+} catch (err) {}
+return null;
+}
+function hexA(hex, a) {
+var h = (hex || '#8E93A0').replace('#', '');
+return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')';
+}
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function sdVals(c, key, onClose) {
+if (!c.sd) c.sd = {};
+var st = c.sd[key] || (c.sd[key] = { y: 0, active: false, cap: false, closing: false });
+return {
+down: (e) => { st.active = true; st.cap = false; st.start = e.clientY; st.pid = e.pointerId; st.el = e.currentTarget; st.y = 0; },
+move: (e) => {
+if (!st.active) return;
+var dy = e.clientY - st.start;
+if (!st.cap) { if (dy < 6) return; st.cap = true; try { st.el.setPointerCapture(st.pid); } catch (err) {} }
+st.y = Math.max(0, dy);
+c.forceUpdate();
+},
+up: () => {
+if (!st.active) return;
+st.active = false;
+if (!st.cap) return;
+st.cap = false;
+if (st.y > 90) { st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 230); }
+else { st.y = 0; c.forceUpdate(); }
+},
+close: () => { if (st.closing) return; st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 260); },
+style: st.closing ? 'transform: translateY(105%); transition: transform 0.26s cubic-bezier(.4,0,1,1);' : 'transform: translateY(' + st.y + 'px); transition: ' + (st.cap ? 'none' : 'transform 0.35s cubic-bezier(.22,1,.36,1)') + ';',
+back: st.closing ? 'opacity: 0; transition: opacity 0.26s ease-in;' : (st.y ? 'opacity: ' + Math.max(0.35, 1 - st.y / 420).toFixed(2) + '; transition: none;' : 'transition: opacity 0.3s;')
+};
+}
+function exClose(c, key, done, ms) {
+if (!c.ex) c.ex = {};
+if (c.ex[key]) return;
+c.ex[key] = true;
+c.forceUpdate();
+setTimeout(() => { c.ex[key] = false; done(); }, ms || 230);
+}
+function exOn(c, key) { return !!(c.ex && c.ex[key]); }
+function exBack(c, key) { return exOn(c, key) ? 'animation: exFade 0.23s ease-in forwards;' : ''; }
+function exPanel(c, key, kind) { return exOn(c, key) ? 'animation: ' + (kind || 'exPop') + ' 0.23s cubic-bezier(.4,0,1,1) forwards;' : ''; }
+function swRow(c, id, enabled, onRemove) {
+if (!c.swGone) { c.swGone = {}; c.swId = null; c.swDx = 0; c.swMoved = false; }
+var active = c.swId === id;
+var dx = active ? c.swDx : 0;
+var gone = !!c.swGone[id];
+return {
+down: (e) => { if (!enabled) return; c.swId = id; c.swStart = e.clientX; c.swDx = 0; c.swCap = false; c.swPid = e.pointerId; c.swEl = e.currentTarget; },
+move: (e) => {
+if (c.swId !== id) return;
+var d = e.clientX - c.swStart;
+if (!c.swCap) { if (d > -10) return; c.swCap = true; c.swMoved = true; try { c.swEl.setPointerCapture(c.swPid); } catch (err) {} }
+c.swDx = Math.min(0, d);
+c.forceUpdate();
+},
+up: () => {
+if (c.swId !== id) return;
+var d = c.swCap ? c.swDx : 0;
+c.swId = null; c.swDx = 0; c.swCap = false;
+if (d < -90) { c.swGone[id] = true; c.forceUpdate(); setTimeout(() => { delete c.swGone[id]; onRemove(); }, 280); }
+else c.forceUpdate();
+setTimeout(() => { c.swMoved = false; }, 0);
+},
+fg: gone ? 'transform: translateX(-105%); opacity: 0; transition: transform 0.28s ease-in, opacity 0.28s ease-in;' : 'transform: translateX(' + dx + 'px); transition: ' + (active && c.swCap ? 'none' : 'transform 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+bg: 'width: ' + (gone ? '100%' : Math.max(0, -dx) + 'px') + '; transition: ' + (active && c.swCap ? 'none' : 'width 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+label: -dx > 70 || gone
+};
+}
+function swBlocked(c) { return !!c.swMoved; }
+var ED_COLORS = ['#3D63F0', '#0F7B5F', '#C24E00', '#7A3BD1', '#C2185B', '#2E8540', '#B3261E', '#15171C'];
+var ED_NAMES = ['Azul', 'Verde', 'Naranja', 'Violeta', 'Rosa', 'Verde hoja', 'Rojo', 'Negro'];
+function edInit(c) {
+c.edReady = true; c.edOpen = false; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1;
+c.edOpenFn = () => { c.edOpen = true; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1; c.forceUpdate(); };
+c.edClose = () => { c.edOpen = false; c.edPal = -1; c.edConfirm = -1; c.forceUpdate(); };
+}
+function edSet(c, arr) { var o = {}; o[ED_CFG.key] = arr; c.setState(o); }
+function edMove(c, i, j) {
+var arr = c.state[ED_CFG.key].slice();
+if (j < 0 || j >= arr.length) return;
+var t = arr[j]; arr[j] = arr[i]; arr[i] = t;
+c.edPal = -1; c.edFresh = j; c.edConfirm = -1;
+edSet(c, arr);
+}
+function edVals(c) {
+if (!c.edReady) edInit(c);
+if (typeof ED_CFG === 'undefined') return { open: false };
+var list = c.state[ED_CFG.key];
+var isLocked = (it) => !!(ED_CFG.locked && ED_CFG.locked(it));
+var deletable = list.filter((it) => !isLocked(it)).length;
+var minLeft = ED_CFG.min === undefined ? 1 : ED_CFG.min;
+var sd = sdVals(c, 'ed', () => c.edClose());
+return {
+open: c.edOpen, openFn: c.edOpenFn, close: sd.close, back: sd.back,
+sdDown: sd.down, sdMove: sd.move, sdUp: sd.up, sheetStyle: sd.style,
+title: ED_CFG.title, note: ED_CFG.note, reorder: !!ED_CFG.reorder, canAdd: !!ED_CFG.add, addLabel: ED_CFG.add || '',
+add: () => { var cur = c.state[ED_CFG.key]; var arr = cur.concat([ED_CFG.make(cur.length)]); if (ED_CFG.addAt === 'beforeLocked') { var li = arr.findIndex(isLocked); if (li >= 0) { var nw = arr.pop(); arr.splice(li, 0, nw); } } c.edFresh = arr.indexOf(arr.filter((x) => !cur.includes(x))[0]); c.edPal = c.edFresh; c.edConfirm = -1; edSet(c, arr); },
+items: list.map((it, i) => {
+var locked = isLocked(it);
+var nm = it.name || 'Sin nombre';
+var warn = ED_CFG.warn ? ED_CFG.warn(it, c) : '';
+return {
+name: it.name, color: it.color, locked: locked,
+canDel: !locked && deletable > minLeft,
+normal: c.edConfirm !== i, confirming: c.edConfirm === i,
+confirmText: '¿Borrar "' + nm + '"?', warn: warn, hasWarn: !!warn,
+aria: locked ? nm + ', color fijo' : 'Cambiar color de ' + nm,
+delLabel: 'Borrar ' + nm,
+upLabel: 'Subir ' + nm, downLabel: 'Bajar ' + nm,
+palOpen: !locked && c.edPal === i,
+ring: !locked && c.edPal === i ? 'box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px ' + it.color + ';' : 'box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);',
+colorStyle: locked ? 'cursor: default;' : '',
+inputStyle: locked ? 'background: transparent; border-color: transparent; color: #3B404B;' : '',
+rowStyle: i === c.edFresh ? 'animation: edIn 0.35s ease-out both;' : '',
+upStyle: i === 0 ? 'opacity: 0.3; cursor: default;' : '',
+downStyle: i === list.length - 1 ? 'opacity: 0.3; cursor: default;' : '',
+pal: locked ? NOOP : () => { c.edPal = c.edPal === i ? -1 : i; c.edFresh = -1; c.forceUpdate(); },
+rename: locked ? NOOP : (e) => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { name: e.target.value }); edSet(c, arr); },
+up: () => edMove(c, i, i - 1),
+down: () => edMove(c, i, i + 1),
+askDel: () => { c.edConfirm = i; c.edPal = -1; c.edFresh = -1; c.forceUpdate(); },
+cancelDel: () => { c.edConfirm = -1; c.forceUpdate(); },
+doDel: () => {
+c.edConfirm = -1; c.edPal = -1; c.edFresh = -1;
+if (ED_CFG.onDelete) ED_CFG.onDelete(c, i);
+else edSet(c, c.state[ED_CFG.key].filter((x, k) => k !== i));
+},
+swatches: ED_COLORS.map((col, k) => ({
+color: col, label: ED_NAMES[k], sel: col === it.color,
+ring: col === it.color ? 'box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px ' + col + ';' : '',
+pick: () => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { color: col }); edSet(c, arr); }
+}))
+};
+})
+};
+}
+var CLK_DAYS = [
+{ s: 'Hoy', n: 29, full: 'Hoy' }, { s: 'Vie', n: 30, full: 'Mañana' }, { s: 'Sáb', n: 31, full: 'Sáb 31' },
+{ s: 'Dom', n: 1, full: 'Dom 1' }, { s: 'Lun', n: 2, full: 'Lun 2' }, { s: 'Mar', n: 3, full: 'Mar 3' }, { s: 'Mié', n: 4, full: 'Mié 4' }
+];
+function clkLabel(day, h, m) { return CLK_DAYS[day].full + ' ' + h + ':' + pad2(m); }
+function clkOpen(c, o) {
+c.clk = Object.assign({ mode: 'h', h: 20, m: 0, day: 0, week: false, title: 'Elegí la hora', color: '#15171C', anim: 0 }, o || {}, { open: true });
+c.forceUpdate();
+}
+function clkFromPoint(c, e) {
+var el = c.clkEl, K = c.clk;
+if (!el || !K) return;
+var r = el.getBoundingClientRect();
+var k = r.width / 236 || 1;
+var dx = (e.clientX - r.left) / k - 118, dy = (e.clientY - r.top) / k - 118;
+var ang = Math.atan2(dx, -dy) * 180 / Math.PI;
+if (ang < 0) ang += 360;
+var idx = Math.round(ang / 30) % 12;
+if (K.mode === 'h') {
+var inner = Math.sqrt(dx * dx + dy * dy) < 79;
+K.h = inner ? (idx === 0 ? 0 : idx + 12) : (idx === 0 ? 12 : idx);
+} else K.m = idx * 5;
+c.forceUpdate();
+}
+function clkToMinutes(c) {
+if (c.clkT) clearTimeout(c.clkT);
+c.clkT = setTimeout(() => { if (c.clk && c.clk.open && c.clk.mode === 'h') { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); } }, 320);
+}
+function clkVals(c) {
+var K = c.clk;
+if (!K || !K.open) return { open: false };
+if (!c.clkFns) c.clkFns = {
+down: (e) => { c.clkDrag = true; c.clkEl = e.currentTarget; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} clkFromPoint(c, e); },
+move: (e) => { if (c.clkDrag) clkFromPoint(c, e); },
+up: () => { if (!c.clkDrag) return; c.clkDrag = false; clkToMinutes(c); },
+hMode: () => { c.clk.mode = 'h'; c.clk.anim++; c.forceUpdate(); },
+mMode: () => { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); },
+cancel: () => exClose(c, 'clk', () => { c.clk.open = false; c.forceUpdate(); }),
+done: () => { var Q = c.clk; if (Q.onDone) Q.onDone(Q.day, Q.h, Q.m); exClose(c, 'clk', () => { Q.open = false; c.forceUpdate(); }); }
+};
+var F = c.clkFns;
+var col = K.color;
+var C = 118, R1 = 96, R2 = 62;
+var isH = K.mode === 'h';
+var nums = [];
+var mk = (v, i, R, inner) => {
+var a = i * 30 * Math.PI / 180;
+var x = C + R * Math.sin(a), y = C - R * Math.cos(a);
+var sz = inner ? 32 : 38;
+var sel = isH ? K.h === v : K.m === v;
+nums.push({
+t: isH ? (inner ? pad2(v) : String(v)) : pad2(v),
+aria: isH ? v + ' horas' : v + ' minutos', sel: sel,
+style: 'left: ' + (x - sz / 2).toFixed(1) + 'px; top: ' + (y - sz / 2).toFixed(1) + 'px; width: ' + sz + 'px; height: ' + sz + 'px; font-size: ' + (inner ? 12 : 15) + 'px; ' + (sel ? 'background: ' + col + '; color: #FFFFFF;' : 'background: transparent; color: ' + (inner ? '#4A4F5A' : '#15171C') + ';'),
+pick: () => { if (isH) { K.h = v; c.forceUpdate(); clkToMinutes(c); } else { K.m = v; c.forceUpdate(); } }
+});
+};
+if (isH) {
+for (var i = 0; i < 12; i++) mk(i === 0 ? 12 : i, i, R1, false);
+for (var j = 0; j < 12; j++) mk(j === 0 ? 0 : j + 12, j, R2, true);
+} else {
+for (var q = 0; q < 12; q++) mk(q * 5, q, R1, false);
+}
+var R = isH ? (K.h >= 1 && K.h <= 12 ? R1 : R2) : R1;
+var angle = isH ? (K.h % 12) * 30 : K.m * 6;
+return {
+open: true, outBack: exBack(c, 'clk'), outPanel: exPanel(c, 'clk'), title: K.title, week: !!K.week, top: (K.week ? 92 : 150) + 'px',
+days: CLK_DAYS.map((d, i) => ({
+s: d.s, n: d.n, sel: i === K.day,
+aria: (i === 0 ? 'Hoy, ' : i === 1 ? 'Mañana, ' : '') + d.s + ' ' + d.n,
+style: i === K.day ? 'background: ' + col + '; color: #FFFFFF; transform: scale(1.04);' : 'background: #F0F1F5; color: #15171C;',
+pick: () => { K.day = i; c.forceUpdate(); }
+})),
+hh: pad2(K.h), mm: pad2(K.m), isH: isH, isM: !isH,
+hStyle: isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+mStyle: !isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+hand: 'top: ' + (C - R + 19) + 'px; height: ' + (R - 19) + 'px; transform: rotate(' + angle + 'deg); background: ' + col + ';',
+dot: 'background: ' + col + ';',
+nums: nums,
+dialAnim: K.anim ? 'animation: ' + (K.anim % 2 ? 'clkA' : 'clkB') + ' 0.3s ease-out;' : '',
+down: F.down, move: F.move, up: F.up, hMode: F.hMode, mMode: F.mMode, cancel: F.cancel, done: F.done,
+hint: isH ? 'Tocá o arrastrá para elegir la hora' : 'Ahora elegí los minutos',
+doneLabel: 'Listo · ' + (K.week ? clkLabel(K.day, K.h, K.m) : K.h + ':' + pad2(K.m))
+};
+}
+var AI_SOURCES = ['Boletín · 6 materias', 'Apuntes · 9', 'Archivos · 4'];
+var AI_SUGGEST = ['Tomame Historia', 'Plan para hoy', 'Métodos de estudio', '¿Cómo subo Lengua?'];
+var AI_QUIZ = [
+{ q: 'Pregunta 1 de 3: ¿Qué se discutió en el Cabildo abierto del 22 de mayo de 1810?', keys: ['virrey', 'cisneros', 'gobierno', 'autoridad', 'poder'], ok: '¡Bien! Se discutió si el virrey Cisneros seguía en el poder, y ganó la postura de reemplazarlo.', no: 'Casi. En tu apunte dice que se discutió si el virrey seguía en el poder; ganó la idea de reemplazarlo.' },
+{ q: 'Pregunta 2 de 3: ¿Quién presidió la Primera Junta?', keys: ['saavedra'], ok: '¡Exacto, Cornelio Saavedra!', no: 'No. Fue Cornelio Saavedra; Moreno y Paso eran los secretarios.' },
+{ q: 'Pregunta 3 de 3: Nombrá una causa de la Revolución de Mayo.', keys: ['invasion', 'ingles', 'rey', 'espana', 'fernando', 'ilustracion', 'napoleon'], ok: '¡Muy bien! Las tres de tu apunte son las invasiones inglesas, la caída del rey en España y las ideas de la Ilustración.', no: 'Te doy una: las invasiones inglesas. Las otras dos de tu apunte son la caída del rey en España y las ideas de la Ilustración.' }
+];
+var AI_REPLY = {
+plan: 'Mañana tenés Historia y hoy entrenás de 17:30 a 19:00. Te propongo:\n\n19:30 · Releer "Revolución de Mayo" (15 min)\n19:50 · Releer "Primera Junta" (10 min)\n20:05 · Descanso\n20:15 · Preguntas de práctica conmigo (15 min)\n20:30 · Repasar solo lo que te costó\n\nTe faltan 3 de 5 temas, así que con esto llegás bien.',
+metodos: 'Tres métodos que funcionan muy bien:\n\n1. Recuerdo activo: cerrá el apunte y explicalo con tus palabras. Después fijate qué te faltó.\n2. Repaso espaciado: repasá hoy, mañana y en 3 días, en vez de todo junto el día antes.\n3. Pomodoro: 25 minutos de estudio y 5 de descanso.\n\nSi querés, te tomo preguntas ahora y practicamos el primero.',
+lengua: 'En Lengua tenés un 5,5 (Análisis sintáctico) y es tu única nota.\n\nSi en la próxima sacás 7,5, tu promedio sube a 6,5. Con un 8,5 llegás a 7.\n\nTodavía no tenés apuntes de Lengua. Escaneá la próxima clase y lo repasamos juntos.',
+fallback: 'En esta maqueta tengo respuestas de ejemplo. En la app de verdad te respondería usando tus notas, apuntes y archivos. Probá con alguna de las sugerencias de abajo.'
+};
+function aiNorm(t) { return (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function aiIntent(t) {
+var s = aiNorm(t);
+if (s.indexOf('repasemos') === 0) return 'file';
+if (s.indexOf('tomame') >= 0 || s.indexOf('pregunta') >= 0 || s.indexOf('practic') >= 0) return 'quiz';
+if (s.indexOf('metodo') >= 0 || s.indexOf('como estudi') >= 0 || s.indexOf('tecnica') >= 0) return 'metodos';
+if (s.indexOf('lengua') >= 0 || s.indexOf('promedio') >= 0 || s.indexOf('subo') >= 0) return 'lengua';
+if (s.indexOf('plan') >= 0 || s.indexOf('organiz') >= 0 || s.indexOf('hoy') >= 0) return 'plan';
+return 'fallback';
+}
+function aiReplyFor(c, text) {
+if (c.aiQuiz >= 0) {
+var Q = AI_QUIZ[c.aiQuiz];
+var s = aiNorm(text);
+var good = Q.keys.some((k) => s.indexOf(k) >= 0);
+if (good) c.aiScore++;
+var out = good ? Q.ok : Q.no;
+c.aiQuiz++;
+if (c.aiQuiz < AI_QUIZ.length) return out + '\n\n' + AI_QUIZ[c.aiQuiz].q;
+var sc = c.aiScore;
+c.aiQuiz = -1; c.aiScore = 0;
+return out + '\n\nTerminamos: ' + sc + ' de 3. ' + (sc === 3 ? '¡Estás listo para mañana!' : 'Repasá las que te costaron y, si querés, lo hacemos de nuevo.');
+}
+var k = aiIntent(text);
+if (k === 'quiz') { c.aiQuiz = 0; c.aiScore = 0; return 'Dale, te tomo 3 preguntas sobre tus apuntes de Historia. Respondé con tus palabras.\n\n' + AI_QUIZ[0].q; }
+if (k === 'file') {
+var m = text.match(/"([^"]+)"/);
+var name = m ? m[1] : 'ese apunte';
+return 'Abrí "' + name + '". En la app de verdad lo leería entero, te haría un resumen corto y después preguntas para ver qué te quedó.\n\nEn esta maqueta tengo preparadas preguntas de Historia: escribí "tomame" para probarlas.';
+}
+return AI_REPLY[k];
+}
+function aiAsk(c, text) {
+var t = (text || '').trim();
+if (!t || c.aiTyping) return;
+c.aiMsgs = c.aiMsgs.concat([{ me: true, t: t }]);
+c.aiDraft = ''; c.aiTyping = true;
+c.forceUpdate(); c.aiScroll();
+var reply = aiReplyFor(c, t);
+c.aiTimer = setTimeout(() => { c.aiMsgs = c.aiMsgs.concat([{ me: false, t: reply }]); c.aiTyping = false; c.forceUpdate(); c.aiScroll(); }, 950);
+}
+function aiInit(c) {
+c.aiReady = true; c.aiOpen = false; c.aiTyping = false; c.aiDraft = ''; c.aiQuiz = -1; c.aiScore = 0; c.aiEl = null;
+c.aiMsgs = [{ me: false, t: '¡Hola Felix! Mañana tenés prueba de Historia y en tus apuntes tenés "Revolución de Mayo" y "Primera Junta". ¿Te tomo preguntas o te armo un plan para hoy?' }];
+c.aiRef = (el) => { c.aiEl = el; };
+c.aiScroll = () => { setTimeout(() => { if (c.aiEl) c.aiEl.scrollTop = c.aiEl.scrollHeight; }, 40); };
+c.aiClose = () => { if (!c.aiOpen) return; exClose(c, 'ai', () => { c.aiOpen = false; c.forceUpdate(); }, 260); };
+c.aiToggle = () => { if (c.aiOpen) { c.aiClose(); return; } c.aiOpen = true; c.forceUpdate(); c.aiScroll(); };
+c.aiSetDraft = (e) => { c.aiDraft = e.target.value; c.forceUpdate(); };
+c.aiKey = (e) => { if (e.key === 'Enter') aiAsk(c, c.aiDraft); };
+c.aiSend = () => aiAsk(c, c.aiDraft);
+}
+function aiOpenWith(c, text) {
+if (!c.aiReady) aiInit(c);
+c.aiOpen = true; c.forceUpdate();
+setTimeout(() => aiAsk(c, text), 400);
+}
+function aiVals(c) {
+if (!c.aiReady) aiInit(c);
+return {
+open: c.aiOpen, closed: !c.aiOpen, toggle: c.aiToggle, close: c.aiClose, ref: c.aiRef, outBack: exBack(c, 'ai'), outPanel: exPanel(c, 'ai'),
+btnLabel: c.aiOpen ? 'Cerrar asistente de estudio' : 'Abrir asistente de estudio',
+sources: AI_SOURCES,
+msgs: c.aiMsgs.map((m) => ({ t: m.t, style: m.me ? 'align-self: flex-end; background: #15171C; color: #FFFFFF; border-radius: 18px 18px 6px 18px;' : 'align-self: flex-start; background: #F2F3F7; color: #15171C; border-radius: 18px 18px 18px 6px;' })),
+typing: c.aiTyping,
+chips: AI_SUGGEST.map((x) => ({ label: x, send: () => aiAsk(c, x) })),
+draft: c.aiDraft, setDraft: c.aiSetDraft, key: c.aiKey, send: c.aiSend,
+sendStyle: c.aiDraft.trim() ? '' : 'opacity: 0.4;'
+};
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { day: TODAY, order: [0, 1, 2, 3], dx: 0, dragging: false, fly: 0, entering: false, menuOpen: false, ideaItems: (ideasLoad() || { items: IDEA_START }).items, over: {}, rem: REMS, remOpen: false, remDraft: '', remDay: 0, remH: 20, remM: 0, remFresh: 0, remNext: 6, remRings: 0 };
+this.remInput = null;
+this.remInputRef = (el) => { this.remInput = el; };
+this.startX = 0;
+this.busy = false;
+this.moved = false;
+this.captured = false;
+this.root = null;
+this.rootRef = (el) => { this.root = el; };
+}
+componentDidMount() {
+navMount(this);
+this.unIdeas = ideasListen((d) => this.setState({ ideaItems: d.items }));
+this.measure();
+this.mt = setTimeout(() => this.measure(), 400);
+try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.measure()); } catch (err) {}
+}
+componentDidUpdate() {
+if (!this.state.dragging) this.measure();
+}
+componentWillUnmount() {
+if (this.unIdeas) this.unIdeas();
+if (this.timer) clearTimeout(this.timer);
+if (this.enterTimer) clearTimeout(this.enterTimer);
+if (this.mt) clearTimeout(this.mt);
+this.root = null;
+}
+measure() {
+if (!this.root || !this.root.querySelectorAll) return;
+var prev = this.state.over;
+var next = null;
+var els = this.root.querySelectorAll('[data-mq]');
+for (var i = 0; i < els.length; i++) {
+var el = els[i];
+var key = el.getAttribute('data-mq');
+var sp = el.querySelector('[data-mq-t]');
+if (!key || !sp || !el.clientWidth) continue;
+var w = sp.offsetWidth - (prev[key] ? 48 : 0);
+var o = w > el.clientWidth + 1;
+if (!!prev[key] !== o || !(key in prev)) {
+if (!next) next = Object.assign({}, prev);
+next[key] = o;
+}
+}
+if (next) this.setState({ over: next });
+}
+mq(text, key, max) {
+var s = text || '';
+var k = key + '|' + s;
+var long = (k in this.state.over) ? this.state.over[k] : s.length > max;
+return {
+t: s, key: k, long: long,
+pad: long ? 'padding-right: 48px;' : '',
+mask: long ? MASK : '',
+anim: long ? 'animation: marquee ' + Math.max(7, s.length * 0.32).toFixed(1) + 's linear infinite;' : ''
+};
+}
+pickDay(i) {
+if (i === this.state.day) return;
+var order = [];
+for (var k = 0; k < WEEK[i].cards.length; k++) order.push(k);
+this.busy = false;
+if (this.timer) clearTimeout(this.timer);
+this.setState({ day: i, order: order, dx: 0, dragging: false, fly: 0, entering: true });
+if (this.enterTimer) clearTimeout(this.enterTimer);
+this.enterTimer = setTimeout(() => this.setState({ entering: false }), 40);
+}
+sendBack(dir) {
+if (this.busy) return;
+if (this.state.order.length < 2) { this.setState({ dragging: false, dx: 0 }); return; }
+this.busy = true;
+this.setState({ dragging: false, fly: dir });
+this.timer = setTimeout(() => {
+var o = this.state.order.slice();
+o.push(o.shift());
+this.setState({ order: o, fly: 0, dx: 0 });
+this.busy = false;
+}, 280);
+}
+renderVals() {
+var s = this.state;
+var accent = this.props.accent ?? '#3D63F0';
+var down = (e) => {
+if (this.busy) return;
+this.startX = e.clientX;
+this.pid = e.pointerId;
+this.el = e.currentTarget;
+this.moved = false;
+this.captured = false;
+this.setState({ dragging: true, dx: 0 });
+};
+var move = (e) => {
+if (!this.state.dragging) return;
+var dx = e.clientX - this.startX;
+if (!this.captured) {
+if (Math.abs(dx) < 8) return;
+this.captured = true;
+this.moved = true;
+try { this.el.setPointerCapture(this.pid); } catch (err) {}
+}
+this.setState({ dx: dx });
+};
+var up = () => {
+if (!this.state.dragging) return;
+var dx = this.captured ? this.state.dx : 0;
+this.captured = false;
+if (Math.abs(dx) > 80) this.sendBack(dx > 0 ? 1 : -1);
+else this.setState({ dragging: false, dx: 0 });
+};
+var noop = () => {};
+var ease = 'cubic-bezier(.22,1,.36,1)';
+var day = WEEK[s.day];
+var ideasPending = s.ideaItems.filter((x) => !x.done).length;
+var ideaSorted = s.ideaItems.filter((x) => !x.done).concat(s.ideaItems.filter((x) => x.done));
+var cards = day.cards.map((c, i) => {
+var d = s.order.indexOf(i);
+var t, op = 1, tr;
+if (s.entering) {
+t = 'translate3d(0,' + (d * 25 + 40) + 'px,0) scale(' + (1 - d * 0.06) + ')';
+op = 0;
+tr = 'none';
+} else if (d === 0) {
+var tx = s.fly ? s.fly * 440 : s.dx;
+t = 'translate3d(' + tx + 'px,0,0) rotate(' + (tx / 16) + 'deg)';
+tr = (s.dragging && this.captured) ? 'none' : 'transform 0.42s ' + ease + ', opacity 0.3s';
+} else {
+t = 'translate3d(0,' + (d * 25) + 'px,0) scale(' + (1 - d * 0.06) + ')';
+op = d >= 3 ? 0 : 1;
+tr = 'transform 0.5s ' + ease + ' ' + (d * 0.05) + 's, opacity 0.4s ' + (d * 0.05) + 's';
+}
+var L = LOOKS[c.kind];
+var isPrueba = c.kind === 'prueba';
+var items = (c.items || []).map((it) => ({
+t: this.mq(it.t, 'item', 28), s: it.s,
+color: it.color === 'ACCENT' ? accent : it.color
+}));
+return {
+label: c.label, chip: c.kind === 'ideas' ? ideasPending + (ideasPending === 1 ? ' pendiente' : ' pendientes') : c.chip,
+title: this.mq(c.title, c.kind + '-title', isPrueba ? 16 : 21),
+sub: this.mq(c.sub, c.kind + '-sub', isPrueba ? 26 : 38),
+num: c.num, unit: c.unit, progress: c.progress, progressText: c.progressText,
+items: items,
+hasBar: !!c.bar,
+isEvento: c.kind === 'evento', isPrueba: isPrueba,
+isEntrega: c.kind === 'entrega', isIdeas: c.kind === 'ideas',
+look: L.look, labelStyle: L.label, chipStyle: L.chip,
+down: d === 0 ? down : noop,
+pos: 'z-index: ' + (10 - d) + '; opacity: ' + op + '; transform: ' + t + '; transition: ' + tr + ';'
+};
+});
+var ideas = ideaSorted.slice(0, 3).map((it) => {
+var done = !!it.done;
+return {
+t: this.mq(it.t, 'idea', 29),
+done: done,
+boxStyle: done ? 'background: #1A3596; border: 2px solid #1A3596; box-shadow: 0 4px 12px rgba(26,53,150,0.35);' : 'background: rgba(255,255,255,0.8); border: 2px solid rgba(16,36,107,0.32); box-shadow: inset 0 1px 2px rgba(16,36,107,0.08);',
+textStyle: done ? 'color: #4A4F5A;' : 'color: #15171C;',
+strike: done ? 'background-size: 100% 2px;' : 'background-size: 0% 2px;',
+toggle: () => {
+if (this.moved) { this.moved = false; return; }
+var nx = this.state.ideaItems.map((x) => x.id === it.id ? Object.assign({}, x, { done: !x.done }) : x);
+this.setState({ ideaItems: nx });
+ideasSave({ items: nx });
+}
+};
+});
+var remPending = s.rem.filter((r) => !r.done).length;
+var remToday = s.rem.filter((r) => !r.done && r.when.indexOf('Hoy') === 0).length;
+var remSorted = s.rem.filter((r) => !r.done).concat(s.rem.filter((r) => r.done));
+var addRem = () => {
+var st = this.state;
+var t = st.remDraft.trim();
+if (!t) return;
+var id = st.remNext;
+this.setState({ rem: [{ id: id, t: t, when: clkLabel(st.remDay, st.remH, st.remM), done: false }].concat(st.rem), remDraft: '', remFresh: id, remNext: id + 1 });
+};
+var front = s.order[0];
+var n = day.cards.length;
+var diff = s.day - TODAY;
+var rel = '';
+if (diff === -1) rel = 'Ayer';
+else if (diff === 1) rel = 'Mañana';
+else if (diff < 0) rel = 'Hace ' + (-diff) + ' días';
+else if (diff > 0) rel = 'En ' + diff + ' días';
+var count = n + (n === 1 ? ' cosa' : ' cosas');
+var week = WEEK.map((w, i) => {
+var sel = i === s.day;
+var isToday = i === TODAY;
+var hasTest = w.cards.some((c) => c.kind === 'prueba');
+var style = 'border: 1.5px solid transparent; background: transparent; color: #15171C;';
+if (sel) style = 'border: 1.5px solid #15171C; background: #15171C; color: #FFFFFF; box-shadow: 0 6px 16px rgba(21,23,28,0.3);';
+else if (isToday) style = 'border: 1.5px solid #15171C; background: rgba(255,255,255,0.6); color: #15171C;';
+else if (i < TODAY) style = 'border: 1.5px solid transparent; background: transparent; color: #4A4F5A;';
+return {
+label: w.label, num: w.num, selected: sel,
+aria: w.name + ' ' + w.num + (isToday ? ', hoy' : ''),
+style: style,
+labelStyle: sel ? 'color: #FFFFFF;' : 'color: #3B404B;',
+pills: (() => {
+var idx = w.cards.map((c, k) => k);
+if (sel) idx = s.order.slice();
+idx = idx.slice(0, 4);
+var ring = sel ? '#15171C' : (isToday ? '#F4F5F9' : '#F6F7FA');
+return idx.map((k, d) => {
+var kind = w.cards[k].kind;
+var col = kind === 'evento' ? (sel ? '#FFFFFF' : '#15171C') : kind === 'prueba' ? '#E0661A' : kind === 'entrega' ? accent : '#8A4DE8';
+var wpx = 20 - d * 4;
+return { style: 'top: ' + (d * 3) + 'px; left: ' + ((22 - wpx) / 2) + 'px; width: ' + wpx + 'px; z-index: ' + (10 - d) + '; background: ' + col + '; box-shadow: 0 0 0 1.5px ' + ring + '; opacity: ' + (1 - d * 0.18) + ';' };
+});
+})(),
+pick: () => this.pickDay(i)
+};
+});
+return {
+nav: navVals(this),
+clk: clkVals(this),
+accent: accent,
+rootRef: this.rootRef,
+waveA: WA.d, waveAValues: WA.values, waveB: WB.d, waveBValues: WB.values,
+week: week,
+cards: cards,
+ideas: ideas,
+ideasMore: s.ideaItems.length > 3,
+ideasMoreLabel: 'Ver todas las ideas (' + s.ideaItems.length + ')',
+ideasEmpty: s.ideaItems.length === 0,
+move: move, up: up,
+menuOpen: s.menuOpen,
+plusStyle: s.menuOpen ? 'transform: rotate(45deg);' : '',
+toggleMenu: () => { if (this.state.menuOpen) { exClose(this, 'menu', () => this.setState({ menuOpen: false })); return; } this.setState({ menuOpen: true, remOpen: false }); },
+actEvento: () => actSet('agenda:evento'),
+actPrueba: () => actSet('agenda:prueba'),
+actNota: () => actSet('notas:add'),
+actScan: () => actSet('apuntes:scan'),
+actIdea: () => actSet('ideas:focus'),
+remOpen: s.remOpen,
+remToggle: () => { if (this.state.remOpen) { exClose(this, 'rem', () => this.setState({ remOpen: false }), 250); return; } this.setState({ remOpen: true, menuOpen: false, remRings: this.state.remRings + 1 }); },
+remClose: () => exClose(this, 'rem', () => this.setState({ remOpen: false }), 250),
+remFromMenu: () => { this.setState({ menuOpen: false, remOpen: true, remRings: this.state.remRings + 1 }); setTimeout(() => { try { if (this.remInput) this.remInput.focus(); } catch (err) {} }, 380); },
+remLabel: remPending ? 'Recordatorios, ' + remPending + ' pendientes' : 'Recordatorios',
+remPending: remPending,
+remHasPending: remPending > 0,
+remSummary: remPending ? (remPending === 1 ? '1 pendiente' : remPending + ' pendientes') + (remToday ? ' · ' + remToday + ' para hoy' : '') : 'Todo al día',
+bellAnim: s.remRings ? 'animation: ' + (s.remRings % 2 ? 'ringA' : 'ringB') + ' 0.7s ease-in-out;' : '',
+badgeAnim: '',
+remInputRef: this.remInputRef,
+remDraft: s.remDraft,
+remSetDraft: (e) => this.setState({ remDraft: e.target.value }),
+remKey: (e) => { if (e.key === 'Enter') addRem(); },
+remAdd: () => addRem(),
+remAddStyle: s.remDraft.trim() ? '' : 'opacity: 0.4;',
+remWhenLabel: clkLabel(s.remDay, s.remH, s.remM),
+remPickWhen: () => clkOpen(this, { week: true, title: '¿Cuándo te lo recuerdo?', color: '#C24E00', day: this.state.remDay, h: this.state.remH, m: this.state.remM, onDone: (d, h, m) => this.setState({ remDay: d, remH: h, remM: m }) }),
+rems: remSorted.map((r, idx) => ({
+t: r.t, when: r.when, done: r.done,
+rowStyle: (idx ? 'border-top: 1px solid rgba(21,23,28,0.07);' : '') + (r.id === s.remFresh ? ' animation: rowIn 0.4s cubic-bezier(.22,1,.36,1) both;' : ''),
+boxStyle: r.done ? 'background: #E0661A; border: 2px solid #E0661A;' : 'background: #FFFFFF; border: 2px solid rgba(21,23,28,0.25);',
+textStyle: r.done ? 'color: #4A4F5A;' : 'color: #15171C;',
+strike: r.done ? 'background-size: 100% 2px;' : 'background-size: 0% 2px;',
+whenStyle: r.done ? 'color: #4A4F5A; background: rgba(21,23,28,0.06);' : whenStyle(r.when),
+toggle: () => { if (swBlocked(this)) return; this.setState({ rem: this.state.rem.map((x) => x.id === r.id ? Object.assign({}, x, { done: !x.done }) : x), remFresh: 0 }); },
+sw: swRow(this, 'r' + r.id, r.done, () => this.setState({ rem: this.state.rem.filter((x) => x.id !== r.id), remFresh: 0 }))
+})),
+remEmpty: s.rem.length === 0,
+closeMenu: () => exClose(this, 'menu', () => this.setState({ menuOpen: false })),
+menuOutBack: exBack(this, 'menu'), menuOutPanel: exPanel(this, 'menu'),
+remOutBack: exBack(this, 'rem'), remOutPanel: exPanel(this, 'rem'),
+notToday: s.day !== TODAY,
+goToday: () => this.pickDay(TODAY),
+dayTitle: s.day === TODAY ? 'Hoy' : day.name + ' ' + day.num,
+dayMeta: (rel ? rel + ' · ' : '') + count,
+dots: day.cards.map((c, i) => ({
+style: i === front ? 'width: 22px; background: #15171C;' : 'width: 7px; background: rgba(21,23,28,0.25);'
+}))
+};
+}
+}
+</script>
+</body>
+</html>

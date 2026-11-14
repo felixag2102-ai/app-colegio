@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Apuntes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Caveat:wght@500&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+body{margin:0}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+@keyframes aiPop{from{opacity:0;transform:scale(0.1)}to{opacity:1;transform:none}}
+@keyframes aiFade{from{opacity:0}to{opacity:1}}
+@keyframes aiMsg{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes aiDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+@keyframes aiTwinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
+@keyframes edUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes edIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+body{-webkit-font-smoothing:antialiased}
+@keyframes clkPop{from{opacity:0;transform:scale(0.86)}to{opacity:1;transform:none}}
+@keyframes clkA{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes clkB{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes exFade{to{opacity:0}}
+@keyframes navIn{from{scale:0.5;opacity:0}to{scale:1;opacity:1}}
+@keyframes exPop{to{opacity:0;transform:scale(0.86)}}
+@keyframes exSlide{to{opacity:0;transform:translateY(24px)}}
+@keyframes exUp{to{opacity:0;transform:translateY(-6px)}}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,-14px)}}
+a{color:#1A3596}a:hover{color:#10246B}
+button{font-family:inherit}
+button:active{transform:scale(0.96)}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-360px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes scan{0%{top:8%}100%{top:88%}}
+@keyframes shimmer{0%{opacity:0.35}50%{opacity:1}100%{opacity:0.35}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes flash{0%{opacity:0.9}100%{opacity:0}}
+@keyframes fill{from{width:0}to{width:100%}}
+</style>
+</helmet>
+<div style="width: 360px; height: 780px; box-sizing: border-box; background: #EEF0F7; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif; color: #15171C; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<div style="position: absolute; width: 260px; height: 260px; left: -80px; top: 110px; border-radius: 50%; background: #6FD6C0; opacity: 0.34; filter: blur(70px)"></div>
+<div style="position: absolute; width: 240px; height: 240px; right: -90px; top: 480px; border-radius: 50%; background: {{accent}}; opacity: 0.30; filter: blur(70px)"></div>
+<svg width="720" height="780" viewBox="0 0 720 780" style="position: absolute; left: 0; top: 0; filter: blur(1.1px); animation: drift 70s linear infinite">
+<path d="{{ waveA }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.5"><animate attributeName="d" dur="18s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveAValues }}"></animate></path>
+<path d="{{ waveB }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.42"><animate attributeName="d" dur="22s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveBValues }}"></animate></path>
+</svg>
+<div style="position: absolute; inset: 0; background: rgba(238,240,247,0.30); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+</div>
+
+<div style="position: relative; padding: 44px 16px 0 16px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-height: 0">
+
+<sc-if value="{{ isFolders }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-height: 0; animation: fadeUp 0.5s cubic-bezier(.22,1,.36,1) both">
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<p style="margin: 0; font-size: 13px; font-weight: 600; color: #3B404B">{{ totalText }}</p>
+<h1 style="margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em">Apuntes</h1>
+</div>
+<div style="display: flex; gap: 8px; align-items: center">
+<button onClick="{{ ai.toggle }}" aria-label="Estudiar con el asistente de IA" aria-expanded="{{ ai.open }}" style="position: relative; isolation: isolate; overflow: hidden; height: 44px; padding: 0 16px 0 13px; border-radius: 22px; border: none; cursor: pointer; display: flex; align-items: center; gap: 7px; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 600; background: #15171C; box-shadow: 0 8px 22px rgba(90,60,190,0.32)">
+<span aria-hidden="true" style="position: absolute; z-index: -2; left: -30%; top: -150%; width: 160%; height: 400%; background: conic-gradient(from 0deg, #3D63F0, #8A4DE8, #E0567A, #F2A93B, #14A37F, #3D63F0); animation: aiSpin 5s linear infinite"></span>
+<span aria-hidden="true" style="position: absolute; z-index: -1; inset: 2px; border-radius: 20px; background: #15171C"></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true" style="transform-box: fill-box; transform-origin: center; animation: aiTwinkle 3.2s ease-in-out infinite"><path d="M12 2.5l2.2 6.1 6.3 2.4-6.3 2.4L12 19.5l-2.2-6.1L3.5 11l6.3-2.4z"></path><path d="M19 15.5l.8 2.2 2.2.8-2.2.8L19 21.5l-.8-2.2-2.2-.8 2.2-.8z"></path></svg>Estudiar</button>
+<button onClick="{{ ed.openFn }}" aria-label="Editar nombres, colores y orden de las carpetas" style="width: 44px; height: 44px; border-radius: 22px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 20px rgba(30,40,80,0.12); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg></button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<button onClick="{{ startScan }}" style="min-height: 116px; border: 1px solid rgba(255,255,255,0.16); border-radius: 26px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; text-align: left; cursor: pointer; color: #FFFFFF; background: rgba(22,24,32,0.86); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.22), 0 16px 36px rgba(20,24,40,0.26)">
+<span style="width: 44px; height: 44px; border-radius: 15px; background: {{accent}}; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 8px 18px rgba(30,50,140,0.35)"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 700">Escanear</span><span style="font-size: 12px; font-weight: 500; color: #D5D8DF">Foto → texto</span></span>
+</button>
+<button onClick="{{ startUpload }}" style="min-height: 116px; border: 1px solid rgba(255,255,255,0.85); border-radius: 26px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; text-align: left; cursor: pointer; color: #15171C; background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,40,80,0.12)">
+<span style="width: 44px; height: 44px; border-radius: 15px; background: #15171C; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 700">Subir archivo</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">PDF, Word o fotos</span></span>
+</button>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px"><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #3B404B">CARPETAS</span></div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-content: start; padding-bottom: 4px">
+<sc-for list="{{ folders }}" as="f" hint-placeholder-count="5">
+<button onClick="{{ f.open }}" style="min-height: 112px; border-radius: 24px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; text-align: left; cursor: pointer; color: #15171C; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.12); animation: fadeUp 0.45s cubic-bezier(.22,1,.36,1) both; {{ f.delay }}">
+<span style="width: 40px; height: 40px; border-radius: 13px; display: flex; align-items: center; justify-content: center; background: {{ f.tint }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="{{ f.color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 16px; font-weight: 700">{{ f.name }}</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">{{ f.countText }}</span></span>
+</button>
+</sc-for>
+<button onClick="{{ newFolder }}" style="min-height: 112px; border-radius: 24px; padding: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; cursor: pointer; color: #2B2F38; border: 2px dashed rgba(21,23,28,0.22); background: rgba(255,255,255,0.4); font-size: 14px; font-weight: 700">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Nueva carpeta</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isFolder }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-height: 0; animation: slideIn 0.4s cubic-bezier(.22,1,.36,1) both">
+<button onClick="{{ backToFolders }}" style="align-self: flex-start; min-height: 40px; padding: 0 14px 0 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); color: #15171C; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Apuntes</button>
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: {{ cur.tint }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{ cur.color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 1px"><h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em">{{ cur.name }}</h1><span style="font-size: 13px; font-weight: 500; color: #3B404B">{{ cur.countText }}</span></div>
+</div>
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 4px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #3B404B; padding: 0 4px">APUNTES</span>
+<sc-for list="{{ cur.notes }}" as="n" hint-placeholder-count="2">
+<button onClick="{{ n.open }}" style="width: 100%; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 6px; text-align: left; cursor: pointer; color: #15171C; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.12); {{ n.highlight }}">
+<span style="display: flex; justify-content: space-between; gap: 10px; width: 100%"><span style="font-size: 16px; font-weight: 700">{{ n.t }}</span><span style="font-size: 12px; font-weight: 600; color: #3B404B; flex-shrink: 0">{{ n.d }}</span></span>
+<span style="font-size: 13px; font-weight: 500; color: #3B404B; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden">{{ n.body }}</span>
+</button>
+</sc-for>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 4px 0 4px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #3B404B">ARCHIVOS</span>
+<button onClick="{{ startUploadHere }}" style="min-height: 34px; padding: 0 12px; border-radius: 17px; border: none; background: #15171C; color: #FFFFFF; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path></svg>Subir</button>
+</div>
+<sc-if value="{{ cur.noFiles }}" hint-placeholder-val="{{ false }}">
+<div style="border-radius: 20px; padding: 16px; text-align: center; border: 2px dashed rgba(21,23,28,0.18); background: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600; color: #3B404B">Todavía no subiste archivos acá</div>
+</sc-if>
+<sc-for list="{{ cur.files }}" as="fl" hint-placeholder-count="1">
+<div style="border-radius: 20px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 20px rgba(30,40,80,0.08); {{ fl.highlight }}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 46px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; box-sizing: border-box; color: #FFFFFF; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; background: {{ fl.color }}; box-shadow: inset 0 1px 1px rgba(255,255,255,0.35)">{{ fl.badge }}</span>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ fl.n }}</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">{{ fl.meta }}</span></span>
+<button onClick="{{ fl.menu }}" aria-label="Más opciones" aria-expanded="{{ fl.menuOpen }}" style="width: 40px; height: 40px; border-radius: 20px; border: none; color: #3B404B; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; {{ fl.menuStyle }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="12" cy="19" r="1.8"></circle></svg></button>
+</div>
+<sc-if value="{{ fl.menuOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 8px; animation: expand 0.25s ease-out both; {{ fl.menuOut }}">
+<button onClick="{{ fl.study }}" style="flex: 2 1 0; min-height: 40px; border-radius: 14px; border: none; background: #15171C; color: #FFFFFF; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"></path></svg>Estudiar con IA</button>
+<button onClick="{{ fl.remove }}" style="flex: 1 1 0; min-height: 40px; border-radius: 14px; border: 1.5px solid rgba(179,38,30,0.25); background: rgba(179,38,30,0.06); color: #9E1F17; font-size: 13px; font-weight: 700; cursor: pointer">Eliminar</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isNote }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; flex-grow: 1; min-height: 0; animation: slideIn 0.4s cubic-bezier(.22,1,.36,1) both">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<button onClick="{{ backToFolder }}" style="align-self: flex-start; min-height: 40px; padding: 0 14px 0 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); color: #15171C; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>{{ cur.name }}</button>
+<button onClick="{{ askDelNote }}" aria-label="Borrar este apunte" style="width: 40px; height: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); color: #B3261E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg></button>
+</div>
+<sc-if value="{{ noteConfirm }}" hint-placeholder-val="{{ false }}">
+<div role="alertdialog" aria-label="¿Borrar este apunte?" style="display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 14px; border-radius: 18px; background: rgba(255,255,255,0.92); border: 1.5px solid rgba(179,38,30,0.25); animation: edIn 0.25s ease-out both">
+<span style="flex-grow: 1; font-size: 14px; font-weight: 600">¿Borrar este apunte?</span>
+<button onClick="{{ cancelDelNote }}" style="min-height: 38px; padding: 0 12px; border-radius: 14px; border: none; background: #E9EAEF; color: #15171C; font-size: 13px; font-weight: 600; cursor: pointer">Cancelar</button>
+<button onClick="{{ delNote }}" style="min-height: 38px; padding: 0 12px; border-radius: 14px; border: none; background: #B3261E; color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer">Borrar</button>
+</div>
+</sc-if>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em">{{ note.t }}</h1><span style="font-size: 13px; font-weight: 500; color: #3B404B">{{ note.d }} · Transcripto de foto</span></div>
+<button onClick="{{ studyNote }}" style="flex-shrink: 0; min-height: 40px; padding: 0 12px; border-radius: 20px; border: none; background: #15171C; color: #FFFFFF; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 8px 18px rgba(21,23,28,0.25)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"></path></svg>Repasar</button>
+</div>
+<div role="img" aria-label="Foto original del apunte" style="height: 96px; border-radius: 20px; overflow: hidden; position: relative; background: #FBF8F0; border: 1px solid rgba(21,23,28,0.08); box-shadow: 0 8px 20px rgba(30,40,80,0.10); flex-shrink: 0">
+<div style="position: absolute; inset: 0; background-image: repeating-linear-gradient(180deg, transparent 0, transparent 19px, rgba(61,99,240,0.18) 19px, rgba(61,99,240,0.18) 20px)"></div>
+<div style="position: absolute; left: 14px; top: 8px; right: 14px; font-family: 'Caveat', cursive; font-size: 18px; line-height: 20px; color: #2B3A67; white-space: nowrap; overflow: hidden">{{ note.t }}</div>
+<span style="position: absolute; right: 10px; bottom: 8px; font-size: 11px; font-weight: 700; color: #3B404B; background: rgba(255,255,255,0.9); padding: 4px 9px; border-radius: 999px">Foto original</span>
+</div>
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; border-radius: 24px; padding: 16px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.86); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.12)">
+<p style="margin: 0; font-size: 15px; font-weight: 500; line-height: 1.55; white-space: pre-line">{{ note.body }}</p>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+<nav ref="{{ nav.ref }}" aria-label="Secciones" onPointerDown="{{ nav.down }}" onPointerMove="{{ nav.move }}" onPointerUp="{{ nav.up }}" onPointerCancel="{{ nav.cancel }}" style="position: relative; margin: 12px 14px 20px 14px; border-radius: 32px; padding: 7px; display: flex; justify-content: space-between; touch-action: none; user-select: none; -webkit-user-select: none; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.72); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), inset 0 -1px 1px rgba(255,255,255,0.35), 0 14px 34px rgba(30,40,80,0.16)">
+<span aria-hidden="true" style="position: absolute; z-index: 0; top: 7px; bottom: 7px; left: 7px; width: calc((100% - 14px) / 5); border-radius: 25px; box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 6px 16px rgba(21,23,28,0.3); pointer-events: none; {{ nav.pill }}"></span>
+<button onClick="{{ nav.go0 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s0 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i0 }}"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</button>
+<button onClick="{{ nav.go1 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s1 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i1 }}"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Agenda</button>
+<button onClick="{{ nav.go2 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s2 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i2 }}"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Boletín</button>
+<button onClick="{{ nav.go3 }}" aria-current="page" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s3 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i3 }}"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Apuntes</button>
+<button onClick="{{ nav.go4 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s4 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i4 }}"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path></svg>Ideas</button>
+<a href="Main.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Agenda.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Notas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Apuntes.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Ideas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+</nav>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: absolute; top: 44px; left: 50%; z-index: 70; width: 300px; box-sizing: border-box; padding: 12px 16px; border-radius: 20px; background: rgba(22,24,32,0.9); color: #FFFFFF; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 14px 30px rgba(20,24,40,0.3); display: flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 600; animation: toastIn 0.35s cubic-bezier(.22,1,.36,1) both; {{ toastOut }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6FD6C0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+<span>{{ toastText }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ uploading }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; animation: fadeIn 0.2s ease-out both">
+<button onClick="{{ cancelUpload }}" aria-label="Cerrar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: default; {{ upSheet.back }}"></button>
+<div role="dialog" aria-label="Subir archivo" onPointerDown="{{ upSheet.down }}" onPointerMove="{{ upSheet.move }}" onPointerUp="{{ upSheet.up }}" onPointerCancel="{{ upSheet.up }}" style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 10px 18px 24px 18px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.96); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: 0 -20px 50px rgba(20,24,40,0.25); display: flex; flex-direction: column; gap: 12px; touch-action: none; user-select: none; -webkit-user-select: none; animation: edUp 0.4s cubic-bezier(.22,1,.36,1) backwards; {{ upSheet.style }}">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22); cursor: grab"></span>
+
+<sc-if value="{{ upSource }}" hint-placeholder-val="{{ true }}">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em">Subir archivo</h2>
+<span style="font-size: 13px; font-weight: 500; color: #3B404B">¿De dónde lo sacás?</span>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ sources }}" as="src" hint-placeholder-count="3">
+<button onClick="{{ src.pick }}" style="width: 100%; min-height: 62px; border-radius: 20px; border: 1.5px solid rgba(21,23,28,0.08); background: #FFFFFF; padding: 0 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; color: #15171C">
+<span style="width: 40px; height: 40px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: {{ src.tint }}; color: {{ src.color }}"><sc-if value="{{ src.isPhone }}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg></sc-if><sc-if value="{{ src.isDrive }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8l6 11-4 7H6l-4-7z"></path><path d="M8 3l6 11H2M16 3l-6 11 4 7"></path></svg></sc-if><sc-if value="{{ src.isClass }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c3 2 9 2 12 0v-5"></path></svg></sc-if></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">{{ src.name }}</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">{{ src.desc }}</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B404B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ upPick }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 8px">
+<button onClick="{{ upBack }}" aria-label="Volver" style="width: 40px; height: 40px; border-radius: 20px; border: none; background: #F2F3F7; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<h2 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em">{{ sourceName }}</h2>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ pickFiles }}" as="pf" hint-placeholder-count="3">
+<button onClick="{{ pf.pick }}" aria-pressed="{{ pf.sel }}" style="width: 100%; min-height: 58px; border-radius: 18px; padding: 0 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; color: #15171C; transition: background 0.2s, border-color 0.2s; {{ pf.style }}">
+<span style="width: 34px; height: 40px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; box-sizing: border-box; color: #FFFFFF; font-size: 9px; font-weight: 700; background: {{ pf.color }}">{{ pf.badge }}</span>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px"><span style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ pf.n }}</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">{{ pf.s }}</span></span>
+<span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 11px; flex-shrink: 0; box-sizing: border-box; {{ pf.radio }}"></span>
+</button>
+</sc-for>
+</div>
+<span style="font-size: 13px; font-weight: 600; color: #3B404B">Guardar en</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ upChips }}" as="uc" hint-placeholder-count="5">
+<button onClick="{{ uc.pick }}" aria-pressed="{{ uc.sel }}" style="min-height: 38px; padding: 0 14px; border-radius: 19px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.25s, color 0.25s; {{ uc.style }}">{{ uc.name }}</button>
+</sc-for>
+</div>
+<button onClick="{{ doUpload }}" style="min-height: 52px; border-radius: 18px; border: none; background: #15171C; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(21,23,28,0.28)">{{ uploadLabel }}</button>
+</sc-if>
+
+<sc-if value="{{ upSending }}" hint-placeholder-val="{{ false }}">
+<h2 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em">Subiendo…</h2>
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #F2F3F7">
+<span style="width: 34px; height: 40px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; box-sizing: border-box; color: #FFFFFF; font-size: 9px; font-weight: 700; background: {{ sending.color }}">{{ sending.badge }}</span>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ sending.n }}</span>
+<span style="height: 6px; border-radius: 3px; background: rgba(21,23,28,0.1); overflow: hidden"><span style="display: block; height: 6px; border-radius: 3px; background: #15171C; animation: fill 1.5s cubic-bezier(.4,0,.2,1) both"></span></span></span>
+</div>
+<span style="font-size: 13px; font-weight: 500; color: #3B404B">Se guarda en {{ sending.folder }}</span>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ scanning }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: #0E0F13; display: flex; flex-direction: column; animation: fadeIn 0.25s ease-out both; {{ scanOut }}">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 44px 16px 0 16px">
+<button onClick="{{ cancelScan }}" aria-label="Cerrar cámara" style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.12); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<span style="font-size: 15px; font-weight: 700; color: #FFFFFF">{{ scanTitle }}</span>
+<span style="width: 44px"></span>
+</div>
+
+<div style="position: relative; margin: 22px 26px 0 26px; height: 440px; border-radius: 24px; overflow: hidden">
+<div role="img" aria-label="Vista de la cámara con una hoja de cuaderno" style="position: absolute; left: 22px; right: 22px; top: 26px; bottom: 26px; background: #FBF8F0; border-radius: 6px; transform: rotate(-2.5deg); box-shadow: 0 20px 40px rgba(0,0,0,0.5)">
+<div style="position: absolute; inset: 0; border-radius: 6px; background-image: repeating-linear-gradient(180deg, transparent 0, transparent 23px, rgba(61,99,240,0.22) 23px, rgba(61,99,240,0.22) 24px)"></div>
+<div style="position: absolute; left: 26px; top: 0; bottom: 0; width: 1.5px; background: rgba(217,58,43,0.35)"></div>
+<div style="position: absolute; left: 34px; right: 12px; top: 14px; font-family: 'Caveat', cursive; font-size: 19px; line-height: 24px; color: #2B3A67; white-space: pre-line">Present perfect vs past simple
+have/has + participio
+I have been to Brazil
+She has lived here since 2020
+Past simple → momento exacto
+I went to Brazil last year
+ever, never, already, yet
+since, for → pres. perfect
+yesterday, ago, last → past</div>
+</div>
+<span aria-hidden="true" style="position: absolute; left: 10px; top: 10px; width: 34px; height: 34px; border-left: 3px solid #FFFFFF; border-top: 3px solid #FFFFFF; border-radius: 12px 0 0 0"></span>
+<span aria-hidden="true" style="position: absolute; right: 10px; top: 10px; width: 34px; height: 34px; border-right: 3px solid #FFFFFF; border-top: 3px solid #FFFFFF; border-radius: 0 12px 0 0"></span>
+<span aria-hidden="true" style="position: absolute; left: 10px; bottom: 10px; width: 34px; height: 34px; border-left: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF; border-radius: 0 0 0 12px"></span>
+<span aria-hidden="true" style="position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-right: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF; border-radius: 0 0 12px 0"></span>
+<sc-if value="{{ isReading }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; background: rgba(14,15,19,0.25)"></div>
+<div style="position: absolute; left: 14px; right: 14px; height: 3px; border-radius: 2px; background: #6FD6C0; box-shadow: 0 0 18px 6px rgba(111,214,192,0.55); animation: scan 1.1s ease-in-out infinite alternate"></div>
+<div style="position: absolute; inset: 0; background: #FFFFFF; animation: flash 0.4s ease-out both; pointer-events: none"></div>
+</sc-if>
+</div>
+
+<div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px">
+<sc-if value="{{ isCamera }}" hint-placeholder-val="{{ true }}">
+<span style="font-size: 14px; font-weight: 500; color: #C9CCD4">Encuadrá la hoja dentro de las esquinas</span>
+<button onClick="{{ shoot }}" aria-label="Sacar foto" style="width: 76px; height: 76px; border-radius: 38px; border: 4px solid #FFFFFF; background: transparent; padding: 5px; cursor: pointer"><span style="display: block; width: 100%; height: 100%; border-radius: 50%; background: #FFFFFF"></span></button>
+</sc-if>
+<sc-if value="{{ isReading }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 16px; font-weight: 700; color: #FFFFFF; animation: shimmer 1.2s ease-in-out infinite">Leyendo tu letra…</span>
+<span style="font-size: 13px; font-weight: 500; color: #C9CCD4">Pasando el apunte a texto</span>
+</sc-if>
+</div>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-label="Guardar apunte" style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 10px 18px 24px 18px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.94); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: 0 -20px 50px rgba(0,0,0,0.35); display: flex; flex-direction: column; gap: 12px; color: #15171C; animation: sheetUp 0.4s cubic-bezier(.22,1,.36,1) both">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.2)"></span>
+<div style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F7B5F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span style="font-size: 13px; font-weight: 700; color: #0B5E48">Listo, lo pasé a texto</span></div>
+<h2 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em">{{ scanNote.t }}</h2>
+<div style="max-height: 150px; overflow-y: auto; border-radius: 18px; padding: 12px 14px; background: #F2F3F7"><p style="margin: 0; font-size: 14px; font-weight: 500; line-height: 1.5; white-space: pre-line">{{ scanNote.body }}</p></div>
+<span style="font-size: 13px; font-weight: 600; color: #3B404B">Guardar en</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ folderChips }}" as="ch" hint-placeholder-count="5">
+<button onClick="{{ ch.pick }}" aria-pressed="{{ ch.sel }}" style="min-height: 40px; padding: 0 14px; border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.25s, color 0.25s; {{ ch.style }}">{{ ch.name }}</button>
+</sc-for>
+</div>
+<button onClick="{{ saveScan }}" style="min-height: 52px; border-radius: 18px; border: none; background: #15171C; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(21,23,28,0.28)">{{ saveLabel }}</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+
+<sc-if value="{{ ed.open }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 90; animation: aiFade 0.2s ease-out both">
+<button onClick="{{ ed.close }}" aria-label="Guardar y cerrar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.3); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor: default; {{ ed.back }}"></button>
+<div role="dialog" aria-label="{{ ed.title }}" style="position: absolute; left: 0; right: 0; bottom: 0; max-height: 680px; box-sizing: border-box; padding: 0 16px 22px 16px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: 0 -20px 50px rgba(20,24,40,0.25); display: flex; flex-direction: column; gap: 8px; animation: edUp 0.4s cubic-bezier(.22,1,.36,1) backwards; {{ ed.sheetStyle }}">
+<div onPointerDown="{{ ed.sdDown }}" onPointerMove="{{ ed.sdMove }}" onPointerUp="{{ ed.sdUp }}" onPointerCancel="{{ ed.sdUp }}" style="display: flex; flex-direction: column; gap: 10px; padding: 10px 0 4px 0; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22)"></span>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em">{{ ed.title }}</h2>
+<button onClick="{{ ed.close }}" style="min-height: 40px; padding: 0 16px; border-radius: 20px; border: none; background: #15171C; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Listo</button>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.4">{{ ed.note }}</p>
+</div>
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; margin: 0 -8px; padding: 0 8px">
+<sc-for list="{{ ed.items }}" as="ei" hint-placeholder-count="5">
+<div style="border-bottom: 1px solid rgba(21,23,28,0.07); {{ ei.rowStyle }}">
+<sc-if value="{{ ei.normal }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 8px; min-height: 58px">
+<button onClick="{{ ei.pal }}" aria-label="{{ ei.aria }}" aria-expanded="{{ ei.palOpen }}" style="width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s, background 0.3s; background: {{ ei.color }}; {{ ei.ring }} {{ ei.colorStyle }}"></button>
+<input type="text" value="{{ ei.name }}" readOnly="{{ ei.locked }}" onChange="{{ ei.rename }}" aria-label="Nombre" style="flex-grow: 1; min-width: 0; min-height: 44px; border-radius: 14px; border: 1.5px solid rgba(21,23,28,0.12); background: #F7F8FA; padding: 0 12px; font-size: 15px; font-weight: 600; color: #15171C; outline-color: #15171C; {{ ei.inputStyle }}">
+<sc-if value="{{ ed.reorder }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ei.up }}" aria-label="{{ ei.upLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.upStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg></button>
+<button onClick="{{ ei.down }}" aria-label="{{ ei.downLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.downStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.canDel }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ ei.askDel }}" aria-label="{{ ei.delLabel }}" style="width: 36px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(179,38,30,0.08); color: #B3261E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.locked }}" hint-placeholder-val="{{ false }}">
+<span role="img" aria-label="Fija, no se puede borrar" style="width: 36px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #4A4F5A"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+</sc-if>
+</div>
+<sc-if value="{{ ei.palOpen }}" hint-placeholder-val="{{ false }}">
+<div role="group" aria-label="Colores" style="display: flex; gap: 6px; padding: 6px 6px 14px 50px; animation: edIn 0.25s ease-out both">
+<sc-for list="{{ ei.swatches }}" as="sw" hint-placeholder-count="8">
+<button onClick="{{ sw.pick }}" aria-label="{{ sw.label }}" aria-pressed="{{ sw.sel }}" style="width: 28px; height: 28px; border-radius: 10px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s; background: {{ sw.color }}; {{ sw.ring }}"></button>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ ei.confirming }}" hint-placeholder-val="{{ false }}">
+<div role="alertdialog" aria-label="{{ ei.confirmText }}" style="display: flex; flex-direction: column; gap: 8px; padding: 12px; margin: 8px 0; border-radius: 16px; background: rgba(179,38,30,0.07); animation: edIn 0.25s ease-out both">
+<span style="font-size: 15px; font-weight: 700; color: #15171C">{{ ei.confirmText }}</span>
+<sc-if value="{{ ei.hasWarn }}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.35">{{ ei.warn }}</span></sc-if>
+<div style="display: flex; gap: 8px">
+<button onClick="{{ ei.cancelDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #FFFFFF; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer">Cancelar</button>
+<button onClick="{{ ei.doDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #B3261E; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Borrar</button>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ ed.canAdd }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ed.add }}" style="min-height: 48px; border-radius: 16px; border: 2px dashed rgba(21,23,28,0.2); background: transparent; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ ed.addLabel }}</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ai.open }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 35; animation: aiFade 0.25s ease-out both; {{ ai.outBack }}">
+<button onClick="{{ ai.close }}" aria-label="Cerrar asistente" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.2); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: default"></button>
+</div>
+<section role="dialog" aria-label="Asistente de estudio" style="position: absolute; z-index: 38; left: 12px; right: 12px; top: 98px; bottom: 104px; border-radius: 32px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.94); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 24px 60px rgba(20,24,40,0.3); transform-origin: calc(100% - 100px) -30px; animation: aiPop 0.5s cubic-bezier(.34,1.25,.64,1) both; {{ ai.outPanel }}">
+<div style="display: flex; align-items: center; gap: 10px; padding: 16px 16px 8px 16px">
+<span aria-hidden="true" style="position: relative; width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%">
+<span style="position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, #3D63F0, #8A4DE8, #E0567A, #F2A93B, #14A37F, #3D63F0); animation: aiSpin 6s linear infinite"></span>
+<span style="position: absolute; inset: 2px; border-radius: 50%; background: #15171C; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 2.5l2.2 6.1 6.3 2.4-6.3 2.4L12 19.5l-2.2-6.1L3.5 11l6.3-2.4z"></path><path d="M19 15.5l.8 2.2 2.2.8-2.2.8L19 21.5l-.8-2.2-2.2-.8 2.2-.8z"></path></svg></span>
+</span>
+<div style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em">Asistente de estudio</h2>
+<span style="font-size: 12px; font-weight: 500; color: #3B404B">Usa tus notas, apuntes y archivos</span>
+</div>
+<button onClick="{{ ai.close }}" aria-label="Cerrar asistente" style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 20px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px 16px">
+<sc-for list="{{ ai.sources }}" as="src" hint-placeholder-count="3">
+<span style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 999px; background: rgba(21,23,28,0.06); color: #2B2F38"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0F7B5F" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{ src }}</span>
+</sc-for>
+</div>
+<div ref="{{ ai.ref }}" role="log" aria-live="polite" style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid rgba(21,23,28,0.07)">
+<sc-for list="{{ ai.msgs }}" as="m" hint-placeholder-count="2">
+<div style="max-width: 88%; padding: 9px 12px; font-size: 14px; font-weight: 500; line-height: 1.45; white-space: pre-line; animation: aiMsg 0.3s ease-out both; {{ m.style }}">{{ m.t }}</div>
+</sc-for>
+<sc-if value="{{ ai.typing }}" hint-placeholder-val="{{ false }}">
+<div aria-label="El asistente está escribiendo" style="align-self: flex-start; padding: 12px 14px; border-radius: 18px 18px 18px 6px; background: #F2F3F7; display: flex; gap: 4px">
+<span style="width: 7px; height: 7px; border-radius: 4px; background: #3B404B; animation: aiDot 1.1s ease-in-out infinite"></span>
+<span style="width: 7px; height: 7px; border-radius: 4px; background: #3B404B; animation: aiDot 1.1s ease-in-out 0.15s infinite"></span>
+<span style="width: 7px; height: 7px; border-radius: 4px; background: #3B404B; animation: aiDot 1.1s ease-in-out 0.3s infinite"></span>
+</div>
+</sc-if>
+</div>
+<div style="display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px">
+<sc-for list="{{ ai.chips }}" as="ch" hint-placeholder-count="4">
+<button onClick="{{ ch.send }}" style="flex-shrink: 0; min-height: 36px; padding: 0 12px; border-radius: 18px; border: 1.5px solid rgba(21,23,28,0.12); background: #FFFFFF; color: #15171C; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap">{{ ch.label }}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 6px; padding: 0 10px 10px 10px">
+<input type="text" aria-label="Escribile al asistente" value="{{ ai.draft }}" onChange="{{ ai.setDraft }}" onKeyDown="{{ ai.key }}" placeholder="Preguntá sobre tu prueba…" style="flex-grow: 1; min-width: 0; min-height: 46px; border-radius: 18px; border: 1.5px solid rgba(21,23,28,0.10); background: #F2F3F7; padding: 0 14px; font-size: 15px; font-weight: 500; color: #15171C; outline-color: #15171C">
+<button onClick="{{ ai.send }}" aria-label="Enviar" style="width: 46px; height: 46px; border-radius: 18px; border: none; background: #15171C; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: opacity 0.2s; {{ ai.sendStyle }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button>
+</div>
+</section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3D63F0","options":["#3D63F0","#14A37F","#8A4DE8","#E0567A"]},"$preview":{"width":360,"height":780}}'>
+function ribbon(y0, A, n, spread, ph, tw) {
+var d = '';
+for (var i = 0; i < n; i++) {
+var u = (i - (n - 1) / 2) / ((n - 1) / 2);
+for (var x = 0; x <= 720; x += 12) {
+var t = 2 * Math.PI * x / 360;
+var y = y0 + A * Math.sin(t + ph) + 0.35 * A * Math.sin(2 * t - ph * 1.3) + u * spread * Math.cos(t + tw) + u * spread * 0.35 * Math.sin(2 * t + tw * 0.7);
+d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(1) + ' ';
+}
+}
+return d;
+}
+function frames(y0, A, n, spread, ph, tw) {
+var f = [];
+for (var k = 0; k < 3; k++) f.push(ribbon(y0, A, n, spread, ph + k * 2.1, tw + k * 2.1));
+return { d: f[0], values: f.concat([f[0]]).join(';') };
+}
+var WA = frames(220, 42, 18, 36, 0, 0.6);
+var WB = frames(570, 48, 18, 40, 2.4, 2.0);
+var FOLDERS = [
+{ name: 'Inglés', color: '#0F7B5F', tint: 'rgba(20,163,127,0.16)', notes: [
+{ t: 'Phrasal verbs — unit 4', d: '27 oct', body: 'Give up: dejar de hacer algo.\nLook after: cuidar a alguien.\nRun out of: quedarse sin algo.\nTurn down: rechazar una oferta.\nOjo: algunos se separan (turn it down) y otros no (look after him).' },
+{ t: 'Estructura del essay', d: '20 oct', body: 'Intro: hook + contexto + thesis statement.\nBody 1 y 2: topic sentence, ejemplo, explicación.\nConclusión: repetir la idea principal con otras palabras, sin ideas nuevas.' }
+]},
+{ name: 'Historia', color: '#C24E00', tint: 'rgba(194,78,0,0.14)', notes: [
+{ t: 'Revolución de Mayo', d: '28 oct', body: '22 de mayo de 1810: Cabildo abierto, se discute si el virrey sigue.\n25 de mayo: se forma la Primera Junta, presidida por Saavedra.\nCausas: invasiones inglesas, caída del rey en España, ideas de la Ilustración.' },
+{ t: 'Primera Junta', d: '21 oct', body: 'Presidente: Cornelio Saavedra.\nSecretarios: Mariano Moreno y Juan José Paso.\nConflicto entre morenistas y saavedristas.' }
+]},
+{ name: 'Matemática', color: '#3D63F0', tint: 'rgba(61,99,240,0.14)', notes: [
+{ t: 'Función cuadrática', d: '24 oct', body: 'f(x) = ax² + bx + c\nVértice: xv = -b / 2a\nSi a > 0 la parábola abre hacia arriba, si a < 0 hacia abajo.\nRaíces con la fórmula resolvente.' },
+{ t: 'Sistemas de ecuaciones', d: '15 oct', body: 'Métodos: sustitución, igualación y reducción.\nCompatible determinado: una solución. Incompatible: ninguna.' },
+{ t: 'Trigonometría básica', d: '8 oct', body: 'sen = opuesto / hipotenusa\ncos = adyacente / hipotenusa\ntg = opuesto / adyacente' }
+]},
+{ name: 'Física', color: '#7A3BD1', tint: 'rgba(122,59,209,0.14)', notes: [
+{ t: 'MRUV', d: '23 oct', body: 'v = v0 + a·t\nx = x0 + v0·t + ½·a·t²\nLa aceleración es constante.' }
+]},
+{ name: 'Biología', color: '#2E8540', tint: 'rgba(46,133,64,0.14)', notes: [
+{ t: 'La célula', d: '19 oct', body: 'Procariota: sin núcleo definido (bacterias).\nEucariota: con núcleo (animal y vegetal).\nLa vegetal tiene pared celular y cloroplastos.' }
+]}
+];
+var TYPES = {
+pdf: { badge: 'PDF', color: '#C7362B' },
+doc: { badge: 'DOC', color: '#2B5BD7' },
+img: { badge: 'IMG', color: '#0F7B5F' }
+};
+var FILES = {
+'Inglés': [{ n: 'Vocabulary list.docx', s: '120 KB', d: '25 oct', type: 'doc' }],
+'Historia': [{ n: 'Línea de tiempo 1810–1816.pdf', s: '640 KB', d: '22 oct', type: 'pdf' }],
+'Matemática': [{ n: 'Guía de funciones.pdf', s: '1,1 MB', d: '18 oct', type: 'pdf' }],
+'Física': [],
+'Biología': [{ n: 'Foto célula al microscopio.jpg', s: '2,2 MB', d: '19 oct', type: 'img' }]
+};
+var SOURCES = [
+{ key: 'phone', name: 'Desde el celular', desc: 'Archivos y fotos de tu galería', color: '#15171C', tint: 'rgba(21,23,28,0.08)', files: [
+{ n: 'Foto pizarrón Física.jpg', s: '2,4 MB', type: 'img' }, { n: 'Resumen Historia.pdf', s: '860 KB', type: 'pdf' }, { n: 'Vocabulary unit 4.docx', s: '140 KB', type: 'doc' }] },
+{ key: 'drive', name: 'Google Drive', desc: 'Tus documentos guardados', color: '#0F7B5F', tint: 'rgba(20,163,127,0.14)', files: [
+{ n: 'Guía de ejercicios — Cinemática.pdf', s: '1,2 MB', type: 'pdf' }, { n: 'Trabajo práctico Biología.docx', s: '340 KB', type: 'doc' }, { n: 'Mapa conceptual Revolución.png', s: '1,8 MB', type: 'img' }] },
+{ key: 'class', name: 'Google Classroom', desc: 'Material que subieron tus profes', color: '#B26A00', tint: 'rgba(230,160,0,0.18)', files: [
+{ n: 'Apunte de clase — Funciones.pdf', s: '950 KB', type: 'pdf' }, { n: 'Consignas TP Física.pdf', s: '410 KB', type: 'pdf' }, { n: 'Reading comprehension unit 4.pdf', s: '600 KB', type: 'pdf' }] }
+];
+var SCANNED = { t: 'Present perfect vs past simple', d: '29 oct', body: 'Present perfect: have/has + participio pasado.\nSe usa para experiencias (I have been to Brazil) y para acciones que siguen hasta ahora (She has lived here since 2020).\nPast simple: acción terminada en un momento exacto (I went to Brazil last year).\nPalabras clave → present perfect: ever, never, already, yet, since, for.\nPalabras clave → past simple: yesterday, ago, last.' };
+var NAV_CUR = 3;
+function navIdxAt(c, x) {
+var el = c.navEl;
+if (!el) return NAV_CUR;
+var r = el.getBoundingClientRect();
+var w = (r.width - 14) / 5;
+if (w <= 0) return NAV_CUR;
+return Math.max(0, Math.min(4, Math.floor((x - r.left - 7) / w)));
+}
+function navInit(c) {
+c.navReady = true; c.navEl = null; c.navHover = null; c.navPill = null; c.navActive = false; c.navGoing = false; c.navBlock = false; c.navBump = 0;
+c.navRefFn = (el) => { c.navEl = el; };
+c.navGo = (i) => {
+if (c.navGoing) return;
+if (i === NAV_CUR) { c.navPill = null; c.navBump++; c.forceUpdate(); return; }
+c.navGoing = true; c.navPill = i; c.forceUpdate();
+c.navTimer = setTimeout(() => {
+var as = c.navEl ? c.navEl.querySelectorAll('a') : [];
+if (as[i]) as[i].click();
+c.navReset = setTimeout(() => { c.navGoing = false; c.navPill = null; c.forceUpdate(); }, 700);
+}, 300);
+};
+c.navGoFns = [0, 1, 2, 3, 4].map((i) => () => { if (c.navBlock) return; c.navGo(i); });
+c.navDown = (e) => { c.navActive = true; c.navMoved = false; c.navStartX = e.clientX; c.navPid = e.pointerId; c.navTarget = e.currentTarget; };
+c.navMove = (e) => {
+if (!c.navActive) return;
+if (!c.navMoved) {
+if (Math.abs(e.clientX - c.navStartX) < 10) return;
+c.navMoved = true;
+try { c.navTarget.setPointerCapture(c.navPid); } catch (err) {}
+}
+var i = navIdxAt(c, e.clientX);
+if (i !== c.navHover) { c.navHover = i; c.forceUpdate(); }
+};
+c.navUp = () => {
+if (!c.navActive) return;
+c.navActive = false;
+if (!c.navMoved) return;
+var i = c.navHover === null ? NAV_CUR : c.navHover;
+c.navHover = null;
+c.navBlock = true;
+setTimeout(() => { c.navBlock = false; }, 0);
+c.navGo(i);
+};
+c.navCancel = () => { c.navActive = false; if (c.navHover !== null) { c.navHover = null; c.forceUpdate(); } };
+}
+function navMount(c) { if (!c.navReady) navInit(c); }
+function navVals(c) {
+if (!c.navReady) navInit(c);
+var dragging = c.navHover !== null;
+var idx = dragging ? c.navHover : (c.navPill !== null ? c.navPill : NAV_CUR);
+var o = {
+ref: c.navRefFn, down: c.navDown, move: c.navMove, up: c.navUp, cancel: c.navCancel,
+pill: 'transform: translateX(' + (idx * 100) + '%)' + (dragging ? ' scale(1.06, 1.1)' : '') + '; transition: ' + (dragging ? 'transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s' : 'transform 0.5s cubic-bezier(.34,1.35,.64,1), background 0.3s') + '; background: ' + (dragging ? 'rgba(21,23,28,0.78)' : '#15171C') + ';'
+};
+for (var k = 0; k < 5; k++) {
+o['go' + k] = c.navGoFns[k];
+o['s' + k] = k === idx ? 'color: #FFFFFF;' : 'color: #2B2F38;';
+o['i' + k] = k === idx ? 'transform: scale(1.12) translateY(-1px);' : 'transform: scale(1);';
+}
+return o;
+}
+var ED_CFG = { key: 'data', title: 'Editar carpetas', note: 'Cambiá el nombre y el color, usá las flechas para ordenarlas o borrá una carpeta.', warn: (it) => { var n = it.notes.length, f = it.files.length; if (!n && !f) return ''; var parts = []; if (n) parts.push(n === 1 ? '1 apunte' : n + ' apuntes'); if (f) parts.push(f === 1 ? '1 archivo' : f + ' archivos'); return 'También se borran ' + parts.join(' y ') + '.'; }, onDelete: (c, i) => c.setState({ data: c.state.data.filter((x, j) => j !== i), folder: 0, target: 0, upTarget: 0, view: 'folders' }), reorder: true, add: 'Nueva carpeta', make: (n) => ({ name: 'Nueva carpeta', color: ED_COLORS[(n + 5) % ED_COLORS.length], notes: [], files: [] }) };
+function tintOf(hex) {
+var h = (hex || '#8E93A0').replace('#', '');
+var r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+return 'rgba(' + r + ',' + g + ',' + b + ',0.15)';
+}
+var NOOP = () => {};
+function actSet(a) { try { window.sessionStorage.setItem('appAction', a); } catch (err) {} }
+function actTake(prefix) {
+try {
+var a = window.sessionStorage.getItem('appAction');
+if (a && a.indexOf(prefix + ':') === 0) { window.sessionStorage.removeItem('appAction'); return a.slice(prefix.length + 1); }
+} catch (err) {}
+return null;
+}
+function hexA(hex, a) {
+var h = (hex || '#8E93A0').replace('#', '');
+return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')';
+}
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function sdVals(c, key, onClose) {
+if (!c.sd) c.sd = {};
+var st = c.sd[key] || (c.sd[key] = { y: 0, active: false, cap: false, closing: false });
+return {
+down: (e) => { st.active = true; st.cap = false; st.start = e.clientY; st.pid = e.pointerId; st.el = e.currentTarget; st.y = 0; },
+move: (e) => {
+if (!st.active) return;
+var dy = e.clientY - st.start;
+if (!st.cap) { if (dy < 6) return; st.cap = true; try { st.el.setPointerCapture(st.pid); } catch (err) {} }
+st.y = Math.max(0, dy);
+c.forceUpdate();
+},
+up: () => {
+if (!st.active) return;
+st.active = false;
+if (!st.cap) return;
+st.cap = false;
+if (st.y > 90) { st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 230); }
+else { st.y = 0; c.forceUpdate(); }
+},
+close: () => { if (st.closing) return; st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 260); },
+style: st.closing ? 'transform: translateY(105%); transition: transform 0.26s cubic-bezier(.4,0,1,1);' : 'transform: translateY(' + st.y + 'px); transition: ' + (st.cap ? 'none' : 'transform 0.35s cubic-bezier(.22,1,.36,1)') + ';',
+back: st.closing ? 'opacity: 0; transition: opacity 0.26s ease-in;' : (st.y ? 'opacity: ' + Math.max(0.35, 1 - st.y / 420).toFixed(2) + '; transition: none;' : 'transition: opacity 0.3s;')
+};
+}
+function exClose(c, key, done, ms) {
+if (!c.ex) c.ex = {};
+if (c.ex[key]) return;
+c.ex[key] = true;
+c.forceUpdate();
+setTimeout(() => { c.ex[key] = false; done(); }, ms || 230);
+}
+function exOn(c, key) { return !!(c.ex && c.ex[key]); }
+function exBack(c, key) { return exOn(c, key) ? 'animation: exFade 0.23s ease-in forwards;' : ''; }
+function exPanel(c, key, kind) { return exOn(c, key) ? 'animation: ' + (kind || 'exPop') + ' 0.23s cubic-bezier(.4,0,1,1) forwards;' : ''; }
+function swRow(c, id, enabled, onRemove) {
+if (!c.swGone) { c.swGone = {}; c.swId = null; c.swDx = 0; c.swMoved = false; }
+var active = c.swId === id;
+var dx = active ? c.swDx : 0;
+var gone = !!c.swGone[id];
+return {
+down: (e) => { if (!enabled) return; c.swId = id; c.swStart = e.clientX; c.swDx = 0; c.swCap = false; c.swPid = e.pointerId; c.swEl = e.currentTarget; },
+move: (e) => {
+if (c.swId !== id) return;
+var d = e.clientX - c.swStart;
+if (!c.swCap) { if (d > -10) return; c.swCap = true; c.swMoved = true; try { c.swEl.setPointerCapture(c.swPid); } catch (err) {} }
+c.swDx = Math.min(0, d);
+c.forceUpdate();
+},
+up: () => {
+if (c.swId !== id) return;
+var d = c.swCap ? c.swDx : 0;
+c.swId = null; c.swDx = 0; c.swCap = false;
+if (d < -90) { c.swGone[id] = true; c.forceUpdate(); setTimeout(() => { delete c.swGone[id]; onRemove(); }, 280); }
+else c.forceUpdate();
+setTimeout(() => { c.swMoved = false; }, 0);
+},
+fg: gone ? 'transform: translateX(-105%); opacity: 0; transition: transform 0.28s ease-in, opacity 0.28s ease-in;' : 'transform: translateX(' + dx + 'px); transition: ' + (active && c.swCap ? 'none' : 'transform 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+bg: 'width: ' + (gone ? '100%' : Math.max(0, -dx) + 'px') + '; transition: ' + (active && c.swCap ? 'none' : 'width 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+label: -dx > 70 || gone
+};
+}
+function swBlocked(c) { return !!c.swMoved; }
+var ED_COLORS = ['#3D63F0', '#0F7B5F', '#C24E00', '#7A3BD1', '#C2185B', '#2E8540', '#B3261E', '#15171C'];
+var ED_NAMES = ['Azul', 'Verde', 'Naranja', 'Violeta', 'Rosa', 'Verde hoja', 'Rojo', 'Negro'];
+function edInit(c) {
+c.edReady = true; c.edOpen = false; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1;
+c.edOpenFn = () => { c.edOpen = true; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1; c.forceUpdate(); };
+c.edClose = () => { c.edOpen = false; c.edPal = -1; c.edConfirm = -1; c.forceUpdate(); };
+}
+function edSet(c, arr) { var o = {}; o[ED_CFG.key] = arr; c.setState(o); }
+function edMove(c, i, j) {
+var arr = c.state[ED_CFG.key].slice();
+if (j < 0 || j >= arr.length) return;
+var t = arr[j]; arr[j] = arr[i]; arr[i] = t;
+c.edPal = -1; c.edFresh = j; c.edConfirm = -1;
+edSet(c, arr);
+}
+function edVals(c) {
+if (!c.edReady) edInit(c);
+if (typeof ED_CFG === 'undefined') return { open: false };
+var list = c.state[ED_CFG.key];
+var isLocked = (it) => !!(ED_CFG.locked && ED_CFG.locked(it));
+var deletable = list.filter((it) => !isLocked(it)).length;
+var minLeft = ED_CFG.min === undefined ? 1 : ED_CFG.min;
+var sd = sdVals(c, 'ed', () => c.edClose());
+return {
+open: c.edOpen, openFn: c.edOpenFn, close: sd.close, back: sd.back,
+sdDown: sd.down, sdMove: sd.move, sdUp: sd.up, sheetStyle: sd.style,
+title: ED_CFG.title, note: ED_CFG.note, reorder: !!ED_CFG.reorder, canAdd: !!ED_CFG.add, addLabel: ED_CFG.add || '',
+add: () => { var cur = c.state[ED_CFG.key]; var arr = cur.concat([ED_CFG.make(cur.length)]); if (ED_CFG.addAt === 'beforeLocked') { var li = arr.findIndex(isLocked); if (li >= 0) { var nw = arr.pop(); arr.splice(li, 0, nw); } } c.edFresh = arr.indexOf(arr.filter((x) => !cur.includes(x))[0]); c.edPal = c.edFresh; c.edConfirm = -1; edSet(c, arr); },
+items: list.map((it, i) => {
+var locked = isLocked(it);
+var nm = it.name || 'Sin nombre';
+var warn = ED_CFG.warn ? ED_CFG.warn(it, c) : '';
+return {
+name: it.name, color: it.color, locked: locked,
+canDel: !locked && deletable > minLeft,
+normal: c.edConfirm !== i, confirming: c.edConfirm === i,
+confirmText: '¿Borrar "' + nm + '"?', warn: warn, hasWarn: !!warn,
+aria: locked ? nm + ', color fijo' : 'Cambiar color de ' + nm,
+delLabel: 'Borrar ' + nm,
+upLabel: 'Subir ' + nm, downLabel: 'Bajar ' + nm,
+palOpen: !locked && c.edPal === i,
+ring: !locked && c.edPal === i ? 'box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px ' + it.color + ';' : 'box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);',
+colorStyle: locked ? 'cursor: default;' : '',
+inputStyle: locked ? 'background: transparent; border-color: transparent; color: #3B404B;' : '',
+rowStyle: i === c.edFresh ? 'animation: edIn 0.35s ease-out both;' : '',
+upStyle: i === 0 ? 'opacity: 0.3; cursor: default;' : '',
+downStyle: i === list.length - 1 ? 'opacity: 0.3; cursor: default;' : '',
+pal: locked ? NOOP : () => { c.edPal = c.edPal === i ? -1 : i; c.edFresh = -1; c.forceUpdate(); },
+rename: locked ? NOOP : (e) => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { name: e.target.value }); edSet(c, arr); },
+up: () => edMove(c, i, i - 1),
+down: () => edMove(c, i, i + 1),
+askDel: () => { c.edConfirm = i; c.edPal = -1; c.edFresh = -1; c.forceUpdate(); },
+cancelDel: () => { c.edConfirm = -1; c.forceUpdate(); },
+doDel: () => {
+c.edConfirm = -1; c.edPal = -1; c.edFresh = -1;
+if (ED_CFG.onDelete) ED_CFG.onDelete(c, i);
+else edSet(c, c.state[ED_CFG.key].filter((x, k) => k !== i));
+},
+swatches: ED_COLORS.map((col, k) => ({
+color: col, label: ED_NAMES[k], sel: col === it.color,
+ring: col === it.color ? 'box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px ' + col + ';' : '',
+pick: () => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { color: col }); edSet(c, arr); }
+}))
+};
+})
+};
+}
+var CLK_DAYS = [
+{ s: 'Hoy', n: 29, full: 'Hoy' }, { s: 'Vie', n: 30, full: 'Mañana' }, { s: 'Sáb', n: 31, full: 'Sáb 31' },
+{ s: 'Dom', n: 1, full: 'Dom 1' }, { s: 'Lun', n: 2, full: 'Lun 2' }, { s: 'Mar', n: 3, full: 'Mar 3' }, { s: 'Mié', n: 4, full: 'Mié 4' }
+];
+function clkLabel(day, h, m) { return CLK_DAYS[day].full + ' ' + h + ':' + pad2(m); }
+function clkOpen(c, o) {
+c.clk = Object.assign({ mode: 'h', h: 20, m: 0, day: 0, week: false, title: 'Elegí la hora', color: '#15171C', anim: 0 }, o || {}, { open: true });
+c.forceUpdate();
+}
+function clkFromPoint(c, e) {
+var el = c.clkEl, K = c.clk;
+if (!el || !K) return;
+var r = el.getBoundingClientRect();
+var k = r.width / 236 || 1;
+var dx = (e.clientX - r.left) / k - 118, dy = (e.clientY - r.top) / k - 118;
+var ang = Math.atan2(dx, -dy) * 180 / Math.PI;
+if (ang < 0) ang += 360;
+var idx = Math.round(ang / 30) % 12;
+if (K.mode === 'h') {
+var inner = Math.sqrt(dx * dx + dy * dy) < 79;
+K.h = inner ? (idx === 0 ? 0 : idx + 12) : (idx === 0 ? 12 : idx);
+} else K.m = idx * 5;
+c.forceUpdate();
+}
+function clkToMinutes(c) {
+if (c.clkT) clearTimeout(c.clkT);
+c.clkT = setTimeout(() => { if (c.clk && c.clk.open && c.clk.mode === 'h') { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); } }, 320);
+}
+function clkVals(c) {
+var K = c.clk;
+if (!K || !K.open) return { open: false };
+if (!c.clkFns) c.clkFns = {
+down: (e) => { c.clkDrag = true; c.clkEl = e.currentTarget; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} clkFromPoint(c, e); },
+move: (e) => { if (c.clkDrag) clkFromPoint(c, e); },
+up: () => { if (!c.clkDrag) return; c.clkDrag = false; clkToMinutes(c); },
+hMode: () => { c.clk.mode = 'h'; c.clk.anim++; c.forceUpdate(); },
+mMode: () => { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); },
+cancel: () => exClose(c, 'clk', () => { c.clk.open = false; c.forceUpdate(); }),
+done: () => { var Q = c.clk; if (Q.onDone) Q.onDone(Q.day, Q.h, Q.m); exClose(c, 'clk', () => { Q.open = false; c.forceUpdate(); }); }
+};
+var F = c.clkFns;
+var col = K.color;
+var C = 118, R1 = 96, R2 = 62;
+var isH = K.mode === 'h';
+var nums = [];
+var mk = (v, i, R, inner) => {
+var a = i * 30 * Math.PI / 180;
+var x = C + R * Math.sin(a), y = C - R * Math.cos(a);
+var sz = inner ? 32 : 38;
+var sel = isH ? K.h === v : K.m === v;
+nums.push({
+t: isH ? (inner ? pad2(v) : String(v)) : pad2(v),
+aria: isH ? v + ' horas' : v + ' minutos', sel: sel,
+style: 'left: ' + (x - sz / 2).toFixed(1) + 'px; top: ' + (y - sz / 2).toFixed(1) + 'px; width: ' + sz + 'px; height: ' + sz + 'px; font-size: ' + (inner ? 12 : 15) + 'px; ' + (sel ? 'background: ' + col + '; color: #FFFFFF;' : 'background: transparent; color: ' + (inner ? '#4A4F5A' : '#15171C') + ';'),
+pick: () => { if (isH) { K.h = v; c.forceUpdate(); clkToMinutes(c); } else { K.m = v; c.forceUpdate(); } }
+});
+};
+if (isH) {
+for (var i = 0; i < 12; i++) mk(i === 0 ? 12 : i, i, R1, false);
+for (var j = 0; j < 12; j++) mk(j === 0 ? 0 : j + 12, j, R2, true);
+} else {
+for (var q = 0; q < 12; q++) mk(q * 5, q, R1, false);
+}
+var R = isH ? (K.h >= 1 && K.h <= 12 ? R1 : R2) : R1;
+var angle = isH ? (K.h % 12) * 30 : K.m * 6;
+return {
+open: true, outBack: exBack(c, 'clk'), outPanel: exPanel(c, 'clk'), title: K.title, week: !!K.week, top: (K.week ? 92 : 150) + 'px',
+days: CLK_DAYS.map((d, i) => ({
+s: d.s, n: d.n, sel: i === K.day,
+aria: (i === 0 ? 'Hoy, ' : i === 1 ? 'Mañana, ' : '') + d.s + ' ' + d.n,
+style: i === K.day ? 'background: ' + col + '; color: #FFFFFF; transform: scale(1.04);' : 'background: #F0F1F5; color: #15171C;',
+pick: () => { K.day = i; c.forceUpdate(); }
+})),
+hh: pad2(K.h), mm: pad2(K.m), isH: isH, isM: !isH,
+hStyle: isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+mStyle: !isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+hand: 'top: ' + (C - R + 19) + 'px; height: ' + (R - 19) + 'px; transform: rotate(' + angle + 'deg); background: ' + col + ';',
+dot: 'background: ' + col + ';',
+nums: nums,
+dialAnim: K.anim ? 'animation: ' + (K.anim % 2 ? 'clkA' : 'clkB') + ' 0.3s ease-out;' : '',
+down: F.down, move: F.move, up: F.up, hMode: F.hMode, mMode: F.mMode, cancel: F.cancel, done: F.done,
+hint: isH ? 'Tocá o arrastrá para elegir la hora' : 'Ahora elegí los minutos',
+doneLabel: 'Listo · ' + (K.week ? clkLabel(K.day, K.h, K.m) : K.h + ':' + pad2(K.m))
+};
+}
+var AI_SOURCES = ['Boletín · 6 materias', 'Apuntes · 9', 'Archivos · 4'];
+var AI_SUGGEST = ['Tomame Historia', 'Plan para hoy', 'Métodos de estudio', '¿Cómo subo Lengua?'];
+var AI_QUIZ = [
+{ q: 'Pregunta 1 de 3: ¿Qué se discutió en el Cabildo abierto del 22 de mayo de 1810?', keys: ['virrey', 'cisneros', 'gobierno', 'autoridad', 'poder'], ok: '¡Bien! Se discutió si el virrey Cisneros seguía en el poder, y ganó la postura de reemplazarlo.', no: 'Casi. En tu apunte dice que se discutió si el virrey seguía en el poder; ganó la idea de reemplazarlo.' },
+{ q: 'Pregunta 2 de 3: ¿Quién presidió la Primera Junta?', keys: ['saavedra'], ok: '¡Exacto, Cornelio Saavedra!', no: 'No. Fue Cornelio Saavedra; Moreno y Paso eran los secretarios.' },
+{ q: 'Pregunta 3 de 3: Nombrá una causa de la Revolución de Mayo.', keys: ['invasion', 'ingles', 'rey', 'espana', 'fernando', 'ilustracion', 'napoleon'], ok: '¡Muy bien! Las tres de tu apunte son las invasiones inglesas, la caída del rey en España y las ideas de la Ilustración.', no: 'Te doy una: las invasiones inglesas. Las otras dos de tu apunte son la caída del rey en España y las ideas de la Ilustración.' }
+];
+var AI_REPLY = {
+plan: 'Mañana tenés Historia y hoy entrenás de 17:30 a 19:00. Te propongo:\n\n19:30 · Releer "Revolución de Mayo" (15 min)\n19:50 · Releer "Primera Junta" (10 min)\n20:05 · Descanso\n20:15 · Preguntas de práctica conmigo (15 min)\n20:30 · Repasar solo lo que te costó\n\nTe faltan 3 de 5 temas, así que con esto llegás bien.',
+metodos: 'Tres métodos que funcionan muy bien:\n\n1. Recuerdo activo: cerrá el apunte y explicalo con tus palabras. Después fijate qué te faltó.\n2. Repaso espaciado: repasá hoy, mañana y en 3 días, en vez de todo junto el día antes.\n3. Pomodoro: 25 minutos de estudio y 5 de descanso.\n\nSi querés, te tomo preguntas ahora y practicamos el primero.',
+lengua: 'En Lengua tenés un 5,5 (Análisis sintáctico) y es tu única nota.\n\nSi en la próxima sacás 7,5, tu promedio sube a 6,5. Con un 8,5 llegás a 7.\n\nTodavía no tenés apuntes de Lengua. Escaneá la próxima clase y lo repasamos juntos.',
+fallback: 'En esta maqueta tengo respuestas de ejemplo. En la app de verdad te respondería usando tus notas, apuntes y archivos. Probá con alguna de las sugerencias de abajo.'
+};
+function aiNorm(t) { return (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function aiIntent(t) {
+var s = aiNorm(t);
+if (s.indexOf('repasemos') === 0) return 'file';
+if (s.indexOf('tomame') >= 0 || s.indexOf('pregunta') >= 0 || s.indexOf('practic') >= 0) return 'quiz';
+if (s.indexOf('metodo') >= 0 || s.indexOf('como estudi') >= 0 || s.indexOf('tecnica') >= 0) return 'metodos';
+if (s.indexOf('lengua') >= 0 || s.indexOf('promedio') >= 0 || s.indexOf('subo') >= 0) return 'lengua';
+if (s.indexOf('plan') >= 0 || s.indexOf('organiz') >= 0 || s.indexOf('hoy') >= 0) return 'plan';
+return 'fallback';
+}
+function aiReplyFor(c, text) {
+if (c.aiQuiz >= 0) {
+var Q = AI_QUIZ[c.aiQuiz];
+var s = aiNorm(text);
+var good = Q.keys.some((k) => s.indexOf(k) >= 0);
+if (good) c.aiScore++;
+var out = good ? Q.ok : Q.no;
+c.aiQuiz++;
+if (c.aiQuiz < AI_QUIZ.length) return out + '\n\n' + AI_QUIZ[c.aiQuiz].q;
+var sc = c.aiScore;
+c.aiQuiz = -1; c.aiScore = 0;
+return out + '\n\nTerminamos: ' + sc + ' de 3. ' + (sc === 3 ? '¡Estás listo para mañana!' : 'Repasá las que te costaron y, si querés, lo hacemos de nuevo.');
+}
+var k = aiIntent(text);
+if (k === 'quiz') { c.aiQuiz = 0; c.aiScore = 0; return 'Dale, te tomo 3 preguntas sobre tus apuntes de Historia. Respondé con tus palabras.\n\n' + AI_QUIZ[0].q; }
+if (k === 'file') {
+var m = text.match(/"([^"]+)"/);
+var name = m ? m[1] : 'ese apunte';
+return 'Abrí "' + name + '". En la app de verdad lo leería entero, te haría un resumen corto y después preguntas para ver qué te quedó.\n\nEn esta maqueta tengo preparadas preguntas de Historia: escribí "tomame" para probarlas.';
+}
+return AI_REPLY[k];
+}
+function aiAsk(c, text) {
+var t = (text || '').trim();
+if (!t || c.aiTyping) return;
+c.aiMsgs = c.aiMsgs.concat([{ me: true, t: t }]);
+c.aiDraft = ''; c.aiTyping = true;
+c.forceUpdate(); c.aiScroll();
+var reply = aiReplyFor(c, t);
+c.aiTimer = setTimeout(() => { c.aiMsgs = c.aiMsgs.concat([{ me: false, t: reply }]); c.aiTyping = false; c.forceUpdate(); c.aiScroll(); }, 950);
+}
+function aiInit(c) {
+c.aiReady = true; c.aiOpen = false; c.aiTyping = false; c.aiDraft = ''; c.aiQuiz = -1; c.aiScore = 0; c.aiEl = null;
+c.aiMsgs = [{ me: false, t: '¡Hola Felix! Mañana tenés prueba de Historia y en tus apuntes tenés "Revolución de Mayo" y "Primera Junta". ¿Te tomo preguntas o te armo un plan para hoy?' }];
+c.aiRef = (el) => { c.aiEl = el; };
+c.aiScroll = () => { setTimeout(() => { if (c.aiEl) c.aiEl.scrollTop = c.aiEl.scrollHeight; }, 40); };
+c.aiClose = () => { if (!c.aiOpen) return; exClose(c, 'ai', () => { c.aiOpen = false; c.forceUpdate(); }, 260); };
+c.aiToggle = () => { if (c.aiOpen) { c.aiClose(); return; } c.aiOpen = true; c.forceUpdate(); c.aiScroll(); };
+c.aiSetDraft = (e) => { c.aiDraft = e.target.value; c.forceUpdate(); };
+c.aiKey = (e) => { if (e.key === 'Enter') aiAsk(c, c.aiDraft); };
+c.aiSend = () => aiAsk(c, c.aiDraft);
+}
+function aiOpenWith(c, text) {
+if (!c.aiReady) aiInit(c);
+c.aiOpen = true; c.forceUpdate();
+setTimeout(() => aiAsk(c, text), 400);
+}
+function aiVals(c) {
+if (!c.aiReady) aiInit(c);
+return {
+open: c.aiOpen, closed: !c.aiOpen, toggle: c.aiToggle, close: c.aiClose, ref: c.aiRef, outBack: exBack(c, 'ai'), outPanel: exPanel(c, 'ai'),
+btnLabel: c.aiOpen ? 'Cerrar asistente de estudio' : 'Abrir asistente de estudio',
+sources: AI_SOURCES,
+msgs: c.aiMsgs.map((m) => ({ t: m.t, style: m.me ? 'align-self: flex-end; background: #15171C; color: #FFFFFF; border-radius: 18px 18px 6px 18px;' : 'align-self: flex-start; background: #F2F3F7; color: #15171C; border-radius: 18px 18px 18px 6px;' })),
+typing: c.aiTyping,
+chips: AI_SUGGEST.map((x) => ({ label: x, send: () => aiAsk(c, x) })),
+draft: c.aiDraft, setDraft: c.aiSetDraft, key: c.aiKey, send: c.aiSend,
+sendStyle: c.aiDraft.trim() ? '' : 'opacity: 0.4;'
+};
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { view: 'folders', folder: 0, note: 0, data: FOLDERS.map((f) => Object.assign({}, f, { files: FILES[f.name] || [] })), scan: null, target: 0, toast: false, toastText: '', fresh: -1, freshFile: -1, up: null, src: 0, pickIdx: 0, upTarget: 0, fileMenu: -1 };
+}
+componentWillUnmount() { if (this.t1) clearTimeout(this.t1); if (this.t2) clearTimeout(this.t2); if (this.t3) clearTimeout(this.t3); }
+componentDidMount() {
+navMount(this);
+if (actTake('apuntes') === 'scan') this.setState({ scan: 'camera' });
+}
+renderVals() {
+var s = this.state;
+var accent = this.props.accent ?? '#3D63F0';
+var total = 0;
+var countOf = (f) => {
+var a = f.notes.length + (f.notes.length === 1 ? ' apunte' : ' apuntes');
+return f.files.length ? a + ' · ' + f.files.length + (f.files.length === 1 ? ' archivo' : ' archivos') : a;
+};
+var folders = s.data.map((f, i) => {
+total += f.notes.length;
+return {
+name: f.name || 'Sin nombre', color: f.color, tint: tintOf(f.color),
+countText: countOf(f),
+delay: 'animation-delay: ' + (i * 0.05) + 's;',
+open: () => this.setState({ view: 'folder', folder: i, fresh: -1, freshFile: -1, fileMenu: -1 })
+};
+});
+var cf = s.data[Math.min(s.folder, s.data.length - 1)];
+var cur = {
+name: cf.name || 'Sin nombre', color: cf.color, tint: tintOf(cf.color),
+countText: countOf(cf),
+notes: cf.notes.map((n, j) => ({
+t: n.t, d: n.d, body: n.body,
+highlight: j === s.fresh ? 'box-shadow: 0 0 0 2px ' + cf.color + ', 0 12px 28px rgba(30,40,80,0.12);' : '',
+open: () => this.setState({ view: 'note', note: j, noteConfirm: false })
+})),
+files: cf.files.map((fl, j) => ({
+n: fl.n, meta: fl.s + ' · ' + fl.d,
+badge: TYPES[fl.type].badge, color: TYPES[fl.type].color,
+highlight: j === s.freshFile ? 'box-shadow: 0 0 0 2px ' + cf.color + ', 0 8px 20px rgba(30,40,80,0.08);' : '',
+menuOpen: s.fileMenu === j,
+menuStyle: s.fileMenu === j ? 'background: rgba(21,23,28,0.08);' : 'background: transparent;',
+menu: () => { if (this.state.fileMenu === j) { exClose(this, 'fmenu', () => this.setState({ fileMenu: -1 }), 200); return; } this.setState({ fileMenu: j }); },
+menuOut: s.fileMenu === j && exOn(this, 'fmenu') ? 'animation: exUp 0.2s ease-in forwards;' : '',
+study: () => { this.setState({ fileMenu: -1 }); aiOpenWith(this, 'Repasemos "' + fl.n + '"'); },
+remove: () => {
+var st = this.state;
+var fi = Math.min(st.folder, st.data.length - 1);
+var data = st.data.map((f, i) => i === fi ? Object.assign({}, f, { files: f.files.filter((x, k) => k !== j) }) : f);
+this.setState({ data: data, fileMenu: -1, freshFile: -1, toast: true, toastText: 'Eliminaste ' + fl.n });
+if (this.t2) clearTimeout(this.t2);
+this.t2 = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+}
+})),
+noFiles: cf.files.length === 0
+};
+var SRC = SOURCES[s.src];
+var picked = SRC.files[s.pickIdx];
+var upSd = sdVals(this, 'up', () => this.setState({ up: null }));
+var openUpload = (folderIdx) => this.setState({ up: 'source', pickIdx: 0, upTarget: folderIdx });
+var nt = cf.notes[s.note] || cf.notes[0] || { t: '', d: '', body: '' };
+var titles = { camera: 'Escanear apunte', reading: 'Escaneando', done: 'Escaneado' };
+return {
+nav: navVals(this),
+ai: aiVals(this),
+ed: edVals(this),
+accent: accent,
+waveA: WA.d, waveAValues: WA.values, waveB: WB.d, waveBValues: WB.values,
+isFolders: s.view === 'folders', isFolder: s.view === 'folder', isNote: s.view === 'note',
+studyNote: () => aiOpenWith(this, 'Repasemos "' + nt.t + '"'),
+noteConfirm: !!s.noteConfirm,
+askDelNote: () => this.setState({ noteConfirm: true }),
+cancelDelNote: () => this.setState({ noteConfirm: false }),
+delNote: () => {
+var st = this.state;
+var fi = Math.min(st.folder, st.data.length - 1);
+var title = (st.data[fi].notes[st.note] || {}).t || 'el apunte';
+var data = st.data.map((f, i) => i === fi ? Object.assign({}, f, { notes: f.notes.filter((x, k) => k !== st.note) }) : f);
+this.setState({ data: data, view: 'folder', note: 0, noteConfirm: false, fresh: -1, toast: true, toastText: 'Borraste ' + title });
+if (this.t2) clearTimeout(this.t2);
+this.t2 = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+},
+newFolder: () => {
+if (!this.edReady) edInit(this);
+var arr = this.state.data.concat([ED_CFG.make(this.state.data.length)]);
+this.edOpen = true; this.edFresh = arr.length - 1; this.edPal = -1;
+this.setState({ data: arr });
+},
+totalText: total + ' apuntes guardados',
+folders: folders,
+cur: cur,
+note: { t: nt.t, d: nt.d, body: nt.body },
+backToFolders: () => this.setState({ view: 'folders', fileMenu: -1 }),
+backToFolder: () => this.setState({ view: 'folder' }),
+scanning: !!s.scan,
+isCamera: s.scan === 'camera', isReading: s.scan === 'reading', isDone: s.scan === 'done',
+scanTitle: titles[s.scan] || '',
+startScan: () => this.setState({ scan: 'camera' }),
+cancelScan: () => { if (this.t1) clearTimeout(this.t1); exClose(this, 'scan', () => this.setState({ scan: null }), 260); },
+scanOut: exOn(this, 'scan') ? 'animation: exSlide 0.26s cubic-bezier(.4,0,1,1) forwards;' : '',
+shoot: () => {
+this.setState({ scan: 'reading' });
+this.t1 = setTimeout(() => this.setState({ scan: 'done' }), 1900);
+},
+scanNote: SCANNED,
+startUpload: () => openUpload(0),
+startUploadHere: () => openUpload(this.state.folder),
+cancelUpload: () => { if (this.state.up !== 'sending') upSd.close(); },
+upSheet: s.up === 'sending' ? { down: NOOP, move: NOOP, up: NOOP, style: upSd.style, back: upSd.back } : upSd,
+uploading: !!s.up,
+upSource: s.up === 'source', upPick: s.up === 'pick', upSending: s.up === 'sending',
+upBack: () => this.setState({ up: 'source' }),
+sources: SOURCES.map((x, i) => ({
+name: x.name, desc: x.desc, color: x.color, tint: x.tint,
+isPhone: x.key === 'phone', isDrive: x.key === 'drive', isClass: x.key === 'class',
+pick: () => this.setState({ up: 'pick', src: i, pickIdx: 0 })
+})),
+sourceName: SRC.name,
+pickFiles: SRC.files.map((x, i) => ({
+n: x.n, s: x.s, badge: TYPES[x.type].badge, color: TYPES[x.type].color, sel: i === s.pickIdx,
+style: i === s.pickIdx ? 'border: 1.5px solid #15171C; background: #FFFFFF;' : 'border: 1.5px solid rgba(21,23,28,0.08); background: #F7F8FA;',
+radio: i === s.pickIdx ? 'border: 7px solid #15171C; background: #FFFFFF;' : 'border: 2px solid rgba(21,23,28,0.25); background: #FFFFFF;',
+pick: () => this.setState({ pickIdx: i })
+})),
+upChips: s.data.map((f, i) => ({
+name: f.name, sel: i === s.upTarget,
+style: i === s.upTarget ? 'border: 1.5px solid ' + f.color + '; background: ' + f.color + '; color: #FFFFFF;' : 'border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; color: #15171C;',
+pick: () => this.setState({ upTarget: i })
+})),
+uploadLabel: 'Subir a ' + s.data[s.upTarget].name,
+sending: { n: picked.n, badge: TYPES[picked.type].badge, color: TYPES[picked.type].color, folder: s.data[s.upTarget].name },
+doUpload: () => {
+this.setState({ up: 'sending' });
+if (this.t3) clearTimeout(this.t3);
+this.t3 = setTimeout(() => {
+var st = this.state;
+var f0 = SOURCES[st.src].files[st.pickIdx];
+var nf = { n: f0.n, s: f0.s, d: '29 oct', type: f0.type };
+var data = st.data.map((f, i) => i === st.upTarget ? Object.assign({}, f, { files: [nf].concat(f.files) }) : f);
+upSd.close();
+this.setState({ data: data, view: 'folder', folder: st.upTarget, fresh: -1, freshFile: 0, toast: true, toastText: 'Archivo subido a ' + st.data[st.upTarget].name });
+if (this.t2) clearTimeout(this.t2);
+this.t2 = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+}, 1600);
+},
+folderChips: s.data.map((f, i) => ({
+name: f.name, sel: i === s.target,
+style: i === s.target ? 'border: 1.5px solid ' + f.color + '; background: ' + f.color + '; color: #FFFFFF;' : 'border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; color: #15171C;',
+pick: () => this.setState({ target: i })
+})),
+saveLabel: 'Guardar en ' + s.data[s.target].name,
+saveScan: () => {
+var st = this.state;
+var data = st.data.map((f, i) => i === st.target ? Object.assign({}, f, { notes: [SCANNED].concat(f.notes) }) : f);
+exClose(this, 'scan', () => this.setState({ scan: null }), 260);
+this.setState({ data: data, view: 'folder', folder: st.target, fresh: 0, freshFile: -1, toast: true, toastText: 'Guardado en ' + st.data[st.target].name });
+if (this.t2) clearTimeout(this.t2);
+this.t2 = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+},
+toast: s.toast,
+toastOut: exOn(this, 'toast') ? 'animation: toastOut 0.26s ease-in forwards;' : '',
+toastText: s.toastText
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+/*
+  Estilos generales de la app.
+  Acá están los colores, el "vidrio" con blur, los botones que se repiten
+  y todas las animaciones (@keyframes) copiadas del diseño.
+*/
+
+:root {
+  --fondo: #EEF0F7;
+  --negro: #15171C;
+  --gris-texto: #3B404B;
+  --acento: #3D63F0;
+  /* Espacio de arriba: la barra de estado del celular + un margen */
+  --arriba: calc(env(safe-area-inset-top, 0px) + 30px);
+  --abajo: env(safe-area-inset-bottom, 0px);
+}
+
+* { scrollbar-width: none; box-sizing: border-box; }
+*::-webkit-scrollbar { display: none; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  background: #DCDFE8;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  color: var(--negro);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, textarea, select { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+button:active { transform: scale(0.95); }
+button:disabled { cursor: default; }
+a { color: #1A3596; }
+
+/* La "pantalla del celular": en la compu queda centrada y angosta */
+.app {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--fondo);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenido de cada pantalla (todo menos el menú de abajo) */
+.pantalla {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--arriba) 16px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Vidrio ---------- */
+.vidrio {
+  border: 1px solid rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.84);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.10);
+}
+.vidrio-oscuro {
+  color: #FFFFFF;
+  background: rgba(22,24,32,0.86);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.22), 0 16px 36px rgba(20,24,40,0.26);
+}
+
+/* ---------- Textos ---------- */
+.titulo { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+.subtitulo { margin: 0; font-size: 13px; font-weight: 600; color: var(--gris-texto); }
+.seccion { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--gris-texto); }
+.etiqueta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--gris-texto); }
+
+/* ---------- Botones ---------- */
+.btn-circulo {
+  width: 44px; height: 44px; border-radius: 22px; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 20px rgba(30,40,80,0.12);
+  color: var(--negro);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+}
+.btn-negro {
+  min-height: 44px; padding: 0 16px; border-radius: 22px; border: none;
+  background: var(--negro); color: #FFFFFF;
+  font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; gap: 6px; cursor: pointer;
+  box-shadow: 0 8px 20px rgba(21,23,28,0.28);
+}
+.btn-volver {
+  align-self: flex-start; min-height: 40px; padding: 0 14px 0 8px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  color: var(--negro); font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.fila-botones { display: flex; gap: 10px; }
+.btn-gris {
+  flex: 1 1 0; min-height: 52px; border-radius: 18px; border: none;
+  background: #E3E5EB; color: var(--negro); font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.btn-principal {
+  flex: 2 1 0; min-height: 52px; border-radius: 18px; border: none;
+  background: var(--negro); color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 8px 20px rgba(21,23,28,0.28); transition: opacity 0.2s;
+}
+.btn-borrar {
+  flex: 1 1 0; min-height: 52px; border-radius: 18px;
+  border: 1.5px solid rgba(179,38,30,0.3); background: rgba(179,38,30,0.06);
+  color: #9E1F17; font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.apagado { opacity: 0.4; }
+
+/* Chips (botoncitos redondeados para elegir algo) */
+.chip {
+  min-height: 38px; padding: 0 13px; border-radius: 19px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; color: var(--negro);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Campos de texto */
+.campo {
+  min-height: 48px; border-radius: 16px; border: 1.5px solid rgba(21,23,28,0.14);
+  background: #FFFFFF; padding: 0 14px; font-size: 16px; font-weight: 500; color: var(--negro);
+  width: 100%;
+}
+textarea.campo { padding: 12px 14px; line-height: 1.45; resize: none; }
+
+/* ---------- Capas (cosas que se abren encima) ---------- */
+.capa { position: absolute; inset: 0; }
+.velo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: none; padding: 0; cursor: default;
+}
+.velo:active { transform: none; }
+.manija { align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22); }
+
+.sale-fade { animation: exFade 0.23s ease-in forwards; }
+.sale-pop { animation: exPop 0.23s cubic-bezier(.4,0,1,1) forwards; }
+
+/* Entrada de los bloques de cada pantalla */
+.entra { animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) backwards; }
+
+/* ---------- Animaciones del diseño ---------- */
+@keyframes aiSpin { to { transform: rotate(360deg); } }
+@keyframes aiPop { from { opacity: 0; transform: scale(0.1); } to { opacity: 1; transform: none; } }
+@keyframes aiFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes aiMsg { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes aiDot { 0%, 80%, 100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-4px); opacity: 1; } }
+@keyframes aiTwinkle { 0%, 100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.14) rotate(14deg); } }
+@keyframes edUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes edIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes rowIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@keyframes rowNew { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes clkPop { from { opacity: 0; transform: scale(0.86); } to { opacity: 1; transform: none; } }
+@keyframes clkA { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes clkB { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes exFade { to { opacity: 0; } }
+@keyframes exPop { to { opacity: 0; transform: scale(0.86); } }
+@keyframes exSlide { to { opacity: 0; transform: translateY(24px); } }
+@keyframes exUp { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, -12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes toastOut { to { opacity: 0; transform: translate(-50%, -14px); } }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-360px); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.85) translateY(-8px); } to { opacity: 1; transform: none; } }
+@keyframes titleIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes marquee { 0%, 12% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes pop { 0% { transform: scale(0.4); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes remPop { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
+@keyframes ringA { 0% { transform: rotate(0); } 15% { transform: rotate(16deg); } 30% { transform: rotate(-13deg); } 45% { transform: rotate(9deg); } 60% { transform: rotate(-6deg); } 75% { transform: rotate(3deg); } 100% { transform: rotate(0); } }
+@keyframes ringB { 0% { transform: rotate(0); } 15% { transform: rotate(16deg); } 30% { transform: rotate(-13deg); } 45% { transform: rotate(9deg); } 60% { transform: rotate(-6deg); } 75% { transform: rotate(3deg); } 100% { transform: rotate(0); } }
+@keyframes cloud { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+@keyframes monthL1 { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+@keyframes monthL2 { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+@keyframes monthR1 { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes monthR2 { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes listA { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes listB { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes bumpA { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+@keyframes bumpB { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+@keyframes expand { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes fill { from { width: 0; } to { width: 100%; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+
+/* Si el celular tiene activado "reducir movimiento", casi sin animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ideas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+@keyframes aiPop{from{opacity:0;transform:scale(0.1)}to{opacity:1;transform:none}}
+@keyframes aiFade{from{opacity:0}to{opacity:1}}
+@keyframes aiMsg{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes aiDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+@keyframes aiTwinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
+@keyframes edUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes edIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+body{-webkit-font-smoothing:antialiased}
+@keyframes clkPop{from{opacity:0;transform:scale(0.86)}to{opacity:1;transform:none}}
+@keyframes clkA{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes clkB{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes exFade{to{opacity:0}}
+@keyframes navIn{from{scale:0.5;opacity:0}to{scale:1;opacity:1}}
+@keyframes exPop{to{opacity:0;transform:scale(0.86)}}
+@keyframes exSlide{to{opacity:0;transform:translateY(24px)}}
+@keyframes exUp{to{opacity:0;transform:translateY(-6px)}}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,-14px)}}
+a{color:#1A3596}a:hover{color:#10246B}
+button,input{font-family:inherit}
+button:active{transform:scale(0.97)}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-360px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(0.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+</style>
+</helmet>
+<div style="width: 360px; height: 780px; box-sizing: border-box; background: #EEF0F7; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif; color: #15171C; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<div style="position: absolute; width: 260px; height: 260px; left: -80px; top: 140px; border-radius: 50%; background: #8A4DE8; opacity: 0.26; filter: blur(70px)"></div>
+<div style="position: absolute; width: 240px; height: 240px; right: -90px; top: 500px; border-radius: 50%; background: #E0567A; opacity: 0.26; filter: blur(70px)"></div>
+<svg width="720" height="780" viewBox="0 0 720 780" style="position: absolute; left: 0; top: 0; filter: blur(1.1px); animation: drift 70s linear infinite">
+<path d="{{ waveA }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.5"><animate attributeName="d" dur="18s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveAValues }}"></animate></path>
+<path d="{{ waveB }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.42"><animate attributeName="d" dur="22s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveBValues }}"></animate></path>
+</svg>
+<div style="position: absolute; inset: 0; background: rgba(238,240,247,0.30); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+</div>
+
+<div style="position: relative; padding: 44px 16px 0 16px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-height: 0">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<p style="margin: 0; font-size: 13px; font-weight: 600; color: #3B404B">{{ doneText }}</p>
+<h1 style="margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em">Ideas</h1>
+</div>
+<button onClick="{{ ed.openFn }}" aria-label="Editar nombres y colores de las categorías" style="width: 44px; height: 44px; border-radius: 22px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 20px rgba(30,40,80,0.12); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg></button>
+</div>
+
+<div style="display: flex; gap: 8px; padding: 5px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 10px 26px rgba(30,40,80,0.10); animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.06s both">
+<input type="text" ref="{{ inputRef }}" aria-label="Nueva idea" value="{{ draft }}" onChange="{{ setDraft }}" onKeyDown="{{ onKey }}" placeholder="Anotá una idea…" style="flex-grow: 1; min-width: 0; min-height: 44px; border: none; background: transparent; padding: 0 10px; font-size: 16px; font-weight: 500; color: #15171C; outline: none">
+<button onClick="{{ add }}" aria-label="Agregar idea" style="width: 44px; height: 44px; border-radius: 16px; border: none; background: #15171C; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: opacity 0.2s; {{ addStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+
+<div role="group" aria-label="Filtrar por categoría" style="display: flex; flex-wrap: wrap; gap: 6px; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.1s both">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+<button onClick="{{ f.pick }}" aria-pressed="{{ f.sel }}" style="min-height: 36px; padding: 0 14px; border-radius: 18px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; transition: background 0.25s, color 0.25s; {{ f.style }}"><span style="width: 8px; height: 8px; border-radius: 4px; transition: background 0.3s; {{ f.dot }}"></span>{{ f.name }}</button>
+</sc-for>
+</div>
+
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; margin-bottom: 4px; border-radius: 24px; padding: 2px 12px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 12px 28px rgba(30,40,80,0.10); animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.14s both">
+<sc-for list="{{ list }}" as="it" hint-placeholder-count="6">
+<div style="position: relative; overflow: hidden; {{ it.rowStyle }}">
+<div aria-hidden="true" style="position: absolute; top: 5px; bottom: 5px; right: 0; border-radius: 14px; background: #D93A2B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 6px; overflow: hidden; white-space: nowrap; font-size: 13px; font-weight: 600; {{ it.sw.bg }}"><sc-if value="{{ it.sw.label }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg>Eliminar</sc-if></div>
+<div onPointerDown="{{ it.sw.down }}" onPointerMove="{{ it.sw.move }}" onPointerUp="{{ it.sw.up }}" onPointerCancel="{{ it.sw.up }}" style="position: relative; display: flex; align-items: center; gap: 10px; touch-action: pan-y; {{ it.sw.fg }}">
+<button role="checkbox" aria-checked="{{ it.done }}" onClick="{{ it.toggle }}" style="flex-grow: 1; min-width: 0; min-height: 48px; padding: 9px 0; border: none; background: transparent; display: flex; gap: 11px; align-items: center; cursor: pointer; text-align: left; color: inherit">
+<span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 8px; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; transition: background 0.25s, border-color 0.25s, box-shadow 0.25s; {{ it.boxStyle }}">
+<sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="animation: pop 0.3s ease-out"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+</span>
+<span style="flex-grow: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.25s; {{ it.textStyle }}"><span style="background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 58%; transition: background-size 0.4s cubic-bezier(.22,1,.36,1); {{ it.strike }}">{{ it.t }}</span></span>
+</button>
+<span role="img" aria-label="{{ it.c }}" style="width: 9px; height: 9px; border-radius: 5px; flex-shrink: 0; transition: background 0.3s; background: {{ it.color }}"></span>
+<sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="Deslizá a la izquierda para eliminar" style="flex-shrink: 0; color: #8E93A0; display: flex"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"></path></svg></span></sc-if>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 18px 4px; text-align: center; font-size: 14px; font-weight: 600; color: #3B404B">Todavía no hay ideas acá</div>
+</sc-if>
+</div>
+
+</div>
+
+<nav ref="{{ nav.ref }}" aria-label="Secciones" onPointerDown="{{ nav.down }}" onPointerMove="{{ nav.move }}" onPointerUp="{{ nav.up }}" onPointerCancel="{{ nav.cancel }}" style="position: relative; margin: 12px 14px 20px 14px; border-radius: 32px; padding: 7px; display: flex; justify-content: space-between; touch-action: none; user-select: none; -webkit-user-select: none; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.72); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), inset 0 -1px 1px rgba(255,255,255,0.35), 0 14px 34px rgba(30,40,80,0.16)">
+<span aria-hidden="true" style="position: absolute; z-index: 0; top: 7px; bottom: 7px; left: 7px; width: calc((100% - 14px) / 5); border-radius: 25px; box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 6px 16px rgba(21,23,28,0.3); pointer-events: none; {{ nav.pill }}"></span>
+<button onClick="{{ nav.go0 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s0 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i0 }}"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</button>
+<button onClick="{{ nav.go1 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s1 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i1 }}"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Agenda</button>
+<button onClick="{{ nav.go2 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s2 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i2 }}"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Boletín</button>
+<button onClick="{{ nav.go3 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s3 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i3 }}"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Apuntes</button>
+<button onClick="{{ nav.go4 }}" aria-current="page" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s4 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i4 }}"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path></svg>Ideas</button>
+<a href="Main.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Agenda.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Notas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Apuntes.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Ideas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+</nav>
+
+
+<sc-if value="{{ ed.open }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 90; animation: aiFade 0.2s ease-out both">
+<button onClick="{{ ed.close }}" aria-label="Guardar y cerrar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.3); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor: default; {{ ed.back }}"></button>
+<div role="dialog" aria-label="{{ ed.title }}" style="position: absolute; left: 0; right: 0; bottom: 0; max-height: 680px; box-sizing: border-box; padding: 0 16px 22px 16px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: 0 -20px 50px rgba(20,24,40,0.25); display: flex; flex-direction: column; gap: 8px; animation: edUp 0.4s cubic-bezier(.22,1,.36,1) backwards; {{ ed.sheetStyle }}">
+<div onPointerDown="{{ ed.sdDown }}" onPointerMove="{{ ed.sdMove }}" onPointerUp="{{ ed.sdUp }}" onPointerCancel="{{ ed.sdUp }}" style="display: flex; flex-direction: column; gap: 10px; padding: 10px 0 4px 0; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22)"></span>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em">{{ ed.title }}</h2>
+<button onClick="{{ ed.close }}" style="min-height: 40px; padding: 0 16px; border-radius: 20px; border: none; background: #15171C; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Listo</button>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.4">{{ ed.note }}</p>
+</div>
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; margin: 0 -8px; padding: 0 8px">
+<sc-for list="{{ ed.items }}" as="ei" hint-placeholder-count="5">
+<div style="border-bottom: 1px solid rgba(21,23,28,0.07); {{ ei.rowStyle }}">
+<sc-if value="{{ ei.normal }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 8px; min-height: 58px">
+<button onClick="{{ ei.pal }}" aria-label="{{ ei.aria }}" aria-expanded="{{ ei.palOpen }}" style="width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s, background 0.3s; background: {{ ei.color }}; {{ ei.ring }} {{ ei.colorStyle }}"></button>
+<input type="text" value="{{ ei.name }}" readOnly="{{ ei.locked }}" onChange="{{ ei.rename }}" aria-label="Nombre" style="flex-grow: 1; min-width: 0; min-height: 44px; border-radius: 14px; border: 1.5px solid rgba(21,23,28,0.12); background: #F7F8FA; padding: 0 12px; font-size: 15px; font-weight: 600; color: #15171C; outline-color: #15171C; {{ ei.inputStyle }}">
+<sc-if value="{{ ed.reorder }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ei.up }}" aria-label="{{ ei.upLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.upStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg></button>
+<button onClick="{{ ei.down }}" aria-label="{{ ei.downLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.downStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.canDel }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ ei.askDel }}" aria-label="{{ ei.delLabel }}" style="width: 36px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(179,38,30,0.08); color: #B3261E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.locked }}" hint-placeholder-val="{{ false }}">
+<span role="img" aria-label="Fija, no se puede borrar" style="width: 36px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #4A4F5A"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+</sc-if>
+</div>
+<sc-if value="{{ ei.palOpen }}" hint-placeholder-val="{{ false }}">
+<div role="group" aria-label="Colores" style="display: flex; gap: 6px; padding: 6px 6px 14px 50px; animation: edIn 0.25s ease-out both">
+<sc-for list="{{ ei.swatches }}" as="sw" hint-placeholder-count="8">
+<button onClick="{{ sw.pick }}" aria-label="{{ sw.label }}" aria-pressed="{{ sw.sel }}" style="width: 28px; height: 28px; border-radius: 10px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s; background: {{ sw.color }}; {{ sw.ring }}"></button>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ ei.confirming }}" hint-placeholder-val="{{ false }}">
+<div role="alertdialog" aria-label="{{ ei.confirmText }}" style="display: flex; flex-direction: column; gap: 8px; padding: 12px; margin: 8px 0; border-radius: 16px; background: rgba(179,38,30,0.07); animation: edIn 0.25s ease-out both">
+<span style="font-size: 15px; font-weight: 700; color: #15171C">{{ ei.confirmText }}</span>
+<sc-if value="{{ ei.hasWarn }}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.35">{{ ei.warn }}</span></sc-if>
+<div style="display: flex; gap: 8px">
+<button onClick="{{ ei.cancelDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #FFFFFF; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer">Cancelar</button>
+<button onClick="{{ ei.doDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #B3261E; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Borrar</button>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ ed.canAdd }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ed.add }}" style="min-height: 48px; border-radius: 16px; border: 2px dashed rgba(21,23,28,0.2); background: transparent; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ ed.addLabel }}</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3D63F0","options":["#3D63F0","#14A37F","#8A4DE8","#E0567A"]},"$preview":{"width":360,"height":780}}'>
+function ribbon(y0, A, n, spread, ph, tw) {
+var d = '';
+for (var i = 0; i < n; i++) {
+var u = (i - (n - 1) / 2) / ((n - 1) / 2);
+for (var x = 0; x <= 720; x += 12) {
+var t = 2 * Math.PI * x / 360;
+var y = y0 + A * Math.sin(t + ph) + 0.35 * A * Math.sin(2 * t - ph * 1.3) + u * spread * Math.cos(t + tw) + u * spread * 0.35 * Math.sin(2 * t + tw * 0.7);
+d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(1) + ' ';
+}
+}
+return d;
+}
+function frames(y0, A, n, spread, ph, tw) {
+var f = [];
+for (var k = 0; k < 3; k++) f.push(ribbon(y0, A, n, spread, ph + k * 2.1, tw + k * 2.1));
+return { d: f[0], values: f.concat([f[0]]).join(';') };
+}
+var WA = frames(220, 42, 18, 36, 0, 0.6);
+var WB = frames(570, 48, 18, 40, 2.4, 2.0);
+var IDEA_KEY = 'colegioIdeas';
+var IDEA_SRC = 'p' + Math.random().toString(36).slice(2);
+function ideasMemGet() {
+try { if (window.top && window.top.__colegioIdeas) return window.top.__colegioIdeas; } catch (err) {}
+try { if (window.parent && window.parent.__colegioIdeas) return window.parent.__colegioIdeas; } catch (err) {}
+try { return window.__colegioIdeas || null; } catch (err) { return null; }
+}
+function ideasMemSet(d) {
+try { window.__colegioIdeas = d; } catch (err) {}
+try { if (window.parent) window.parent.__colegioIdeas = d; } catch (err) {}
+try { if (window.top) window.top.__colegioIdeas = d; } catch (err) {}
+}
+function ideasLoad() {
+var best = ideasMemGet();
+try {
+var r = window.localStorage.getItem(IDEA_KEY);
+var d = r ? JSON.parse(r) : null;
+if (d && Array.isArray(d.items) && (!best || (d.v || 0) >= (best.v || 0))) best = d;
+} catch (err) {}
+return best && Array.isArray(best.items) ? best : null;
+}
+function ideasPostAll(w, msg, depth) {
+if (!w || depth > 4) return;
+try { w.postMessage(msg, '*'); } catch (err) {}
+try { for (var i = 0; i < w.frames.length; i++) ideasPostAll(w.frames[i], msg, depth + 1); } catch (err) {}
+}
+function ideasSave(patch) {
+var d = Object.assign({}, ideasLoad() || {}, patch, { v: Date.now() + Math.random(), src: IDEA_SRC });
+ideasMemSet(d);
+try { window.localStorage.setItem(IDEA_KEY, JSON.stringify(d)); } catch (err) {}
+try { window.dispatchEvent(new CustomEvent('colegio-ideas', { detail: d })); } catch (err) {}
+try { if (!window.__colegioBC && window.BroadcastChannel) window.__colegioBC = new BroadcastChannel('colegio-ideas'); if (window.__colegioBC) window.__colegioBC.postMessage(d); } catch (err) {}
+var top = null;
+try { top = window.top; } catch (err) {}
+ideasPostAll(top || window, { colegioIdeas: d }, 0);
+}
+function ideasListen(fn) {
+var seen = 0;
+var take = (d) => {
+if (!d || !Array.isArray(d.items) || d.src === IDEA_SRC) return;
+if ((d.v || 0) <= seen) return;
+seen = d.v || 0;
+ideasMemSet(d);
+fn(d);
+};
+var h1 = (e) => { if (e && e.key === IDEA_KEY) { try { take(JSON.parse(e.newValue)); } catch (err) {} } };
+var h2 = (e) => take(e && e.detail);
+var h3 = (e) => take(e && e.data && e.data.colegioIdeas);
+var h4 = () => { var d = ideasLoad(); if (d) take(d); };
+var bc = null;
+try { window.addEventListener('storage', h1); window.addEventListener('colegio-ideas', h2); window.addEventListener('message', h3); window.addEventListener('focus', h4); } catch (err) {}
+try { if (window.BroadcastChannel) { bc = new BroadcastChannel('colegio-ideas'); bc.onmessage = (e) => take(e.data); } } catch (err) {}
+var poll = setInterval(h4, 1500);
+return () => {
+clearInterval(poll);
+try { window.removeEventListener('storage', h1); window.removeEventListener('colegio-ideas', h2); window.removeEventListener('message', h3); window.removeEventListener('focus', h4); } catch (err) {}
+try { if (bc) bc.close(); } catch (err) {}
+};
+}
+var CATS = [
+{ id: 'planes', name: 'Planes', color: '#C2185B' },
+{ id: 'lugares', name: 'Lugares', color: '#0F7B5F' },
+{ id: 'aprender', name: 'Aprender', color: '#3D63F0' },
+{ id: 'none', name: 'Sin categoría', color: '#8E93A0', locked: true }
+];
+var START = [
+{ id: 1, t: 'Ir a la Feria del Libro con amigos', c: 'planes', done: false },
+{ id: 2, t: 'Armar mi primera app en Python', c: 'aprender', done: false },
+{ id: 3, t: 'Probar la hamburguesería nueva', c: 'lugares', done: true },
+{ id: 4, t: 'Construir un robot seguidor de línea', c: 'aprender', done: false },
+{ id: 5, t: 'Aprender a tocar la guitarra', c: 'aprender', done: false },
+{ id: 6, t: 'Ir a ver un partido de los Pumas', c: 'planes', done: false },
+{ id: 7, t: 'Conocer el Planetario', c: 'lugares', done: true }
+];
+var ED_CFG = { key: 'cats', title: 'Editar categorías', note: 'Cambiá el nombre y el color de la categoría de tus ideas.', add: 'Agregar categoría', addAt: 'beforeLocked', min: 0, locked: (it) => !!it.locked, warn: (it, c) => { var n = c.state.items.filter((x) => x.c === it.id).length; return n ? (n === 1 ? 'Su idea pasa a Sin categoría.' : 'Sus ' + n + ' ideas pasan a Sin categoría.') : ''; }, onDelete: (c, i) => { var gone = c.state.cats[i]; c.setState({ cats: c.state.cats.filter((x, j) => j !== i), items: c.state.items.map((x) => x.c === gone.id ? Object.assign({}, x, { c: 'none' }) : x), filter: c.state.filter === gone.id ? 'all' : c.state.filter }); }, make: (n) => ({ id: 'cat' + n + '-' + Math.floor(Math.random() * 1e6), name: 'Nueva categoría', color: ED_COLORS[(n + 3) % ED_COLORS.length] }) };
+var NAV_CUR = 4;
+function navIdxAt(c, x) {
+var el = c.navEl;
+if (!el) return NAV_CUR;
+var r = el.getBoundingClientRect();
+var w = (r.width - 14) / 5;
+if (w <= 0) return NAV_CUR;
+return Math.max(0, Math.min(4, Math.floor((x - r.left - 7) / w)));
+}
+function navInit(c) {
+c.navReady = true; c.navEl = null; c.navHover = null; c.navPill = null; c.navActive = false; c.navGoing = false; c.navBlock = false; c.navBump = 0;
+c.navRefFn = (el) => { c.navEl = el; };
+c.navGo = (i) => {
+if (c.navGoing) return;
+if (i === NAV_CUR) { c.navPill = null; c.navBump++; c.forceUpdate(); return; }
+c.navGoing = true; c.navPill = i; c.forceUpdate();
+c.navTimer = setTimeout(() => {
+var as = c.navEl ? c.navEl.querySelectorAll('a') : [];
+if (as[i]) as[i].click();
+c.navReset = setTimeout(() => { c.navGoing = false; c.navPill = null; c.forceUpdate(); }, 700);
+}, 300);
+};
+c.navGoFns = [0, 1, 2, 3, 4].map((i) => () => { if (c.navBlock) return; c.navGo(i); });
+c.navDown = (e) => { c.navActive = true; c.navMoved = false; c.navStartX = e.clientX; c.navPid = e.pointerId; c.navTarget = e.currentTarget; };
+c.navMove = (e) => {
+if (!c.navActive) return;
+if (!c.navMoved) {
+if (Math.abs(e.clientX - c.navStartX) < 10) return;
+c.navMoved = true;
+try { c.navTarget.setPointerCapture(c.navPid); } catch (err) {}
+}
+var i = navIdxAt(c, e.clientX);
+if (i !== c.navHover) { c.navHover = i; c.forceUpdate(); }
+};
+c.navUp = () => {
+if (!c.navActive) return;
+c.navActive = false;
+if (!c.navMoved) return;
+var i = c.navHover === null ? NAV_CUR : c.navHover;
+c.navHover = null;
+c.navBlock = true;
+setTimeout(() => { c.navBlock = false; }, 0);
+c.navGo(i);
+};
+c.navCancel = () => { c.navActive = false; if (c.navHover !== null) { c.navHover = null; c.forceUpdate(); } };
+}
+function navMount(c) { if (!c.navReady) navInit(c); }
+function navVals(c) {
+if (!c.navReady) navInit(c);
+var dragging = c.navHover !== null;
+var idx = dragging ? c.navHover : (c.navPill !== null ? c.navPill : NAV_CUR);
+var o = {
+ref: c.navRefFn, down: c.navDown, move: c.navMove, up: c.navUp, cancel: c.navCancel,
+pill: 'transform: translateX(' + (idx * 100) + '%)' + (dragging ? ' scale(1.06, 1.1)' : '') + '; transition: ' + (dragging ? 'transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s' : 'transform 0.5s cubic-bezier(.34,1.35,.64,1), background 0.3s') + '; background: ' + (dragging ? 'rgba(21,23,28,0.78)' : '#15171C') + ';'
+};
+for (var k = 0; k < 5; k++) {
+o['go' + k] = c.navGoFns[k];
+o['s' + k] = k === idx ? 'color: #FFFFFF;' : 'color: #2B2F38;';
+o['i' + k] = k === idx ? 'transform: scale(1.12) translateY(-1px);' : 'transform: scale(1);';
+}
+return o;
+}
+var NOOP = () => {};
+function actSet(a) { try { window.sessionStorage.setItem('appAction', a); } catch (err) {} }
+function actTake(prefix) {
+try {
+var a = window.sessionStorage.getItem('appAction');
+if (a && a.indexOf(prefix + ':') === 0) { window.sessionStorage.removeItem('appAction'); return a.slice(prefix.length + 1); }
+} catch (err) {}
+return null;
+}
+function hexA(hex, a) {
+var h = (hex || '#8E93A0').replace('#', '');
+return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')';
+}
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function sdVals(c, key, onClose) {
+if (!c.sd) c.sd = {};
+var st = c.sd[key] || (c.sd[key] = { y: 0, active: false, cap: false, closing: false });
+return {
+down: (e) => { st.active = true; st.cap = false; st.start = e.clientY; st.pid = e.pointerId; st.el = e.currentTarget; st.y = 0; },
+move: (e) => {
+if (!st.active) return;
+var dy = e.clientY - st.start;
+if (!st.cap) { if (dy < 6) return; st.cap = true; try { st.el.setPointerCapture(st.pid); } catch (err) {} }
+st.y = Math.max(0, dy);
+c.forceUpdate();
+},
+up: () => {
+if (!st.active) return;
+st.active = false;
+if (!st.cap) return;
+st.cap = false;
+if (st.y > 90) { st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 230); }
+else { st.y = 0; c.forceUpdate(); }
+},
+close: () => { if (st.closing) return; st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 260); },
+style: st.closing ? 'transform: translateY(105%); transition: transform 0.26s cubic-bezier(.4,0,1,1);' : 'transform: translateY(' + st.y + 'px); transition: ' + (st.cap ? 'none' : 'transform 0.35s cubic-bezier(.22,1,.36,1)') + ';',
+back: st.closing ? 'opacity: 0; transition: opacity 0.26s ease-in;' : (st.y ? 'opacity: ' + Math.max(0.35, 1 - st.y / 420).toFixed(2) + '; transition: none;' : 'transition: opacity 0.3s;')
+};
+}
+function exClose(c, key, done, ms) {
+if (!c.ex) c.ex = {};
+if (c.ex[key]) return;
+c.ex[key] = true;
+c.forceUpdate();
+setTimeout(() => { c.ex[key] = false; done(); }, ms || 230);
+}
+function exOn(c, key) { return !!(c.ex && c.ex[key]); }
+function exBack(c, key) { return exOn(c, key) ? 'animation: exFade 0.23s ease-in forwards;' : ''; }
+function exPanel(c, key, kind) { return exOn(c, key) ? 'animation: ' + (kind || 'exPop') + ' 0.23s cubic-bezier(.4,0,1,1) forwards;' : ''; }
+function swRow(c, id, enabled, onRemove) {
+if (!c.swGone) { c.swGone = {}; c.swId = null; c.swDx = 0; c.swMoved = false; }
+var active = c.swId === id;
+var dx = active ? c.swDx : 0;
+var gone = !!c.swGone[id];
+return {
+down: (e) => { if (!enabled) return; c.swId = id; c.swStart = e.clientX; c.swDx = 0; c.swCap = false; c.swPid = e.pointerId; c.swEl = e.currentTarget; },
+move: (e) => {
+if (c.swId !== id) return;
+var d = e.clientX - c.swStart;
+if (!c.swCap) { if (d > -10) return; c.swCap = true; c.swMoved = true; try { c.swEl.setPointerCapture(c.swPid); } catch (err) {} }
+c.swDx = Math.min(0, d);
+c.forceUpdate();
+},
+up: () => {
+if (c.swId !== id) return;
+var d = c.swCap ? c.swDx : 0;
+c.swId = null; c.swDx = 0; c.swCap = false;
+if (d < -90) { c.swGone[id] = true; c.forceUpdate(); setTimeout(() => { delete c.swGone[id]; onRemove(); }, 280); }
+else c.forceUpdate();
+setTimeout(() => { c.swMoved = false; }, 0);
+},
+fg: gone ? 'transform: translateX(-105%); opacity: 0; transition: transform 0.28s ease-in, opacity 0.28s ease-in;' : 'transform: translateX(' + dx + 'px); transition: ' + (active && c.swCap ? 'none' : 'transform 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+bg: 'width: ' + (gone ? '100%' : Math.max(0, -dx) + 'px') + '; transition: ' + (active && c.swCap ? 'none' : 'width 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+label: -dx > 70 || gone
+};
+}
+function swBlocked(c) { return !!c.swMoved; }
+var ED_COLORS = ['#3D63F0', '#0F7B5F', '#C24E00', '#7A3BD1', '#C2185B', '#2E8540', '#B3261E', '#15171C'];
+var ED_NAMES = ['Azul', 'Verde', 'Naranja', 'Violeta', 'Rosa', 'Verde hoja', 'Rojo', 'Negro'];
+function edInit(c) {
+c.edReady = true; c.edOpen = false; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1;
+c.edOpenFn = () => { c.edOpen = true; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1; c.forceUpdate(); };
+c.edClose = () => { c.edOpen = false; c.edPal = -1; c.edConfirm = -1; c.forceUpdate(); };
+}
+function edSet(c, arr) { var o = {}; o[ED_CFG.key] = arr; c.setState(o); }
+function edMove(c, i, j) {
+var arr = c.state[ED_CFG.key].slice();
+if (j < 0 || j >= arr.length) return;
+var t = arr[j]; arr[j] = arr[i]; arr[i] = t;
+c.edPal = -1; c.edFresh = j; c.edConfirm = -1;
+edSet(c, arr);
+}
+function edVals(c) {
+if (!c.edReady) edInit(c);
+if (typeof ED_CFG === 'undefined') return { open: false };
+var list = c.state[ED_CFG.key];
+var isLocked = (it) => !!(ED_CFG.locked && ED_CFG.locked(it));
+var deletable = list.filter((it) => !isLocked(it)).length;
+var minLeft = ED_CFG.min === undefined ? 1 : ED_CFG.min;
+var sd = sdVals(c, 'ed', () => c.edClose());
+return {
+open: c.edOpen, openFn: c.edOpenFn, close: sd.close, back: sd.back,
+sdDown: sd.down, sdMove: sd.move, sdUp: sd.up, sheetStyle: sd.style,
+title: ED_CFG.title, note: ED_CFG.note, reorder: !!ED_CFG.reorder, canAdd: !!ED_CFG.add, addLabel: ED_CFG.add || '',
+add: () => { var cur = c.state[ED_CFG.key]; var arr = cur.concat([ED_CFG.make(cur.length)]); if (ED_CFG.addAt === 'beforeLocked') { var li = arr.findIndex(isLocked); if (li >= 0) { var nw = arr.pop(); arr.splice(li, 0, nw); } } c.edFresh = arr.indexOf(arr.filter((x) => !cur.includes(x))[0]); c.edPal = c.edFresh; c.edConfirm = -1; edSet(c, arr); },
+items: list.map((it, i) => {
+var locked = isLocked(it);
+var nm = it.name || 'Sin nombre';
+var warn = ED_CFG.warn ? ED_CFG.warn(it, c) : '';
+return {
+name: it.name, color: it.color, locked: locked,
+canDel: !locked && deletable > minLeft,
+normal: c.edConfirm !== i, confirming: c.edConfirm === i,
+confirmText: '¿Borrar "' + nm + '"?', warn: warn, hasWarn: !!warn,
+aria: locked ? nm + ', color fijo' : 'Cambiar color de ' + nm,
+delLabel: 'Borrar ' + nm,
+upLabel: 'Subir ' + nm, downLabel: 'Bajar ' + nm,
+palOpen: !locked && c.edPal === i,
+ring: !locked && c.edPal === i ? 'box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px ' + it.color + ';' : 'box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);',
+colorStyle: locked ? 'cursor: default;' : '',
+inputStyle: locked ? 'background: transparent; border-color: transparent; color: #3B404B;' : '',
+rowStyle: i === c.edFresh ? 'animation: edIn 0.35s ease-out both;' : '',
+upStyle: i === 0 ? 'opacity: 0.3; cursor: default;' : '',
+downStyle: i === list.length - 1 ? 'opacity: 0.3; cursor: default;' : '',
+pal: locked ? NOOP : () => { c.edPal = c.edPal === i ? -1 : i; c.edFresh = -1; c.forceUpdate(); },
+rename: locked ? NOOP : (e) => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { name: e.target.value }); edSet(c, arr); },
+up: () => edMove(c, i, i - 1),
+down: () => edMove(c, i, i + 1),
+askDel: () => { c.edConfirm = i; c.edPal = -1; c.edFresh = -1; c.forceUpdate(); },
+cancelDel: () => { c.edConfirm = -1; c.forceUpdate(); },
+doDel: () => {
+c.edConfirm = -1; c.edPal = -1; c.edFresh = -1;
+if (ED_CFG.onDelete) ED_CFG.onDelete(c, i);
+else edSet(c, c.state[ED_CFG.key].filter((x, k) => k !== i));
+},
+swatches: ED_COLORS.map((col, k) => ({
+color: col, label: ED_NAMES[k], sel: col === it.color,
+ring: col === it.color ? 'box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px ' + col + ';' : '',
+pick: () => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { color: col }); edSet(c, arr); }
+}))
+};
+})
+};
+}
+var CLK_DAYS = [
+{ s: 'Hoy', n: 29, full: 'Hoy' }, { s: 'Vie', n: 30, full: 'Mañana' }, { s: 'Sáb', n: 31, full: 'Sáb 31' },
+{ s: 'Dom', n: 1, full: 'Dom 1' }, { s: 'Lun', n: 2, full: 'Lun 2' }, { s: 'Mar', n: 3, full: 'Mar 3' }, { s: 'Mié', n: 4, full: 'Mié 4' }
+];
+function clkLabel(day, h, m) { return CLK_DAYS[day].full + ' ' + h + ':' + pad2(m); }
+function clkOpen(c, o) {
+c.clk = Object.assign({ mode: 'h', h: 20, m: 0, day: 0, week: false, title: 'Elegí la hora', color: '#15171C', anim: 0 }, o || {}, { open: true });
+c.forceUpdate();
+}
+function clkFromPoint(c, e) {
+var el = c.clkEl, K = c.clk;
+if (!el || !K) return;
+var r = el.getBoundingClientRect();
+var k = r.width / 236 || 1;
+var dx = (e.clientX - r.left) / k - 118, dy = (e.clientY - r.top) / k - 118;
+var ang = Math.atan2(dx, -dy) * 180 / Math.PI;
+if (ang < 0) ang += 360;
+var idx = Math.round(ang / 30) % 12;
+if (K.mode === 'h') {
+var inner = Math.sqrt(dx * dx + dy * dy) < 79;
+K.h = inner ? (idx === 0 ? 0 : idx + 12) : (idx === 0 ? 12 : idx);
+} else K.m = idx * 5;
+c.forceUpdate();
+}
+function clkToMinutes(c) {
+if (c.clkT) clearTimeout(c.clkT);
+c.clkT = setTimeout(() => { if (c.clk && c.clk.open && c.clk.mode === 'h') { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); } }, 320);
+}
+function clkVals(c) {
+var K = c.clk;
+if (!K || !K.open) return { open: false };
+if (!c.clkFns) c.clkFns = {
+down: (e) => { c.clkDrag = true; c.clkEl = e.currentTarget; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} clkFromPoint(c, e); },
+move: (e) => { if (c.clkDrag) clkFromPoint(c, e); },
+up: () => { if (!c.clkDrag) return; c.clkDrag = false; clkToMinutes(c); },
+hMode: () => { c.clk.mode = 'h'; c.clk.anim++; c.forceUpdate(); },
+mMode: () => { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); },
+cancel: () => exClose(c, 'clk', () => { c.clk.open = false; c.forceUpdate(); }),
+done: () => { var Q = c.clk; if (Q.onDone) Q.onDone(Q.day, Q.h, Q.m); exClose(c, 'clk', () => { Q.open = false; c.forceUpdate(); }); }
+};
+var F = c.clkFns;
+var col = K.color;
+var C = 118, R1 = 96, R2 = 62;
+var isH = K.mode === 'h';
+var nums = [];
+var mk = (v, i, R, inner) => {
+var a = i * 30 * Math.PI / 180;
+var x = C + R * Math.sin(a), y = C - R * Math.cos(a);
+var sz = inner ? 32 : 38;
+var sel = isH ? K.h === v : K.m === v;
+nums.push({
+t: isH ? (inner ? pad2(v) : String(v)) : pad2(v),
+aria: isH ? v + ' horas' : v + ' minutos', sel: sel,
+style: 'left: ' + (x - sz / 2).toFixed(1) + 'px; top: ' + (y - sz / 2).toFixed(1) + 'px; width: ' + sz + 'px; height: ' + sz + 'px; font-size: ' + (inner ? 12 : 15) + 'px; ' + (sel ? 'background: ' + col + '; color: #FFFFFF;' : 'background: transparent; color: ' + (inner ? '#4A4F5A' : '#15171C') + ';'),
+pick: () => { if (isH) { K.h = v; c.forceUpdate(); clkToMinutes(c); } else { K.m = v; c.forceUpdate(); } }
+});
+};
+if (isH) {
+for (var i = 0; i < 12; i++) mk(i === 0 ? 12 : i, i, R1, false);
+for (var j = 0; j < 12; j++) mk(j === 0 ? 0 : j + 12, j, R2, true);
+} else {
+for (var q = 0; q < 12; q++) mk(q * 5, q, R1, false);
+}
+var R = isH ? (K.h >= 1 && K.h <= 12 ? R1 : R2) : R1;
+var angle = isH ? (K.h % 12) * 30 : K.m * 6;
+return {
+open: true, outBack: exBack(c, 'clk'), outPanel: exPanel(c, 'clk'), title: K.title, week: !!K.week, top: (K.week ? 92 : 150) + 'px',
+days: CLK_DAYS.map((d, i) => ({
+s: d.s, n: d.n, sel: i === K.day,
+aria: (i === 0 ? 'Hoy, ' : i === 1 ? 'Mañana, ' : '') + d.s + ' ' + d.n,
+style: i === K.day ? 'background: ' + col + '; color: #FFFFFF; transform: scale(1.04);' : 'background: #F0F1F5; color: #15171C;',
+pick: () => { K.day = i; c.forceUpdate(); }
+})),
+hh: pad2(K.h), mm: pad2(K.m), isH: isH, isM: !isH,
+hStyle: isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+mStyle: !isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+hand: 'top: ' + (C - R + 19) + 'px; height: ' + (R - 19) + 'px; transform: rotate(' + angle + 'deg); background: ' + col + ';',
+dot: 'background: ' + col + ';',
+nums: nums,
+dialAnim: K.anim ? 'animation: ' + (K.anim % 2 ? 'clkA' : 'clkB') + ' 0.3s ease-out;' : '',
+down: F.down, move: F.move, up: F.up, hMode: F.hMode, mMode: F.mMode, cancel: F.cancel, done: F.done,
+hint: isH ? 'Tocá o arrastrá para elegir la hora' : 'Ahora elegí los minutos',
+doneLabel: 'Listo · ' + (K.week ? clkLabel(K.day, K.h, K.m) : K.h + ':' + pad2(K.m))
+};
+}
+var AI_SOURCES = ['Boletín · 6 materias', 'Apuntes · 9', 'Archivos · 4'];
+var AI_SUGGEST = ['Tomame Historia', 'Plan para hoy', 'Métodos de estudio', '¿Cómo subo Lengua?'];
+var AI_QUIZ = [
+{ q: 'Pregunta 1 de 3: ¿Qué se discutió en el Cabildo abierto del 22 de mayo de 1810?', keys: ['virrey', 'cisneros', 'gobierno', 'autoridad', 'poder'], ok: '¡Bien! Se discutió si el virrey Cisneros seguía en el poder, y ganó la postura de reemplazarlo.', no: 'Casi. En tu apunte dice que se discutió si el virrey seguía en el poder; ganó la idea de reemplazarlo.' },
+{ q: 'Pregunta 2 de 3: ¿Quién presidió la Primera Junta?', keys: ['saavedra'], ok: '¡Exacto, Cornelio Saavedra!', no: 'No. Fue Cornelio Saavedra; Moreno y Paso eran los secretarios.' },
+{ q: 'Pregunta 3 de 3: Nombrá una causa de la Revolución de Mayo.', keys: ['invasion', 'ingles', 'rey', 'espana', 'fernando', 'ilustracion', 'napoleon'], ok: '¡Muy bien! Las tres de tu apunte son las invasiones inglesas, la caída del rey en España y las ideas de la Ilustración.', no: 'Te doy una: las invasiones inglesas. Las otras dos de tu apunte son la caída del rey en España y las ideas de la Ilustración.' }
+];
+var AI_REPLY = {
+plan: 'Mañana tenés Historia y hoy entrenás de 17:30 a 19:00. Te propongo:\n\n19:30 · Releer "Revolución de Mayo" (15 min)\n19:50 · Releer "Primera Junta" (10 min)\n20:05 · Descanso\n20:15 · Preguntas de práctica conmigo (15 min)\n20:30 · Repasar solo lo que te costó\n\nTe faltan 3 de 5 temas, así que con esto llegás bien.',
+metodos: 'Tres métodos que funcionan muy bien:\n\n1. Recuerdo activo: cerrá el apunte y explicalo con tus palabras. Después fijate qué te faltó.\n2. Repaso espaciado: repasá hoy, mañana y en 3 días, en vez de todo junto el día antes.\n3. Pomodoro: 25 minutos de estudio y 5 de descanso.\n\nSi querés, te tomo preguntas ahora y practicamos el primero.',
+lengua: 'En Lengua tenés un 5,5 (Análisis sintáctico) y es tu única nota.\n\nSi en la próxima sacás 7,5, tu promedio sube a 6,5. Con un 8,5 llegás a 7.\n\nTodavía no tenés apuntes de Lengua. Escaneá la próxima clase y lo repasamos juntos.',
+fallback: 'En esta maqueta tengo respuestas de ejemplo. En la app de verdad te respondería usando tus notas, apuntes y archivos. Probá con alguna de las sugerencias de abajo.'
+};
+function aiNorm(t) { return (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function aiIntent(t) {
+var s = aiNorm(t);
+if (s.indexOf('repasemos') === 0) return 'file';
+if (s.indexOf('tomame') >= 0 || s.indexOf('pregunta') >= 0 || s.indexOf('practic') >= 0) return 'quiz';
+if (s.indexOf('metodo') >= 0 || s.indexOf('como estudi') >= 0 || s.indexOf('tecnica') >= 0) return 'metodos';
+if (s.indexOf('lengua') >= 0 || s.indexOf('promedio') >= 0 || s.indexOf('subo') >= 0) return 'lengua';
+if (s.indexOf('plan') >= 0 || s.indexOf('organiz') >= 0 || s.indexOf('hoy') >= 0) return 'plan';
+return 'fallback';
+}
+function aiReplyFor(c, text) {
+if (c.aiQuiz >= 0) {
+var Q = AI_QUIZ[c.aiQuiz];
+var s = aiNorm(text);
+var good = Q.keys.some((k) => s.indexOf(k) >= 0);
+if (good) c.aiScore++;
+var out = good ? Q.ok : Q.no;
+c.aiQuiz++;
+if (c.aiQuiz < AI_QUIZ.length) return out + '\n\n' + AI_QUIZ[c.aiQuiz].q;
+var sc = c.aiScore;
+c.aiQuiz = -1; c.aiScore = 0;
+return out + '\n\nTerminamos: ' + sc + ' de 3. ' + (sc === 3 ? '¡Estás listo para mañana!' : 'Repasá las que te costaron y, si querés, lo hacemos de nuevo.');
+}
+var k = aiIntent(text);
+if (k === 'quiz') { c.aiQuiz = 0; c.aiScore = 0; return 'Dale, te tomo 3 preguntas sobre tus apuntes de Historia. Respondé con tus palabras.\n\n' + AI_QUIZ[0].q; }
+if (k === 'file') {
+var m = text.match(/"([^"]+)"/);
+var name = m ? m[1] : 'ese apunte';
+return 'Abrí "' + name + '". En la app de verdad lo leería entero, te haría un resumen corto y después preguntas para ver qué te quedó.\n\nEn esta maqueta tengo preparadas preguntas de Historia: escribí "tomame" para probarlas.';
+}
+return AI_REPLY[k];
+}
+function aiAsk(c, text) {
+var t = (text || '').trim();
+if (!t || c.aiTyping) return;
+c.aiMsgs = c.aiMsgs.concat([{ me: true, t: t }]);
+c.aiDraft = ''; c.aiTyping = true;
+c.forceUpdate(); c.aiScroll();
+var reply = aiReplyFor(c, t);
+c.aiTimer = setTimeout(() => { c.aiMsgs = c.aiMsgs.concat([{ me: false, t: reply }]); c.aiTyping = false; c.forceUpdate(); c.aiScroll(); }, 950);
+}
+function aiInit(c) {
+c.aiReady = true; c.aiOpen = false; c.aiTyping = false; c.aiDraft = ''; c.aiQuiz = -1; c.aiScore = 0; c.aiEl = null;
+c.aiMsgs = [{ me: false, t: '¡Hola Felix! Mañana tenés prueba de Historia y en tus apuntes tenés "Revolución de Mayo" y "Primera Junta". ¿Te tomo preguntas o te armo un plan para hoy?' }];
+c.aiRef = (el) => { c.aiEl = el; };
+c.aiScroll = () => { setTimeout(() => { if (c.aiEl) c.aiEl.scrollTop = c.aiEl.scrollHeight; }, 40); };
+c.aiClose = () => { if (!c.aiOpen) return; exClose(c, 'ai', () => { c.aiOpen = false; c.forceUpdate(); }, 260); };
+c.aiToggle = () => { if (c.aiOpen) { c.aiClose(); return; } c.aiOpen = true; c.forceUpdate(); c.aiScroll(); };
+c.aiSetDraft = (e) => { c.aiDraft = e.target.value; c.forceUpdate(); };
+c.aiKey = (e) => { if (e.key === 'Enter') aiAsk(c, c.aiDraft); };
+c.aiSend = () => aiAsk(c, c.aiDraft);
+}
+function aiOpenWith(c, text) {
+if (!c.aiReady) aiInit(c);
+c.aiOpen = true; c.forceUpdate();
+setTimeout(() => aiAsk(c, text), 400);
+}
+function aiVals(c) {
+if (!c.aiReady) aiInit(c);
+return {
+open: c.aiOpen, closed: !c.aiOpen, toggle: c.aiToggle, close: c.aiClose, ref: c.aiRef, outBack: exBack(c, 'ai'), outPanel: exPanel(c, 'ai'),
+btnLabel: c.aiOpen ? 'Cerrar asistente de estudio' : 'Abrir asistente de estudio',
+sources: AI_SOURCES,
+msgs: c.aiMsgs.map((m) => ({ t: m.t, style: m.me ? 'align-self: flex-end; background: #15171C; color: #FFFFFF; border-radius: 18px 18px 6px 18px;' : 'align-self: flex-start; background: #F2F3F7; color: #15171C; border-radius: 18px 18px 18px 6px;' })),
+typing: c.aiTyping,
+chips: AI_SUGGEST.map((x) => ({ label: x, send: () => aiAsk(c, x) })),
+draft: c.aiDraft, setDraft: c.aiSetDraft, key: c.aiKey, send: c.aiSend,
+sendStyle: c.aiDraft.trim() ? '' : 'opacity: 0.4;'
+};
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+var saved = ideasLoad();
+this.state = { items: saved ? saved.items : START, cats: saved && Array.isArray(saved.cats) && saved.cats.length ? saved.cats : CATS, filter: 'all', draft: '', fresh: 0, nextId: 8 };
+this.state.nextId = this.state.items.reduce((m, x) => Math.max(m, x.id || 0), 7) + 1;
+this.inputEl = null;
+this.inputRef = (el) => { this.inputEl = el; };
+}
+componentDidMount() {
+navMount(this);
+this.unIdeas = ideasListen((d) => { this.skipSave = true; this.setState(Object.assign({ items: d.items }, Array.isArray(d.cats) && d.cats.length ? { cats: d.cats } : {})); });
+if (!ideasLoad()) ideasSave({ items: this.state.items, cats: this.state.cats });
+if (actTake('ideas') === 'focus') setTimeout(() => { try { if (this.inputEl) this.inputEl.focus(); } catch (err) {} }, 300);
+}
+componentDidUpdate(pp, ps) {
+if (this.skipSave) { this.skipSave = false; return; }
+if (ps && (ps.items !== this.state.items || ps.cats !== this.state.cats)) ideasSave({ items: this.state.items, cats: this.state.cats });
+}
+componentWillUnmount() { if (this.unIdeas) this.unIdeas(); }
+addIdea() {
+var t = this.state.draft.trim();
+if (!t) return;
+var c = this.state.filter === 'all' ? 'none' : this.state.filter;
+var id = this.state.nextId;
+this.setState({ items: [{ id: id, t: t, c: c, done: false }].concat(this.state.items), draft: '', fresh: id, nextId: id + 1 });
+}
+renderVals() {
+var s = this.state;
+var catOf = (id) => { for (var i = 0; i < s.cats.length; i++) if (s.cats[i].id === id) return s.cats[i]; return { id: 'none', name: 'Sin categoría', color: '#8E93A0' }; };
+var filter = s.filter === 'all' || s.cats.some((c) => c.id === s.filter) ? s.filter : 'all';
+var shown = s.items.filter((it) => filter === 'all' || it.c === filter);
+shown = shown.filter((it) => !it.done).concat(shown.filter((it) => it.done));
+var doneCount = s.items.filter((it) => it.done).length;
+var list = shown.map((it, idx) => {
+var C = catOf(it.c);
+return {
+t: it.t, c: C.name, done: it.done, color: C.color,
+rowStyle: (idx ? 'border-top: 1px solid rgba(21,23,28,0.07);' : '') + (it.id === s.fresh ? ' animation: rowIn 0.4s cubic-bezier(.22,1,.36,1) both;' : ''),
+boxStyle: it.done ? 'background: #1A3596; border: 2px solid #1A3596; box-shadow: 0 4px 12px rgba(26,53,150,0.35);' : 'background: rgba(255,255,255,0.8); border: 2px solid rgba(16,36,107,0.32); box-shadow: inset 0 1px 2px rgba(16,36,107,0.08);',
+textStyle: it.done ? 'color: #4A4F5A;' : 'color: #15171C;',
+strike: it.done ? 'background-size: 100% 2px;' : 'background-size: 0% 2px;',
+toggle: () => { if (swBlocked(this)) return; this.setState({ items: this.state.items.map((x) => x.id === it.id ? Object.assign({}, x, { done: !x.done }) : x), fresh: 0 }); },
+sw: swRow(this, 'i' + it.id, it.done, () => this.setState({ items: this.state.items.filter((x) => x.id !== it.id), fresh: 0 }))
+};
+});
+var filters = [{ id: 'all', name: 'Todas', color: null }].concat(s.cats).map((c) => {
+var sel = filter === c.id;
+return {
+name: c.name || 'Sin nombre', sel: sel,
+style: sel ? 'border: 1.5px solid #15171C; background: #15171C; color: #FFFFFF;' : 'border: 1.5px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); color: #15171C;',
+dot: c.color ? 'background: ' + c.color + ';' : 'display: none;',
+pick: () => this.setState({ filter: c.id })
+};
+});
+return {
+nav: navVals(this),
+ed: edVals(this),
+waveA: WA.d, waveAValues: WA.values, waveB: WB.d, waveBValues: WB.values,
+doneText: doneCount + ' de ' + s.items.length + ' hechas',
+inputRef: this.inputRef,
+draft: s.draft,
+setDraft: (e) => this.setState({ draft: e.target.value }),
+onKey: (e) => { if (e.key === 'Enter') this.addIdea(); },
+add: () => this.addIdea(),
+addStyle: s.draft.trim() ? '' : 'opacity: 0.4;',
+filters: filters,
+list: list,
+empty: list.length === 0
+};
+}
+}
+</script>
+</body>
+</html>

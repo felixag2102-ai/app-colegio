@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Boletín</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes aiSpin{to{transform:rotate(360deg)}}
+@keyframes aiPop{from{opacity:0;transform:scale(0.1)}to{opacity:1;transform:none}}
+@keyframes aiFade{from{opacity:0}to{opacity:1}}
+@keyframes aiMsg{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes aiDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+@keyframes aiTwinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.14) rotate(14deg)}}
+@keyframes edUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes edIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+body{-webkit-font-smoothing:antialiased}
+@keyframes clkPop{from{opacity:0;transform:scale(0.86)}to{opacity:1;transform:none}}
+@keyframes clkA{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes clkB{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:none}}
+@keyframes exFade{to{opacity:0}}
+@keyframes navIn{from{scale:0.5;opacity:0}to{scale:1;opacity:1}}
+@keyframes exPop{to{opacity:0;transform:scale(0.86)}}
+@keyframes exSlide{to{opacity:0;transform:translateY(24px)}}
+@keyframes exUp{to{opacity:0;transform:translateY(-6px)}}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,-14px)}}
+a{color:#1A3596}a:hover{color:#10246B}
+button,select,input{font-family:inherit}
+button:active{transform:scale(0.96)}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-360px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes expand{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes bumpA{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes bumpB{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+</style>
+</helmet>
+<div style="width: 360px; height: 780px; box-sizing: border-box; background: #EEF0F7; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif; color: #15171C; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<div style="position: absolute; width: 260px; height: 260px; right: -90px; top: 120px; border-radius: 50%; background: #FF9A5C; opacity: 0.30; filter: blur(70px)"></div>
+<div style="position: absolute; width: 240px; height: 240px; left: -90px; top: 500px; border-radius: 50%; background: {{accent}}; opacity: 0.30; filter: blur(70px)"></div>
+<svg width="720" height="780" viewBox="0 0 720 780" style="position: absolute; left: 0; top: 0; filter: blur(1.1px); animation: drift 70s linear infinite">
+<path d="{{ waveA }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.5"><animate attributeName="d" dur="18s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveAValues }}"></animate></path>
+<path d="{{ waveB }}" fill="none" stroke="#15171C" stroke-width="1.1" stroke-opacity="0.42"><animate attributeName="d" dur="22s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.333;0.667;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="{{ waveBValues }}"></animate></path>
+</svg>
+<div style="position: absolute; inset: 0; background: rgba(238,240,247,0.30); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+</div>
+
+<div style="position: relative; padding: 44px 16px 0 16px; display: flex; flex-direction: column; gap: 14px; flex-grow: 1; min-height: 0">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<p style="margin: 0; font-size: 13px; font-weight: 600; color: #3B404B">3er año · 3er trimestre</p>
+<h1 style="margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em">Boletín</h1>
+</div>
+<div style="display: flex; gap: 8px; align-items: center">
+<button onClick="{{ ed.openFn }}" aria-label="Editar nombres y colores de las materias" style="width: 44px; height: 44px; border-radius: 22px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.78); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 8px 20px rgba(30,40,80,0.12); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg></button>
+<button onClick="{{ openAdd }}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: none; background: #15171C; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 8px 20px rgba(21,23,28,0.28)">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Cargar nota</button>
+</div>
+</div>
+
+<div style="border-radius: 28px; padding: 18px; color: #FFFFFF; background: rgba(22,24,32,0.86); border: 1px solid rgba(255,255,255,0.16); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.22), 0 16px 36px rgba(20,24,40,0.26); display: flex; align-items: center; gap: 16px; animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.06s both">
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #C9CCD4">PROMEDIO GENERAL</span>
+<span style="font-size: 44px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; {{ bump }}">{{ general }}</span>
+<span style="font-size: 13px; font-weight: 500; color: #D5D8DF">{{ totalText }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end; min-width: 0">
+<span style="font-size: 12px; font-weight: 600; color: #C9CCD4">Mejor materia</span>
+<span style="font-size: 14px; font-weight: 700; background: rgba(255,255,255,0.14); padding: 6px 12px; border-radius: 999px; white-space: nowrap; max-width: 150px; overflow: hidden; text-overflow: ellipsis">{{ best }}</span>
+</div>
+</div>
+
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; margin-bottom: 4px; border-radius: 28px; padding: 6px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.84); backdrop-filter: blur(30px) saturate(160%); -webkit-backdrop-filter: blur(30px) saturate(160%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 16px 36px rgba(30,40,80,0.12); animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.12s both">
+<sc-for list="{{ subjects }}" as="m" hint-placeholder-count="6">
+<div style="border-radius: 22px; transition: background 0.3s; {{ m.wrapStyle }}">
+<button onClick="{{ m.toggle }}" aria-expanded="{{ m.open }}" style="width: 100%; min-height: 56px; border: none; background: transparent; border-radius: 22px; padding: 0 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; color: #15171C; text-align: left">
+<span style="width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #FFFFFF; transition: background 0.3s; background: {{ m.color }}">{{ m.initial }}</span>
+<span style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px"><span style="font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.name }}</span><span style="font-size: 12px; font-weight: 500; color: #3B404B">{{ m.countText }}</span></span>
+<span style="font-size: 16px; font-weight: 700; padding: 6px 12px; border-radius: 999px; {{ m.avgStyle }}">{{ m.avg }}</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B404B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; transition: transform 0.3s; {{ m.chevron }}"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 12px 12px 60px; display: flex; flex-direction: column; gap: 6px; animation: expand 0.3s ease-out both; {{ m.out }}">
+<sc-for list="{{ m.grades }}" as="g" hint-placeholder-count="2">
+<button onClick="{{ g.edit }}" aria-label="{{ g.aria }}" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 40px; margin: 0 -8px; padding: 0 8px; border: none; border-radius: 12px; background: transparent; font-family: inherit; font-size: 14px; font-weight: 500; color: #2B2F38; cursor: pointer; text-align: left"><span style="flex-grow: 1; min-width: 0">{{ g.tema }}</span><span style="font-weight: 700; padding: 3px 10px; border-radius: 999px; {{ g.style }}">{{ g.nota }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A4F5A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"></path></svg></button>
+</sc-for>
+<sc-if value="{{ m.noGrades }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 13px; font-weight: 500; color: #3B404B">Todavía no cargaste notas acá</span>
+</sc-if>
+<button onClick="{{ m.addHere }}" style="align-self: flex-start; min-height: 36px; padding: 0 12px; margin-top: 2px; border-radius: 18px; border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; color: #15171C; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Cargar nota de {{ m.name }}</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+</div>
+
+<nav ref="{{ nav.ref }}" aria-label="Secciones" onPointerDown="{{ nav.down }}" onPointerMove="{{ nav.move }}" onPointerUp="{{ nav.up }}" onPointerCancel="{{ nav.cancel }}" style="position: relative; margin: 12px 14px 20px 14px; border-radius: 32px; padding: 7px; display: flex; justify-content: space-between; touch-action: none; user-select: none; -webkit-user-select: none; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,0.72); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), inset 0 -1px 1px rgba(255,255,255,0.35), 0 14px 34px rgba(30,40,80,0.16)">
+<span aria-hidden="true" style="position: absolute; z-index: 0; top: 7px; bottom: 7px; left: 7px; width: calc((100% - 14px) / 5); border-radius: 25px; box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 6px 16px rgba(21,23,28,0.3); pointer-events: none; {{ nav.pill }}"></span>
+<button onClick="{{ nav.go0 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s0 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i0 }}"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</button>
+<button onClick="{{ nav.go1 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s1 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i1 }}"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Agenda</button>
+<button onClick="{{ nav.go2 }}" aria-current="page" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s2 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i2 }}"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Boletín</button>
+<button onClick="{{ nav.go3 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s3 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i3 }}"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Apuntes</button>
+<button onClick="{{ nav.go4 }}" style="position: relative; z-index: 1; flex: 1 1 0; min-height: 56px; border-radius: 25px; border: none; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.3s; {{ nav.s4 }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition: transform 0.4s cubic-bezier(.34,1.45,.64,1); {{ nav.i4 }}"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path></svg>Ideas</button>
+<a href="Main.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Agenda.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Notas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Apuntes.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+<a href="Ideas.dc.html" tabindex="-1" aria-hidden="true" style="display: none"></a>
+</nav>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: absolute; top: 44px; left: 50%; z-index: 95; width: 300px; box-sizing: border-box; padding: 12px 16px; border-radius: 20px; background: rgba(22,24,32,0.9); color: #FFFFFF; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 14px 30px rgba(20,24,40,0.3); display: flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 600; animation: toastIn 0.35s cubic-bezier(.22,1,.36,1) both; {{ toastOut }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6FD6C0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+<span>{{ toastText }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 90; animation: aiFade 0.2s ease-out both">
+<button onClick="{{ closeAdd }}" aria-label="Cerrar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: default; {{ addSheet.back }}"></button>
+<div role="dialog" aria-label="{{ sheetTitle }}" style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 10px 20px 28px 20px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: inset 0 1px 1px rgba(255,255,255,0.95), 0 -20px 50px rgba(20,24,40,0.22); display: flex; flex-direction: column; gap: 16px; animation: edUp 0.4s cubic-bezier(.22,1,.36,1) backwards; {{ addSheet.style }}">
+<div onPointerDown="{{ addSheet.down }}" onPointerMove="{{ addSheet.move }}" onPointerUp="{{ addSheet.up }}" onPointerCancel="{{ addSheet.up }}" style="display: flex; flex-direction: column; gap: 10px; margin-top: -10px; padding-top: 10px; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22)"></span>
+<h2 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em">{{ sheetTitle }}</h2>
+</div>
+<div role="group" aria-label="Materia" style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3B404B">Materia</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ subjectChips }}" as="sc" hint-placeholder-count="6">
+<button onClick="{{ sc.pick }}" aria-pressed="{{ sc.sel }}" style="min-height: 38px; padding: 0 13px; border-radius: 19px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; {{ sc.style }}">{{ sc.name }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 600; color: #3B404B">Nota</span>
+<div style="position: relative; height: 200px; border-radius: 22px; background: #F2F3F7; overflow: hidden; display: flex; justify-content: flex-start; align-items: center; padding-left: 36px">
+<div aria-hidden="true" style="position: absolute; left: 10px; right: 10px; top: 80px; height: 40px; border-radius: 12px; transition: background 0.3s; {{ wheelBand }}"></div>
+<div onPointerDown="{{ wInt.down }}" onPointerMove="{{ wInt.move }}" onPointerUp="{{ wInt.up }}" onPointerCancel="{{ wInt.up }}" onWheel="{{ wInt.wheel }}" onKeyDown="{{ wInt.key }}" tabIndex="0" role="slider" aria-label="Nota, número entero" aria-valuetext="{{ wInt.text }}" style="position: relative; z-index: 1; width: 76px; height: 200px; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; outline-offset: -3px; border-radius: 14px; -webkit-mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent); mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent)">
+<div style="position: absolute; left: 0; right: 0; top: 0; {{ wInt.track }}">
+<sc-for list="{{ wInt.items }}" as="wv" hint-placeholder-count="6">
+<div style="height: 40px; display: flex; align-items: center; justify-content: flex-end; padding: 0 6px; font-size: 27px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; {{ wv.style }}">{{ wv.t }}</div>
+</sc-for>
+</div>
+</div>
+<div onPointerDown="{{ wDec.down }}" onPointerMove="{{ wDec.move }}" onPointerUp="{{ wDec.up }}" onPointerCancel="{{ wDec.up }}" onWheel="{{ wDec.wheel }}" onKeyDown="{{ wDec.key }}" tabIndex="0" role="slider" aria-label="Nota, decimal" aria-valuetext="{{ wDec.text }}" style="position: relative; z-index: 1; width: 64px; height: 200px; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; outline-offset: -3px; border-radius: 14px; -webkit-mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent); mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent)">
+<div style="position: absolute; left: 0; right: 0; top: 0; {{ wDec.track }}">
+<sc-for list="{{ wDec.items }}" as="wv" hint-placeholder-count="6">
+<div style="height: 40px; display: flex; align-items: center; justify-content: flex-start; padding: 0 6px; font-size: 27px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; {{ wv.style }}">{{ wv.t }}</div>
+</sc-for>
+</div>
+</div>
+<span aria-live="polite" style="position: absolute; right: 18px; top: 89px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; transition: background 0.3s, color 0.3s; {{ wheelTag }}">{{ wheelWord }}</span>
+</div>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #3B404B">Tema de la prueba
+<input type="text" value="{{ formTema }}" onChange="{{ setTema }}" placeholder="Ej: Revolución de Mayo" style="min-height: 48px; border-radius: 16px; border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; padding: 0 14px; font-size: 16px; font-weight: 500; color: #15171C">
+</label>
+<div style="display: flex; gap: 10px">
+<sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}"><button onClick="{{ delGrade }}" style="flex: 1 1 0; min-height: 52px; border-radius: 18px; border: 1.5px solid rgba(179,38,30,0.3); background: rgba(179,38,30,0.06); color: #9E1F17; font-size: 15px; font-weight: 600; cursor: pointer">Borrar</button></sc-if>
+<sc-if value="{{ isNew }}" hint-placeholder-val="{{ true }}"><button onClick="{{ closeAdd }}" style="flex: 1 1 0; min-height: 52px; border-radius: 18px; border: none; background: #E3E5EB; color: #15171C; font-size: 15px; font-weight: 600; cursor: pointer">Cancelar</button></sc-if>
+<button onClick="{{ save }}" style="flex: 2 1 0; min-height: 52px; border-radius: 18px; border: none; background: #15171C; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(21,23,28,0.28)">{{ saveLabel }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+
+<sc-if value="{{ ed.open }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 90; animation: aiFade 0.2s ease-out both">
+<button onClick="{{ ed.close }}" aria-label="Guardar y cerrar" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; padding: 0; background: rgba(15,17,22,0.3); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor: default; {{ ed.back }}"></button>
+<div role="dialog" aria-label="{{ ed.title }}" style="position: absolute; left: 0; right: 0; bottom: 0; max-height: 680px; box-sizing: border-box; padding: 0 16px 22px 16px; border-radius: 32px 32px 0 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(30px) saturate(170%); -webkit-backdrop-filter: blur(30px) saturate(170%); box-shadow: 0 -20px 50px rgba(20,24,40,0.25); display: flex; flex-direction: column; gap: 8px; animation: edUp 0.4s cubic-bezier(.22,1,.36,1) backwards; {{ ed.sheetStyle }}">
+<div onPointerDown="{{ ed.sdDown }}" onPointerMove="{{ ed.sdMove }}" onPointerUp="{{ ed.sdUp }}" onPointerCancel="{{ ed.sdUp }}" style="display: flex; flex-direction: column; gap: 10px; padding: 10px 0 4px 0; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: rgba(21,23,28,0.22)"></span>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.02em">{{ ed.title }}</h2>
+<button onClick="{{ ed.close }}" style="min-height: 40px; padding: 0 16px; border-radius: 20px; border: none; background: #15171C; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Listo</button>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.4">{{ ed.note }}</p>
+</div>
+<div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; margin: 0 -8px; padding: 0 8px">
+<sc-for list="{{ ed.items }}" as="ei" hint-placeholder-count="5">
+<div style="border-bottom: 1px solid rgba(21,23,28,0.07); {{ ei.rowStyle }}">
+<sc-if value="{{ ei.normal }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 8px; min-height: 58px">
+<button onClick="{{ ei.pal }}" aria-label="{{ ei.aria }}" aria-expanded="{{ ei.palOpen }}" style="width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s, background 0.3s; background: {{ ei.color }}; {{ ei.ring }} {{ ei.colorStyle }}"></button>
+<input type="text" value="{{ ei.name }}" readOnly="{{ ei.locked }}" onChange="{{ ei.rename }}" aria-label="Nombre" style="flex-grow: 1; min-width: 0; min-height: 44px; border-radius: 14px; border: 1.5px solid rgba(21,23,28,0.12); background: #F7F8FA; padding: 0 12px; font-size: 15px; font-weight: 600; color: #15171C; outline-color: #15171C; {{ ei.inputStyle }}">
+<sc-if value="{{ ed.reorder }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ei.up }}" aria-label="{{ ei.upLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.upStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg></button>
+<button onClick="{{ ei.down }}" aria-label="{{ ei.downLabel }}" style="width: 34px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(21,23,28,0.06); color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer; {{ ei.downStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.canDel }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ ei.askDel }}" aria-label="{{ ei.delLabel }}" style="width: 36px; height: 40px; flex-shrink: 0; border-radius: 12px; border: none; background: rgba(179,38,30,0.08); color: #B3261E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"></path></svg></button>
+</sc-if>
+<sc-if value="{{ ei.locked }}" hint-placeholder-val="{{ false }}">
+<span role="img" aria-label="Fija, no se puede borrar" style="width: 36px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #4A4F5A"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+</sc-if>
+</div>
+<sc-if value="{{ ei.palOpen }}" hint-placeholder-val="{{ false }}">
+<div role="group" aria-label="Colores" style="display: flex; gap: 6px; padding: 6px 6px 14px 50px; animation: edIn 0.25s ease-out both">
+<sc-for list="{{ ei.swatches }}" as="sw" hint-placeholder-count="8">
+<button onClick="{{ sw.pick }}" aria-label="{{ sw.label }}" aria-pressed="{{ sw.sel }}" style="width: 28px; height: 28px; border-radius: 10px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; transition: box-shadow 0.2s; background: {{ sw.color }}; {{ sw.ring }}"></button>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ ei.confirming }}" hint-placeholder-val="{{ false }}">
+<div role="alertdialog" aria-label="{{ ei.confirmText }}" style="display: flex; flex-direction: column; gap: 8px; padding: 12px; margin: 8px 0; border-radius: 16px; background: rgba(179,38,30,0.07); animation: edIn 0.25s ease-out both">
+<span style="font-size: 15px; font-weight: 700; color: #15171C">{{ ei.confirmText }}</span>
+<sc-if value="{{ ei.hasWarn }}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; font-weight: 500; color: #3B404B; line-height: 1.35">{{ ei.warn }}</span></sc-if>
+<div style="display: flex; gap: 8px">
+<button onClick="{{ ei.cancelDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #FFFFFF; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer">Cancelar</button>
+<button onClick="{{ ei.doDel }}" style="flex: 1 1 0; min-height: 42px; border-radius: 14px; border: none; background: #B3261E; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Borrar</button>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ ed.canAdd }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ ed.add }}" style="min-height: 48px; border-radius: 16px; border: 2px dashed rgba(21,23,28,0.2); background: transparent; color: #15171C; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ ed.addLabel }}</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3D63F0","options":["#3D63F0","#14A37F","#8A4DE8","#E0567A"]},"$preview":{"width":360,"height":780}}'>
+function ribbon(y0, A, n, spread, ph, tw) {
+var d = '';
+for (var i = 0; i < n; i++) {
+var u = (i - (n - 1) / 2) / ((n - 1) / 2);
+for (var x = 0; x <= 720; x += 12) {
+var t = 2 * Math.PI * x / 360;
+var y = y0 + A * Math.sin(t + ph) + 0.35 * A * Math.sin(2 * t - ph * 1.3) + u * spread * Math.cos(t + tw) + u * spread * 0.35 * Math.sin(2 * t + tw * 0.7);
+d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(1) + ' ';
+}
+}
+return d;
+}
+function frames(y0, A, n, spread, ph, tw) {
+var f = [];
+for (var k = 0; k < 3; k++) f.push(ribbon(y0, A, n, spread, ph + k * 2.1, tw + k * 2.1));
+return { d: f[0], values: f.concat([f[0]]).join(';') };
+}
+var WA = frames(220, 42, 18, 36, 0, 0.6);
+var WB = frames(570, 48, 18, 40, 2.4, 2.0);
+var START = [
+{ name: 'Matemática', color: '#3D63F0', grades: [{ n: 8.5, t: 'Funciones' }, { n: 9, t: 'Ecuaciones' }, { n: 7.5, t: 'Trigonometría' }] },
+{ name: 'Historia', color: '#C24E00', grades: [{ n: 7, t: 'Independencia' }, { n: 8.5, t: 'Virreinato del Río de la Plata' }] },
+{ name: 'Inglés', color: '#0F7B5F', grades: [{ n: 9.5, t: 'Reading' }, { n: 9, t: 'Grammar' }, { n: 9, t: 'Essay' }] },
+{ name: 'Física', color: '#7A3BD1', grades: [{ n: 8, t: 'MRU' }, { n: 6.5, t: 'MRUV' }] },
+{ name: 'Biología', color: '#2E8540', grades: [{ n: 9, t: 'Células' }, { n: 8, t: 'ADN' }] },
+{ name: 'Lengua', color: '#B3261E', grades: [{ n: 5.5, t: 'Análisis sintáctico' }] }
+];
+var ED_CFG = { key: 'data', title: 'Editar materias', note: 'Tocá el color de cada materia para cambiarlo, escribí el nombre que quieras o borrala.', warn: (it) => it.grades.length ? 'También se borran sus ' + (it.grades.length === 1 ? 'nota.' : it.grades.length + ' notas.') : '', onDelete: (c, i) => c.setState({ data: c.state.data.filter((x, j) => j !== i), open: -1, formIdx: 0 }), add: 'Agregar materia', make: (n) => ({ name: 'Nueva materia', color: ED_COLORS[n % ED_COLORS.length], grades: [] }) };
+function fmt(x) { var r = Math.round(x * 10) / 10; return (r % 1 === 0 ? r.toFixed(0) : r.toFixed(1)).replace('.', ','); }
+function avgOf(gs) { var s = 0; for (var i = 0; i < gs.length; i++) s += gs[i].n; return gs.length ? s / gs.length : 0; }
+function gradeStyle(x) {
+if (x >= 8) return 'color: #0B5E48; background: rgba(20,163,127,0.16);';
+if (x >= 6) return 'color: #6E4700; background: rgba(230,160,0,0.20);';
+return 'color: #9E1F17; background: rgba(217,58,43,0.14);';
+}
+var NAV_CUR = 2;
+function navIdxAt(c, x) {
+var el = c.navEl;
+if (!el) return NAV_CUR;
+var r = el.getBoundingClientRect();
+var w = (r.width - 14) / 5;
+if (w <= 0) return NAV_CUR;
+return Math.max(0, Math.min(4, Math.floor((x - r.left - 7) / w)));
+}
+function navInit(c) {
+c.navReady = true; c.navEl = null; c.navHover = null; c.navPill = null; c.navActive = false; c.navGoing = false; c.navBlock = false; c.navBump = 0;
+c.navRefFn = (el) => { c.navEl = el; };
+c.navGo = (i) => {
+if (c.navGoing) return;
+if (i === NAV_CUR) { c.navPill = null; c.navBump++; c.forceUpdate(); return; }
+c.navGoing = true; c.navPill = i; c.forceUpdate();
+c.navTimer = setTimeout(() => {
+var as = c.navEl ? c.navEl.querySelectorAll('a') : [];
+if (as[i]) as[i].click();
+c.navReset = setTimeout(() => { c.navGoing = false; c.navPill = null; c.forceUpdate(); }, 700);
+}, 300);
+};
+c.navGoFns = [0, 1, 2, 3, 4].map((i) => () => { if (c.navBlock) return; c.navGo(i); });
+c.navDown = (e) => { c.navActive = true; c.navMoved = false; c.navStartX = e.clientX; c.navPid = e.pointerId; c.navTarget = e.currentTarget; };
+c.navMove = (e) => {
+if (!c.navActive) return;
+if (!c.navMoved) {
+if (Math.abs(e.clientX - c.navStartX) < 10) return;
+c.navMoved = true;
+try { c.navTarget.setPointerCapture(c.navPid); } catch (err) {}
+}
+var i = navIdxAt(c, e.clientX);
+if (i !== c.navHover) { c.navHover = i; c.forceUpdate(); }
+};
+c.navUp = () => {
+if (!c.navActive) return;
+c.navActive = false;
+if (!c.navMoved) return;
+var i = c.navHover === null ? NAV_CUR : c.navHover;
+c.navHover = null;
+c.navBlock = true;
+setTimeout(() => { c.navBlock = false; }, 0);
+c.navGo(i);
+};
+c.navCancel = () => { c.navActive = false; if (c.navHover !== null) { c.navHover = null; c.forceUpdate(); } };
+}
+function navMount(c) { if (!c.navReady) navInit(c); }
+function navVals(c) {
+if (!c.navReady) navInit(c);
+var dragging = c.navHover !== null;
+var idx = dragging ? c.navHover : (c.navPill !== null ? c.navPill : NAV_CUR);
+var o = {
+ref: c.navRefFn, down: c.navDown, move: c.navMove, up: c.navUp, cancel: c.navCancel,
+pill: 'transform: translateX(' + (idx * 100) + '%)' + (dragging ? ' scale(1.06, 1.1)' : '') + '; transition: ' + (dragging ? 'transform 0.3s cubic-bezier(.22,1,.36,1), background 0.3s' : 'transform 0.5s cubic-bezier(.34,1.35,.64,1), background 0.3s') + '; background: ' + (dragging ? 'rgba(21,23,28,0.78)' : '#15171C') + ';'
+};
+for (var k = 0; k < 5; k++) {
+o['go' + k] = c.navGoFns[k];
+o['s' + k] = k === idx ? 'color: #FFFFFF;' : 'color: #2B2F38;';
+o['i' + k] = k === idx ? 'transform: scale(1.12) translateY(-1px);' : 'transform: scale(1);';
+}
+return o;
+}
+var NOOP = () => {};
+function actSet(a) { try { window.sessionStorage.setItem('appAction', a); } catch (err) {} }
+function actTake(prefix) {
+try {
+var a = window.sessionStorage.getItem('appAction');
+if (a && a.indexOf(prefix + ':') === 0) { window.sessionStorage.removeItem('appAction'); return a.slice(prefix.length + 1); }
+} catch (err) {}
+return null;
+}
+function hexA(hex, a) {
+var h = (hex || '#8E93A0').replace('#', '');
+return 'rgba(' + parseInt(h.slice(0, 2), 16) + ',' + parseInt(h.slice(2, 4), 16) + ',' + parseInt(h.slice(4, 6), 16) + ',' + a + ')';
+}
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function sdVals(c, key, onClose) {
+if (!c.sd) c.sd = {};
+var st = c.sd[key] || (c.sd[key] = { y: 0, active: false, cap: false, closing: false });
+return {
+down: (e) => { st.active = true; st.cap = false; st.start = e.clientY; st.pid = e.pointerId; st.el = e.currentTarget; st.y = 0; },
+move: (e) => {
+if (!st.active) return;
+var dy = e.clientY - st.start;
+if (!st.cap) { if (dy < 6) return; st.cap = true; try { st.el.setPointerCapture(st.pid); } catch (err) {} }
+st.y = Math.max(0, dy);
+c.forceUpdate();
+},
+up: () => {
+if (!st.active) return;
+st.active = false;
+if (!st.cap) return;
+st.cap = false;
+if (st.y > 90) { st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 230); }
+else { st.y = 0; c.forceUpdate(); }
+},
+close: () => { if (st.closing) return; st.closing = true; c.forceUpdate(); setTimeout(() => { st.closing = false; st.y = 0; onClose(); }, 260); },
+style: st.closing ? 'transform: translateY(105%); transition: transform 0.26s cubic-bezier(.4,0,1,1);' : 'transform: translateY(' + st.y + 'px); transition: ' + (st.cap ? 'none' : 'transform 0.35s cubic-bezier(.22,1,.36,1)') + ';',
+back: st.closing ? 'opacity: 0; transition: opacity 0.26s ease-in;' : (st.y ? 'opacity: ' + Math.max(0.35, 1 - st.y / 420).toFixed(2) + '; transition: none;' : 'transition: opacity 0.3s;')
+};
+}
+function exClose(c, key, done, ms) {
+if (!c.ex) c.ex = {};
+if (c.ex[key]) return;
+c.ex[key] = true;
+c.forceUpdate();
+setTimeout(() => { c.ex[key] = false; done(); }, ms || 230);
+}
+function exOn(c, key) { return !!(c.ex && c.ex[key]); }
+function exBack(c, key) { return exOn(c, key) ? 'animation: exFade 0.23s ease-in forwards;' : ''; }
+function exPanel(c, key, kind) { return exOn(c, key) ? 'animation: ' + (kind || 'exPop') + ' 0.23s cubic-bezier(.4,0,1,1) forwards;' : ''; }
+function swRow(c, id, enabled, onRemove) {
+if (!c.swGone) { c.swGone = {}; c.swId = null; c.swDx = 0; c.swMoved = false; }
+var active = c.swId === id;
+var dx = active ? c.swDx : 0;
+var gone = !!c.swGone[id];
+return {
+down: (e) => { if (!enabled) return; c.swId = id; c.swStart = e.clientX; c.swDx = 0; c.swCap = false; c.swPid = e.pointerId; c.swEl = e.currentTarget; },
+move: (e) => {
+if (c.swId !== id) return;
+var d = e.clientX - c.swStart;
+if (!c.swCap) { if (d > -10) return; c.swCap = true; c.swMoved = true; try { c.swEl.setPointerCapture(c.swPid); } catch (err) {} }
+c.swDx = Math.min(0, d);
+c.forceUpdate();
+},
+up: () => {
+if (c.swId !== id) return;
+var d = c.swCap ? c.swDx : 0;
+c.swId = null; c.swDx = 0; c.swCap = false;
+if (d < -90) { c.swGone[id] = true; c.forceUpdate(); setTimeout(() => { delete c.swGone[id]; onRemove(); }, 280); }
+else c.forceUpdate();
+setTimeout(() => { c.swMoved = false; }, 0);
+},
+fg: gone ? 'transform: translateX(-105%); opacity: 0; transition: transform 0.28s ease-in, opacity 0.28s ease-in;' : 'transform: translateX(' + dx + 'px); transition: ' + (active && c.swCap ? 'none' : 'transform 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+bg: 'width: ' + (gone ? '100%' : Math.max(0, -dx) + 'px') + '; transition: ' + (active && c.swCap ? 'none' : 'width 0.32s cubic-bezier(.22,1,.36,1)') + ';',
+label: -dx > 70 || gone
+};
+}
+function swBlocked(c) { return !!c.swMoved; }
+var ED_COLORS = ['#3D63F0', '#0F7B5F', '#C24E00', '#7A3BD1', '#C2185B', '#2E8540', '#B3261E', '#15171C'];
+var ED_NAMES = ['Azul', 'Verde', 'Naranja', 'Violeta', 'Rosa', 'Verde hoja', 'Rojo', 'Negro'];
+function edInit(c) {
+c.edReady = true; c.edOpen = false; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1;
+c.edOpenFn = () => { c.edOpen = true; c.edPal = -1; c.edFresh = -1; c.edConfirm = -1; c.forceUpdate(); };
+c.edClose = () => { c.edOpen = false; c.edPal = -1; c.edConfirm = -1; c.forceUpdate(); };
+}
+function edSet(c, arr) { var o = {}; o[ED_CFG.key] = arr; c.setState(o); }
+function edMove(c, i, j) {
+var arr = c.state[ED_CFG.key].slice();
+if (j < 0 || j >= arr.length) return;
+var t = arr[j]; arr[j] = arr[i]; arr[i] = t;
+c.edPal = -1; c.edFresh = j; c.edConfirm = -1;
+edSet(c, arr);
+}
+function edVals(c) {
+if (!c.edReady) edInit(c);
+if (typeof ED_CFG === 'undefined') return { open: false };
+var list = c.state[ED_CFG.key];
+var isLocked = (it) => !!(ED_CFG.locked && ED_CFG.locked(it));
+var deletable = list.filter((it) => !isLocked(it)).length;
+var minLeft = ED_CFG.min === undefined ? 1 : ED_CFG.min;
+var sd = sdVals(c, 'ed', () => c.edClose());
+return {
+open: c.edOpen, openFn: c.edOpenFn, close: sd.close, back: sd.back,
+sdDown: sd.down, sdMove: sd.move, sdUp: sd.up, sheetStyle: sd.style,
+title: ED_CFG.title, note: ED_CFG.note, reorder: !!ED_CFG.reorder, canAdd: !!ED_CFG.add, addLabel: ED_CFG.add || '',
+add: () => { var cur = c.state[ED_CFG.key]; var arr = cur.concat([ED_CFG.make(cur.length)]); if (ED_CFG.addAt === 'beforeLocked') { var li = arr.findIndex(isLocked); if (li >= 0) { var nw = arr.pop(); arr.splice(li, 0, nw); } } c.edFresh = arr.indexOf(arr.filter((x) => !cur.includes(x))[0]); c.edPal = c.edFresh; c.edConfirm = -1; edSet(c, arr); },
+items: list.map((it, i) => {
+var locked = isLocked(it);
+var nm = it.name || 'Sin nombre';
+var warn = ED_CFG.warn ? ED_CFG.warn(it, c) : '';
+return {
+name: it.name, color: it.color, locked: locked,
+canDel: !locked && deletable > minLeft,
+normal: c.edConfirm !== i, confirming: c.edConfirm === i,
+confirmText: '¿Borrar "' + nm + '"?', warn: warn, hasWarn: !!warn,
+aria: locked ? nm + ', color fijo' : 'Cambiar color de ' + nm,
+delLabel: 'Borrar ' + nm,
+upLabel: 'Subir ' + nm, downLabel: 'Bajar ' + nm,
+palOpen: !locked && c.edPal === i,
+ring: !locked && c.edPal === i ? 'box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px ' + it.color + ';' : 'box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);',
+colorStyle: locked ? 'cursor: default;' : '',
+inputStyle: locked ? 'background: transparent; border-color: transparent; color: #3B404B;' : '',
+rowStyle: i === c.edFresh ? 'animation: edIn 0.35s ease-out both;' : '',
+upStyle: i === 0 ? 'opacity: 0.3; cursor: default;' : '',
+downStyle: i === list.length - 1 ? 'opacity: 0.3; cursor: default;' : '',
+pal: locked ? NOOP : () => { c.edPal = c.edPal === i ? -1 : i; c.edFresh = -1; c.forceUpdate(); },
+rename: locked ? NOOP : (e) => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { name: e.target.value }); edSet(c, arr); },
+up: () => edMove(c, i, i - 1),
+down: () => edMove(c, i, i + 1),
+askDel: () => { c.edConfirm = i; c.edPal = -1; c.edFresh = -1; c.forceUpdate(); },
+cancelDel: () => { c.edConfirm = -1; c.forceUpdate(); },
+doDel: () => {
+c.edConfirm = -1; c.edPal = -1; c.edFresh = -1;
+if (ED_CFG.onDelete) ED_CFG.onDelete(c, i);
+else edSet(c, c.state[ED_CFG.key].filter((x, k) => k !== i));
+},
+swatches: ED_COLORS.map((col, k) => ({
+color: col, label: ED_NAMES[k], sel: col === it.color,
+ring: col === it.color ? 'box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px ' + col + ';' : '',
+pick: () => { var arr = c.state[ED_CFG.key].slice(); arr[i] = Object.assign({}, arr[i], { color: col }); edSet(c, arr); }
+}))
+};
+})
+};
+}
+var CLK_DAYS = [
+{ s: 'Hoy', n: 29, full: 'Hoy' }, { s: 'Vie', n: 30, full: 'Mañana' }, { s: 'Sáb', n: 31, full: 'Sáb 31' },
+{ s: 'Dom', n: 1, full: 'Dom 1' }, { s: 'Lun', n: 2, full: 'Lun 2' }, { s: 'Mar', n: 3, full: 'Mar 3' }, { s: 'Mié', n: 4, full: 'Mié 4' }
+];
+function clkLabel(day, h, m) { return CLK_DAYS[day].full + ' ' + h + ':' + pad2(m); }
+function clkOpen(c, o) {
+c.clk = Object.assign({ mode: 'h', h: 20, m: 0, day: 0, week: false, title: 'Elegí la hora', color: '#15171C', anim: 0 }, o || {}, { open: true });
+c.forceUpdate();
+}
+function clkFromPoint(c, e) {
+var el = c.clkEl, K = c.clk;
+if (!el || !K) return;
+var r = el.getBoundingClientRect();
+var k = r.width / 236 || 1;
+var dx = (e.clientX - r.left) / k - 118, dy = (e.clientY - r.top) / k - 118;
+var ang = Math.atan2(dx, -dy) * 180 / Math.PI;
+if (ang < 0) ang += 360;
+var idx = Math.round(ang / 30) % 12;
+if (K.mode === 'h') {
+var inner = Math.sqrt(dx * dx + dy * dy) < 79;
+K.h = inner ? (idx === 0 ? 0 : idx + 12) : (idx === 0 ? 12 : idx);
+} else K.m = idx * 5;
+c.forceUpdate();
+}
+function clkToMinutes(c) {
+if (c.clkT) clearTimeout(c.clkT);
+c.clkT = setTimeout(() => { if (c.clk && c.clk.open && c.clk.mode === 'h') { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); } }, 320);
+}
+function clkVals(c) {
+var K = c.clk;
+if (!K || !K.open) return { open: false };
+if (!c.clkFns) c.clkFns = {
+down: (e) => { c.clkDrag = true; c.clkEl = e.currentTarget; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} clkFromPoint(c, e); },
+move: (e) => { if (c.clkDrag) clkFromPoint(c, e); },
+up: () => { if (!c.clkDrag) return; c.clkDrag = false; clkToMinutes(c); },
+hMode: () => { c.clk.mode = 'h'; c.clk.anim++; c.forceUpdate(); },
+mMode: () => { c.clk.mode = 'm'; c.clk.anim++; c.forceUpdate(); },
+cancel: () => exClose(c, 'clk', () => { c.clk.open = false; c.forceUpdate(); }),
+done: () => { var Q = c.clk; if (Q.onDone) Q.onDone(Q.day, Q.h, Q.m); exClose(c, 'clk', () => { Q.open = false; c.forceUpdate(); }); }
+};
+var F = c.clkFns;
+var col = K.color;
+var C = 118, R1 = 96, R2 = 62;
+var isH = K.mode === 'h';
+var nums = [];
+var mk = (v, i, R, inner) => {
+var a = i * 30 * Math.PI / 180;
+var x = C + R * Math.sin(a), y = C - R * Math.cos(a);
+var sz = inner ? 32 : 38;
+var sel = isH ? K.h === v : K.m === v;
+nums.push({
+t: isH ? (inner ? pad2(v) : String(v)) : pad2(v),
+aria: isH ? v + ' horas' : v + ' minutos', sel: sel,
+style: 'left: ' + (x - sz / 2).toFixed(1) + 'px; top: ' + (y - sz / 2).toFixed(1) + 'px; width: ' + sz + 'px; height: ' + sz + 'px; font-size: ' + (inner ? 12 : 15) + 'px; ' + (sel ? 'background: ' + col + '; color: #FFFFFF;' : 'background: transparent; color: ' + (inner ? '#4A4F5A' : '#15171C') + ';'),
+pick: () => { if (isH) { K.h = v; c.forceUpdate(); clkToMinutes(c); } else { K.m = v; c.forceUpdate(); } }
+});
+};
+if (isH) {
+for (var i = 0; i < 12; i++) mk(i === 0 ? 12 : i, i, R1, false);
+for (var j = 0; j < 12; j++) mk(j === 0 ? 0 : j + 12, j, R2, true);
+} else {
+for (var q = 0; q < 12; q++) mk(q * 5, q, R1, false);
+}
+var R = isH ? (K.h >= 1 && K.h <= 12 ? R1 : R2) : R1;
+var angle = isH ? (K.h % 12) * 30 : K.m * 6;
+return {
+open: true, outBack: exBack(c, 'clk'), outPanel: exPanel(c, 'clk'), title: K.title, week: !!K.week, top: (K.week ? 92 : 150) + 'px',
+days: CLK_DAYS.map((d, i) => ({
+s: d.s, n: d.n, sel: i === K.day,
+aria: (i === 0 ? 'Hoy, ' : i === 1 ? 'Mañana, ' : '') + d.s + ' ' + d.n,
+style: i === K.day ? 'background: ' + col + '; color: #FFFFFF; transform: scale(1.04);' : 'background: #F0F1F5; color: #15171C;',
+pick: () => { K.day = i; c.forceUpdate(); }
+})),
+hh: pad2(K.h), mm: pad2(K.m), isH: isH, isM: !isH,
+hStyle: isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+mStyle: !isH ? 'background: ' + hexA(col, 0.12) + '; color: ' + col + ';' : 'background: transparent; color: #15171C;',
+hand: 'top: ' + (C - R + 19) + 'px; height: ' + (R - 19) + 'px; transform: rotate(' + angle + 'deg); background: ' + col + ';',
+dot: 'background: ' + col + ';',
+nums: nums,
+dialAnim: K.anim ? 'animation: ' + (K.anim % 2 ? 'clkA' : 'clkB') + ' 0.3s ease-out;' : '',
+down: F.down, move: F.move, up: F.up, hMode: F.hMode, mMode: F.mMode, cancel: F.cancel, done: F.done,
+hint: isH ? 'Tocá o arrastrá para elegir la hora' : 'Ahora elegí los minutos',
+doneLabel: 'Listo · ' + (K.week ? clkLabel(K.day, K.h, K.m) : K.h + ':' + pad2(K.m))
+};
+}
+var AI_SOURCES = ['Boletín · 6 materias', 'Apuntes · 9', 'Archivos · 4'];
+var AI_SUGGEST = ['Tomame Historia', 'Plan para hoy', 'Métodos de estudio', '¿Cómo subo Lengua?'];
+var AI_QUIZ = [
+{ q: 'Pregunta 1 de 3: ¿Qué se discutió en el Cabildo abierto del 22 de mayo de 1810?', keys: ['virrey', 'cisneros', 'gobierno', 'autoridad', 'poder'], ok: '¡Bien! Se discutió si el virrey Cisneros seguía en el poder, y ganó la postura de reemplazarlo.', no: 'Casi. En tu apunte dice que se discutió si el virrey seguía en el poder; ganó la idea de reemplazarlo.' },
+{ q: 'Pregunta 2 de 3: ¿Quién presidió la Primera Junta?', keys: ['saavedra'], ok: '¡Exacto, Cornelio Saavedra!', no: 'No. Fue Cornelio Saavedra; Moreno y Paso eran los secretarios.' },
+{ q: 'Pregunta 3 de 3: Nombrá una causa de la Revolución de Mayo.', keys: ['invasion', 'ingles', 'rey', 'espana', 'fernando', 'ilustracion', 'napoleon'], ok: '¡Muy bien! Las tres de tu apunte son las invasiones inglesas, la caída del rey en España y las ideas de la Ilustración.', no: 'Te doy una: las invasiones inglesas. Las otras dos de tu apunte son la caída del rey en España y las ideas de la Ilustración.' }
+];
+var AI_REPLY = {
+plan: 'Mañana tenés Historia y hoy entrenás de 17:30 a 19:00. Te propongo:\n\n19:30 · Releer "Revolución de Mayo" (15 min)\n19:50 · Releer "Primera Junta" (10 min)\n20:05 · Descanso\n20:15 · Preguntas de práctica conmigo (15 min)\n20:30 · Repasar solo lo que te costó\n\nTe faltan 3 de 5 temas, así que con esto llegás bien.',
+metodos: 'Tres métodos que funcionan muy bien:\n\n1. Recuerdo activo: cerrá el apunte y explicalo con tus palabras. Después fijate qué te faltó.\n2. Repaso espaciado: repasá hoy, mañana y en 3 días, en vez de todo junto el día antes.\n3. Pomodoro: 25 minutos de estudio y 5 de descanso.\n\nSi querés, te tomo preguntas ahora y practicamos el primero.',
+lengua: 'En Lengua tenés un 5,5 (Análisis sintáctico) y es tu única nota.\n\nSi en la próxima sacás 7,5, tu promedio sube a 6,5. Con un 8,5 llegás a 7.\n\nTodavía no tenés apuntes de Lengua. Escaneá la próxima clase y lo repasamos juntos.',
+fallback: 'En esta maqueta tengo respuestas de ejemplo. En la app de verdad te respondería usando tus notas, apuntes y archivos. Probá con alguna de las sugerencias de abajo.'
+};
+function aiNorm(t) { return (t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function aiIntent(t) {
+var s = aiNorm(t);
+if (s.indexOf('repasemos') === 0) return 'file';
+if (s.indexOf('tomame') >= 0 || s.indexOf('pregunta') >= 0 || s.indexOf('practic') >= 0) return 'quiz';
+if (s.indexOf('metodo') >= 0 || s.indexOf('como estudi') >= 0 || s.indexOf('tecnica') >= 0) return 'metodos';
+if (s.indexOf('lengua') >= 0 || s.indexOf('promedio') >= 0 || s.indexOf('subo') >= 0) return 'lengua';
+if (s.indexOf('plan') >= 0 || s.indexOf('organiz') >= 0 || s.indexOf('hoy') >= 0) return 'plan';
+return 'fallback';
+}
+function aiReplyFor(c, text) {
+if (c.aiQuiz >= 0) {
+var Q = AI_QUIZ[c.aiQuiz];
+var s = aiNorm(text);
+var good = Q.keys.some((k) => s.indexOf(k) >= 0);
+if (good) c.aiScore++;
+var out = good ? Q.ok : Q.no;
+c.aiQuiz++;
+if (c.aiQuiz < AI_QUIZ.length) return out + '\n\n' + AI_QUIZ[c.aiQuiz].q;
+var sc = c.aiScore;
+c.aiQuiz = -1; c.aiScore = 0;
+return out + '\n\nTerminamos: ' + sc + ' de 3. ' + (sc === 3 ? '¡Estás listo para mañana!' : 'Repasá las que te costaron y, si querés, lo hacemos de nuevo.');
+}
+var k = aiIntent(text);
+if (k === 'quiz') { c.aiQuiz = 0; c.aiScore = 0; return 'Dale, te tomo 3 preguntas sobre tus apuntes de Historia. Respondé con tus palabras.\n\n' + AI_QUIZ[0].q; }
+if (k === 'file') {
+var m = text.match(/"([^"]+)"/);
+var name = m ? m[1] : 'ese apunte';
+return 'Abrí "' + name + '". En la app de verdad lo leería entero, te haría un resumen corto y después preguntas para ver qué te quedó.\n\nEn esta maqueta tengo preparadas preguntas de Historia: escribí "tomame" para probarlas.';
+}
+return AI_REPLY[k];
+}
+function aiAsk(c, text) {
+var t = (text || '').trim();
+if (!t || c.aiTyping) return;
+c.aiMsgs = c.aiMsgs.concat([{ me: true, t: t }]);
+c.aiDraft = ''; c.aiTyping = true;
+c.forceUpdate(); c.aiScroll();
+var reply = aiReplyFor(c, t);
+c.aiTimer = setTimeout(() => { c.aiMsgs = c.aiMsgs.concat([{ me: false, t: reply }]); c.aiTyping = false; c.forceUpdate(); c.aiScroll(); }, 950);
+}
+function aiInit(c) {
+c.aiReady = true; c.aiOpen = false; c.aiTyping = false; c.aiDraft = ''; c.aiQuiz = -1; c.aiScore = 0; c.aiEl = null;
+c.aiMsgs = [{ me: false, t: '¡Hola Felix! Mañana tenés prueba de Historia y en tus apuntes tenés "Revolución de Mayo" y "Primera Junta". ¿Te tomo preguntas o te armo un plan para hoy?' }];
+c.aiRef = (el) => { c.aiEl = el; };
+c.aiScroll = () => { setTimeout(() => { if (c.aiEl) c.aiEl.scrollTop = c.aiEl.scrollHeight; }, 40); };
+c.aiClose = () => { if (!c.aiOpen) return; exClose(c, 'ai', () => { c.aiOpen = false; c.forceUpdate(); }, 260); };
+c.aiToggle = () => { if (c.aiOpen) { c.aiClose(); return; } c.aiOpen = true; c.forceUpdate(); c.aiScroll(); };
+c.aiSetDraft = (e) => { c.aiDraft = e.target.value; c.forceUpdate(); };
+c.aiKey = (e) => { if (e.key === 'Enter') aiAsk(c, c.aiDraft); };
+c.aiSend = () => aiAsk(c, c.aiDraft);
+}
+function aiOpenWith(c, text) {
+if (!c.aiReady) aiInit(c);
+c.aiOpen = true; c.forceUpdate();
+setTimeout(() => aiAsk(c, text), 400);
+}
+function aiVals(c) {
+if (!c.aiReady) aiInit(c);
+return {
+open: c.aiOpen, closed: !c.aiOpen, toggle: c.aiToggle, close: c.aiClose, ref: c.aiRef, outBack: exBack(c, 'ai'), outPanel: exPanel(c, 'ai'),
+btnLabel: c.aiOpen ? 'Cerrar asistente de estudio' : 'Abrir asistente de estudio',
+sources: AI_SOURCES,
+msgs: c.aiMsgs.map((m) => ({ t: m.t, style: m.me ? 'align-self: flex-end; background: #15171C; color: #FFFFFF; border-radius: 18px 18px 6px 18px;' : 'align-self: flex-start; background: #F2F3F7; color: #15171C; border-radius: 18px 18px 18px 6px;' })),
+typing: c.aiTyping,
+chips: AI_SUGGEST.map((x) => ({ label: x, send: () => aiAsk(c, x) })),
+draft: c.aiDraft, setDraft: c.aiSetDraft, key: c.aiKey, send: c.aiSend,
+sendStyle: c.aiDraft.trim() ? '' : 'opacity: 0.4;'
+};
+}
+function gradeBand(x) { return x >= 8 ? 'rgba(20,163,127,0.16)' : x >= 6 ? 'rgba(230,160,0,0.20)' : 'rgba(217,58,43,0.14)'; }
+function wheelVals(c, key, labels, idx, onPick) {
+if (!c.wh) c.wh = {};
+var W = c.wh[key] || (c.wh[key] = { off: idx * 40, drag: false });
+if (!W.drag) W.off = idx * 40;
+var n = labels.length, max = (n - 1) * 40;
+var settle = (target) => {
+var i = Math.max(0, Math.min(n - 1, Math.round(target / 40)));
+W.drag = false; W.off = i * 40;
+c.forceUpdate();
+if (i !== idx || true) onPick(i);
+};
+return {
+text: labels[idx],
+down: (e) => {
+var r = e.currentTarget.getBoundingClientRect();
+W.k = r.height / 200 || 1; W.top = r.top;
+W.drag = true; W.moved = false; W.y0 = e.clientY; W.o0 = W.off; W.v = 0; W.ly = e.clientY; W.lt = Date.now();
+try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+c.forceUpdate();
+},
+move: (e) => {
+if (!W.drag) return;
+var dy = (e.clientY - W.y0) / W.k;
+if (Math.abs(dy) > 3) W.moved = true;
+var o = W.o0 - dy;
+if (o < 0) o = o / 3;
+if (o > max) o = max + (o - max) / 3;
+W.off = o;
+var now = Date.now(), dt = now - W.lt;
+if (dt > 0) W.v = ((W.ly - e.clientY) / W.k) / dt;
+W.ly = e.clientY; W.lt = now;
+c.forceUpdate();
+},
+up: (e) => {
+if (!W.drag) return;
+if (!W.moved) { settle(W.off + ((e.clientY - W.top) / W.k - 100)); return; }
+var v = Date.now() - W.lt > 90 ? 0 : W.v;
+settle(W.off + Math.max(-120, Math.min(120, v * 90)));
+},
+wheel: (e) => {
+var now = Date.now();
+if (W.lw && now - W.lw < 110) return;
+W.lw = now;
+settle(Math.round(W.off / 40) * 40 + (e.deltaY > 0 ? 40 : -40));
+},
+key: (e) => {
+if (e.key === 'ArrowDown') { e.preventDefault(); settle(W.off + 40); }
+else if (e.key === 'ArrowUp') { e.preventDefault(); settle(W.off - 40); }
+},
+track: 'transform: translateY(' + (80 - W.off).toFixed(1) + 'px); transition: ' + (W.drag ? 'none' : 'transform 0.4s cubic-bezier(.22,1,.36,1)') + ';',
+items: labels.map((t, i) => {
+var d = i - W.off / 40;
+var ad = Math.min(Math.abs(d), 3);
+return { t: t, style: 'transform: perspective(320px) rotateX(' + (-d * 24).toFixed(1) + 'deg) scale(' + (1 - ad * 0.06).toFixed(3) + '); opacity: ' + Math.max(0.2, 1 - ad * 0.34).toFixed(2) + '; color: ' + (ad < 0.5 ? '#15171C' : '#4A4F5A') + '; transition: ' + (W.drag ? 'none' : 'transform 0.4s cubic-bezier(.22,1,.36,1), opacity 0.4s, color 0.4s') + ';' };
+})
+};
+}
+function wheelItem(i, top, t, sel, pick) {
+var d = i - top / 40;
+var ad = Math.min(Math.abs(d), 3);
+return { t: t, sel: sel, pick: pick, style: 'transform: perspective(320px) rotateX(' + (-d * 24).toFixed(1) + 'deg) scale(' + (1 - ad * 0.06).toFixed(3) + '); opacity: ' + Math.max(0.2, 1 - ad * 0.34).toFixed(2) + '; color: ' + (ad < 0.5 ? '#15171C' : '#4A4F5A') + ';' };
+}
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { data: START, open: 0, addOpen: false, formIdx: 1, formNota: 8, formTema: '', toast: false, toastText: '', saves: 0, edit: null };
+}
+openSheet(o) {
+var nota = o.formNota === undefined ? 8 : o.formNota;
+this.wh = {};
+this.setState(Object.assign({ addOpen: true, edit: null, formTema: '', formNota: nota }, o));
+}
+componentDidMount() {
+navMount(this);
+if (actTake('notas') === 'add') this.openSheet({});
+}
+componentWillUnmount() { if (this.tt) clearTimeout(this.tt); }
+renderVals() {
+var s = this.state;
+var accent = this.props.accent ?? '#3D63F0';
+var total = 0, sum = 0, withGrades = 0, best = null;
+var subjects = s.data.map((m, i) => {
+var has = m.grades.length > 0;
+var a = avgOf(m.grades);
+total += m.grades.length;
+if (has) { sum += a; withGrades++; if (!best || a > best.a) best = { name: m.name, a: a }; }
+var open = s.open === i;
+return {
+name: m.name || 'Sin nombre', initial: (m.name || '?').charAt(0).toUpperCase(),
+color: m.color,
+countText: m.grades.length + (m.grades.length === 1 ? ' nota' : ' notas'),
+avg: has ? fmt(a) : '–', avgStyle: has ? gradeStyle(a) : 'color: #3B404B; background: rgba(21,23,28,0.06);',
+open: open, noGrades: !has,
+wrapStyle: open ? 'background: rgba(21,23,28,0.05);' : '',
+chevron: open ? 'transform: rotate(180deg);' : '',
+grades: m.grades.map((g, gi) => ({ tema: g.t, nota: fmt(g.n), style: gradeStyle(g.n), aria: 'Editar nota ' + fmt(g.n) + ' de ' + g.t, edit: () => this.openSheet({ edit: { si: i, gi: gi }, formIdx: i, formNota: g.n, formTema: g.t }) })).reverse(),
+toggle: () => { if (this.state.open === i) { exClose(this, 'subj', () => this.setState({ open: -1 }), 200); return; } this.setState({ open: i }); },
+out: open && exOn(this, 'subj') ? 'animation: exUp 0.2s ease-in forwards;' : '',
+addHere: () => this.openSheet({ formIdx: i })
+};
+});
+var general = withGrades ? sum / withGrades : 0;
+var fi = Math.min(s.formIdx, s.data.length - 1);
+return {
+nav: navVals(this),
+ed: edVals(this),
+accent: accent,
+waveA: WA.d, waveAValues: WA.values, waveB: WB.d, waveBValues: WB.values,
+general: fmt(general),
+bump: s.saves ? 'animation: ' + (s.saves % 2 ? 'bumpA' : 'bumpB') + ' 0.45s ease-out;' : '',
+totalText: total + ' notas en ' + s.data.length + ' materias',
+best: best ? best.name + ' ' + fmt(best.a) : '–',
+subjects: subjects,
+addOpen: s.addOpen,
+openAdd: () => this.openSheet({}),
+addSheet: sdVals(this, 'add', () => this.setState({ addOpen: false, edit: null })),
+isEdit: !!s.edit, isNew: !s.edit,
+sheetTitle: s.edit ? 'Editar nota' : 'Cargar nota',
+saveLabel: s.edit ? 'Guardar cambios' : 'Guardar nota',
+wInt: wheelVals(this, 'i', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], Math.floor(s.formNota) - 1, (i) => { var dec = this.state.formNota % 1; var v = i + 1 + (i === 9 ? 0 : dec); this.setState({ formNota: v }); }),
+wDec: wheelVals(this, 'd', [',0', ',5'], s.formNota % 1 ? 1 : 0, (i) => { var iv = Math.floor(this.state.formNota); this.setState({ formNota: iv === 10 ? 10 : iv + (i ? 0.5 : 0) }); }),
+wheelBand: 'background: ' + gradeBand(s.formNota) + ';',
+wheelTag: gradeStyle(s.formNota),
+wheelWord: s.formNota >= 8 ? 'Muy bien' : s.formNota >= 6 ? 'Aprobado' : 'Desaprobado',
+delGrade: () => {
+var st = this.state;
+if (!st.edit) return;
+var data = st.data.map((m, i) => i === st.edit.si ? Object.assign({}, m, { grades: m.grades.filter((x, k) => k !== st.edit.gi) }) : m);
+this.setState({ data: data, saves: st.saves + 1, toast: true, toastText: 'Borraste la nota de ' + st.data[st.edit.si].name });
+sdVals(this, 'add', () => this.setState({ addOpen: false, edit: null })).close();
+if (this.tt) clearTimeout(this.tt);
+this.tt = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+},
+closeAdd: () => sdVals(this, 'add', () => this.setState({ addOpen: false, edit: null })).close(),
+subjectChips: s.data.map((m, i) => ({
+name: m.name || 'Sin nombre', sel: i === fi,
+style: i === fi ? 'border: 1.5px solid ' + m.color + '; background: ' + m.color + '; color: #FFFFFF;' : 'border: 1.5px solid rgba(21,23,28,0.14); background: #FFFFFF; color: #15171C;',
+pick: () => this.setState({ formIdx: i })
+})),
+formTema: s.formTema,
+setTema: (e) => this.setState({ formTema: e.target.value }),
+save: () => {
+var st = this.state;
+var idx = Math.min(st.formIdx, st.data.length - 1);
+var tema = st.formTema.trim() || 'Prueba';
+var g = { n: st.formNota, t: tema };
+var data = st.data.map((m, i) => {
+var gs = m.grades;
+if (st.edit && i === st.edit.si) gs = (st.edit.si === idx) ? gs.map((x, k) => k === st.edit.gi ? g : x) : gs.filter((x, k) => k !== st.edit.gi);
+if (i === idx && !(st.edit && st.edit.si === idx)) gs = gs.concat([g]);
+return gs === m.grades ? m : Object.assign({}, m, { grades: gs });
+});
+sdVals(this, 'add', () => this.setState({ addOpen: false, edit: null, formTema: '' })).close();
+this.setState({ data: data, open: idx, saves: st.saves + 1, toast: true, toastText: (st.edit ? 'Cambiada · ' : 'Guardada · ') + data[idx].name + ' ahora tiene ' + fmt(avgOf(data[idx].grades)) });
+if (this.tt) clearTimeout(this.tt);
+this.tt = setTimeout(() => exClose(this, 'toast', () => this.setState({ toast: false }), 260), 2600);
+},
+toast: s.toast,
+toastOut: exOn(this, 'toast') ? 'animation: toastOut 0.26s ease-in forwards;' : '',
+toastText: s.toastText
+};
+}
+}
+</script>
+</body>
+</html>
