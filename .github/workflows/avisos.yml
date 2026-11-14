@@ -1,6 +1,7 @@
 # Publica el programa de avisos (carpeta notificaciones/) en Cloudflare Workers.
 # Se ejecuta cuando cambia esa carpeta, o a mano desde la pestaña "Actions".
 # Necesita dos secretos en GitHub: CLOUDFLARE_API_TOKEN y CLOUDFLARE_ACCOUNT_ID.
+# Para la IA, además: GEMINI_API_KEY y EMAIL_PERMITIDO (se copian como secretos a Cloudflare).
 
 name: Publicar los avisos
 
@@ -19,6 +20,8 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      EMAIL_PERMITIDO: ${{ secrets.EMAIL_PERMITIDO }}
     defaults:
       run:
         working-directory: notificaciones
@@ -38,3 +41,8 @@ jobs:
       - name: Publicar en Cloudflare
         if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
         run: npx wrangler deploy
+      - name: Cargar los secretos de la IA en Cloudflare
+        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != '' && env.GEMINI_API_KEY != '' && env.EMAIL_PERMITIDO != ''
+        run: |
+          printf '%s' "$GEMINI_API_KEY" | npx wrangler secret put GEMINI_API_KEY
+          printf '%s' "$EMAIL_PERMITIDO" | npx wrangler secret put EMAIL_PERMITIDO

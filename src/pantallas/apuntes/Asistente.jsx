@@ -1,11 +1,13 @@
 /*
   Panel del ASISTENTE DE ESTUDIO.
-  En esta etapa todavía no está conectado a una IA: muestra el diseño y
-  explica que llega más adelante (necesita una clave de API, que se hace con tus papás).
+  Usa Gemini (a través del programa de Cloudflare) y le pasa como contexto
+  tus notas, tus próximas pruebas y tus apuntes. Si la IA no está configurada,
+  muestra un mensaje explicando que todavía no está conectada.
 */
 import { useEffect, useRef, useState } from 'react'
 import { usePresencia } from '../../componentes/usePresencia'
 import { useGuardado } from '../../datos/guardado'
+import { iaDisponible, mensajeIA, preguntarIA } from '../../datos/ia'
 import * as Icono from '../../componentes/Iconos'
 
 const SUGERENCIAS = ['Tomame preguntas', 'Plan para hoy', 'Métodos de estudio', '¿Cómo subo una nota?']
@@ -36,26 +38,50 @@ export default function Asistente({ abierto, onCerrar, fuentes, pregunta }) {
   const [escribiendo, setEscribiendo] = useState(false)
   const lista = useRef(null)
   const temporizador = useRef(null)
+  const historial = useRef([]) // copia de los mensajes para usarla dentro de funciones async
+  const conIA = iaDisponible()
+
+  const ponerMensajes = (nuevos) => { historial.current = nuevos; setMensajes(nuevos) }
 
   const bajar = () => setTimeout(() => { if (lista.current) lista.current.scrollTop = lista.current.scrollHeight }, 40)
 
-  const preguntar = (texto) => {
+  const preguntar = async (texto) => {
     const t = (texto || '').trim()
     if (!t || escribiendo) return
-    setMensajes((m) => m.concat([{ yo: true, t }]))
+    const conPregunta = historial.current.concat([{ yo: true, t }])
+    ponerMensajes(conPregunta)
     setBorrador('')
     setEscribiendo(true)
     bajar()
-    temporizador.current = setTimeout(() => {
-      setMensajes((m) => m.concat([{ yo: false, t: RESPUESTA }]))
-      setEscribiendo(false)
-      bajar()
-    }, 950)
+    if (!conIA) {
+      temporizador.current = setTimeout(() => {
+        ponerMensajes(historial.current.concat([{ yo: false, t: RESPUESTA }]))
+        setEscribiendo(false)
+        bajar()
+      }, 950)
+      return
+    }
+    try {
+      // A la IA le mandamos la conversación sin el saludo ni los mensajes de error
+      const respuesta = await preguntarIA(conPregunta.filter((m) => !m.saludo && !m.error))
+      ponerMensajes(historial.current.concat([{ yo: false, t: respuesta }]))
+    } catch (err) {
+      ponerMensajes(historial.current.concat([{ yo: false, t: mensajeIA(err), error: true }]))
+    }
+    setEscribiendo(false)
+    bajar()
   }
 
   useEffect(() => {
     if (!abierto) return
-    setMensajes([{ yo: false, t: '¡Hola' + (nombre ? ', ' + nombre : '') + '! Soy tu asistente de estudio. Cuando esté conectado voy a poder tomarte preguntas, armarte un plan y explicarte temas usando tus notas, apuntes y archivos.' }])
+    const hola = '¡Hola' + (nombre ? ', ' + nombre : '') + '! Soy tu asistente de estudio. '
+    ponerMensajes([{
+      yo: false,
+      saludo: true,
+      t: conIA
+        ? hola + 'Conozco tus notas, tus apuntes y tus próximas pruebas. ¿Te tomo preguntas, te armo un plan o te explico algún tema?'
+        : hola + 'Cuando esté conectado voy a poder tomarte preguntas, armarte un plan y explicarte temas usando tus notas, apuntes y archivos.',
+    }])
     setEscribiendo(false)
     if (pregunta) setTimeout(() => preguntar(pregunta), 400)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,7 +115,9 @@ export default function Asistente({ abierto, onCerrar, fuentes, pregunta }) {
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 1, flexGrow: 1, minWidth: 0 }}>
             <h2 style={{ margin: 0, fontSize: 17, fontWeight: 700, letterSpacing: '-0.01em' }}>Asistente de estudio</h2>
-            <span style={{ fontSize: 12, fontWeight: 500, color: '#9A3C00' }}>Todavía sin conectar · llega en la Etapa 7</span>
+            {conIA
+              ? <span style={{ fontSize: 12, fontWeight: 500, color: '#3B404B' }}>Con Gemini (Google) · usa tus notas y apuntes</span>
+              : <span style={{ fontSize: 12, fontWeight: 500, color: '#9A3C00' }}>Todavía sin conectar</span>}
           </div>
           <button onClick={onCerrar} aria-label="Cerrar asistente" style={{ width: 40, height: 40, flexShrink: 0, borderRadius: 20, border: 'none', background: 'rgba(21,23,28,0.06)', color: '#15171C', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <Icono.Cerrar tam={16} grosor={2.6} />
@@ -110,7 +138,9 @@ export default function Asistente({ abierto, onCerrar, fuentes, pregunta }) {
                 maxWidth: '88%', padding: '9px 12px', fontSize: 14, fontWeight: 500, lineHeight: 1.45, whiteSpace: 'pre-line', animation: 'aiMsg 0.3s ease-out both',
                 ...(m.yo
                   ? { alignSelf: 'flex-end', background: '#15171C', color: '#FFFFFF', borderRadius: '18px 18px 6px 18px' }
-                  : { alignSelf: 'flex-start', background: '#F2F3F7', color: '#15171C', borderRadius: '18px 18px 18px 6px' }),
+                  : m.error
+                    ? { alignSelf: 'flex-start', background: 'rgba(217,58,43,0.10)', color: '#9E1F17', borderRadius: '18px 18px 18px 6px' }
+                    : { alignSelf: 'flex-start', background: '#F2F3F7', color: '#15171C', borderRadius: '18px 18px 18px 6px' }),
               }}
             >
               {m.t}

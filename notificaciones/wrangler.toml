@@ -12,3 +12,9 @@ class_name = "Dispositivo"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["Dispositivo"]
+
+# Inteligencia artificial (Gemini). La clave (GEMINI_API_KEY) y el mail permitido
+# (EMAIL_PERMITIDO) son SECRETOS: se cargan desde GitHub, no se escriben acá.
+[vars]
+GEMINI_MODELO = "gemini-flash-latest"
+LIMITE_DIARIO = "60"

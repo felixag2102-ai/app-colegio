@@ -12,9 +12,11 @@
     PUT    /dispositivo/:id            → guarda suscripción + recordatorios pendientes
     POST   /dispositivo/:id/prueba     → manda una notificación de prueba ya mismo
     DELETE /dispositivo/:id            → borra todo lo de ese celular
+    POST   /ia/chat  y  /ia/foto       → inteligencia artificial (ver ia.js)
 */
 import { DurableObject } from 'cloudflare:workers'
 import { crearClavesVapid, endpointValido, enviarPush } from './webpush.js'
+import { manejarIA } from './ia.js'
 
 const CONTACTO = 'https://felixag2102-ai.github.io/app-colegio/'
 const ORIGENES = ['https://felixag2102-ai.github.io', 'http://localhost:5173', 'http://localhost:4173']
@@ -30,6 +32,17 @@ export class Dispositivo extends DurableObject {
       await this.ctx.storage.put('claves', c)
     }
     return c
+  }
+
+  // Solo la usa la cajita especial "__uso__": cuenta cuántos usos de IA hubo hoy
+  async sumarUso(limite) {
+    const hoy = new Date(Date.now() - 3 * 3600 * 1000).toISOString().slice(0, 10) // día en Argentina (UTC-3)
+    const datos = (await this.ctx.storage.get('uso')) || { dia: hoy, usados: 0 }
+    if (datos.dia !== hoy) { datos.dia = hoy; datos.usados = 0 }
+    if (datos.usados >= limite) return { ok: false, usados: datos.usados }
+    datos.usados++
+    await this.ctx.storage.put('uso', datos)
+    return { ok: true, usados: datos.usados }
   }
 
   async guardar(suscripcion, recordatorios) {
@@ -88,7 +101,7 @@ function cors(origen) {
   return {
     'Access-Control-Allow-Origin': permitido,
     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   }
@@ -129,6 +142,12 @@ export default {
     if (pedido.method === 'GET' && url.pathname === '/clave') {
       const claves = await env.DISPOSITIVO.get(env.DISPOSITIVO.idFromName('__claves__')).claves()
       return json({ clave: claves.publica }, 200, origen)
+    }
+
+    if (partes[0] === 'ia' && partes.length === 2) {
+      const contador = env.DISPOSITIVO.get(env.DISPOSITIVO.idFromName('__uso__'))
+      const { estado, datos } = await manejarIA(pedido, env, partes[1], (limite) => contador.sumarUso(limite))
+      return json(datos, estado, origen)
     }
 
     if (partes[0] === 'dispositivo' && /^[a-z0-9]{20,40}$/.test(partes[1] || '')) {
