@@ -3,7 +3,7 @@
   - Saludo y cuántas cosas tenés hoy.
   - Semana tocable: cada día muestra rayitas de colores (una por tarjeta).
   - Tarjetas apiladas: deslizá la de adelante al costado para pasarla al fondo.
-  - Clima (por ahora de ejemplo), recordatorios (campana) y menú +.
+  - Clima real de Buenos Aires (Open-Meteo), recordatorios (campana) y menú +.
 */
 import { useEffect, useRef, useState } from 'react'
 import { useGuardado } from '../../datos/guardado'
