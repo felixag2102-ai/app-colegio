@@ -18,7 +18,7 @@ function haceCuanto(ms) {
   return 'el ' + d.getDate() + '/' + (d.getMonth() + 1) + ' a las ' + d.getHours() + ':' + pad2(d.getMinutes())
 }
 
-export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo }) {
+export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo, ocultos = 0, onMostrarOcultos }) {
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState('')
 
@@ -75,6 +75,12 @@ export default function HojaGoogleCalendar({ abierta, onCerrar, google, onListo 
       {googleDisponible() && (
         <button style={boton(true)} onClick={sincronizar} disabled={ocupado}>
           {ocupado ? 'Conectando con Google…' : google ? 'Actualizar ahora' : 'Conectar Google Calendar'}
+        </button>
+      )}
+
+      {google && ocultos > 0 && (
+        <button style={boton(false)} disabled={ocupado} onClick={() => { onMostrarOcultos(); onCerrar(); onListo(ocultos === 1 ? 'Volvió a aparecer 1 evento' : 'Volvieron a aparecer ' + ocultos + ' eventos') }}>
+          Volver a mostrar los eventos que sacaste ({ocultos})
         </button>
       )}
 

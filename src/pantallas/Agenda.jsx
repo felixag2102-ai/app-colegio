@@ -30,7 +30,7 @@ const estiloOpcion = (activa) =>
 
 export default function Agenda({ accion }) {
   // "eventos" = los de la app + los de Google Calendar. Solo se guardan/cambian los de la app ("locales").
-  const { todos: eventos, locales, setLocales: setEventos, google } = useEventosConGoogle()
+  const { todos: eventos, locales, setLocales: setEventos, google, ocultos, ocultar, mostrarOcultos } = useEventosConGoogle()
   const [hojaGoogle, setHojaGoogle] = useState(false)
   const { aviso, mostrarAviso } = useAviso()
 
@@ -263,15 +263,20 @@ export default function Agenda({ accion }) {
               return (
                 <FilaDeslizable
                   key={e.id}
-                  habilitada={!e.google}
-                  onBorrar={() => setEventos((lista) => lista.filter((x) => x.id !== e.id))}
+                  onBorrar={() => {
+                    if (e.google) {
+                      // De Google: lo sacamos solo de la app (en Google Calendar sigue estando)
+                      ocultar(e.id)
+                      mostrarAviso('Lo sacaste de la app. En Google Calendar sigue estando.')
+                    } else setEventos((lista) => lista.filter((x) => x.id !== e.id))
+                  }}
                   margenRojo={0}
                   radioRojo={22}
                   estilo={{ borderRadius: 22, animation: e.id === recien ? 'rowNew 0.4s cubic-bezier(.34,1.4,.64,1) both' : undefined }}
                 >
                   <button
                     className="vidrio"
-                    onClick={() => (e.google ? mostrarAviso('Este evento es de Google Calendar: editalo desde allá') : abrirEditar(e))}
+                    onClick={() => (e.google ? mostrarAviso('Es de Google Calendar: editalo allá, o deslizalo para sacarlo de la app') : abrirEditar(e))}
                     aria-label={'Editar ' + e.titulo}
                     style={{ width: '100%', borderRadius: 22, padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', textAlign: 'left', color: '#15171C', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.95), 0 6px 16px rgba(30,40,80,0.08)' }}
                   >
@@ -397,7 +402,7 @@ export default function Agenda({ accion }) {
         }}
       />
       <Aviso {...aviso} />
-      <HojaGoogleCalendar abierta={hojaGoogle} onCerrar={() => setHojaGoogle(false)} google={google} onListo={(texto) => mostrarAviso(texto)} />
+      <HojaGoogleCalendar abierta={hojaGoogle} onCerrar={() => setHojaGoogle(false)} google={google} ocultos={ocultos.length} onMostrarOcultos={mostrarOcultos} onListo={(texto) => mostrarAviso(texto)} />
     </>
   )
 }

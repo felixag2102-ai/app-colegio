@@ -121,12 +121,20 @@ function leer() {
   try { return JSON.parse(localStorage.getItem('colegio:' + CLAVE)) } catch (err) { return null }
 }
 
-// Hook: los eventos de la app + los de Google Calendar, juntos
+/*
+  Hook: los eventos de la app + los de Google Calendar, juntos.
+  Los eventos de Google que sacaste de la app ("ocultos") no se muestran,
+  aunque sigan existiendo en Google Calendar.
+*/
 export function useEventosConGoogle() {
   const [locales, setLocales] = useGuardado('eventos', [])
   const [deGoogle] = useGuardado(CLAVE, null)
-  const todos = deGoogle && deGoogle.eventos ? locales.concat(deGoogle.eventos) : locales
-  return { todos, locales, setLocales, google: deGoogle }
+  const [ocultos, setOcultos] = useGuardado('eventosGoogleOcultos', [])
+  const visiblesDeGoogle = deGoogle && deGoogle.eventos ? deGoogle.eventos.filter((e) => !ocultos.includes(e.id)) : []
+  const todos = locales.concat(visiblesDeGoogle)
+  const ocultar = (id) => setOcultos((lista) => (lista.includes(id) ? lista : lista.concat([id])))
+  const mostrarOcultos = () => setOcultos([])
+  return { todos, locales, setLocales, google: deGoogle, ocultos, ocultar, mostrarOcultos }
 }
 
 // Mensajes claros para cada problema
