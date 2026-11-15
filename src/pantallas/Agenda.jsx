@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useGuardado } from '../datos/guardado'
 import { CATEGORIAS_AGENDA } from '../datos/iniciales'
+import { COLORES } from '../utilidades/colores'
 import { MESES, DIAS, capitalizar, claveDia, difDias, hoy, minutosDe, nuevoId, pad2, relativo } from '../utilidades/fechas'
 import HojaDeAbajo from '../componentes/HojaDeAbajo'
 import EditorLista from '../componentes/EditorLista'
@@ -393,9 +394,11 @@ export default function Agenda({ accion }) {
         abierto={editando}
         onCerrar={() => setEditando(false)}
         titulo="Editar categorías"
-        nota="Son los colores de los puntitos del calendario. Tocá un color para cambiarlo, escribí el nombre que quieras o borrá la categoría."
+        nota="Son los colores de los puntitos del calendario. Tocá un color para cambiarlo, escribí el nombre que quieras, agregá una nueva o borrá la que no uses."
         items={categorias}
         onCambiar={setCategorias}
+        textoAgregar="Agregar categoría"
+        crear={(n) => ({ key: 'cat-' + nuevoId(), name: 'Nueva categoría', color: COLORES[(n + 1) % COLORES.length] })}
         aviso={(c) => {
           const n = eventos.filter((e) => e.tipo === c.key).length
           return n ? (n === 1 ? 'Su evento queda en gris, sin categoría.' : 'Sus ' + n + ' eventos quedan en gris, sin categoría.') : ''

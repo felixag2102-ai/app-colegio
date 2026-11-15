@@ -217,7 +217,11 @@ export default function Inicio({ irA }) {
             </button>
             <button
               className="btn-circulo"
-              onClick={() => setMenu(!menu)}
+              onClick={() => {
+                // Al abrir el menú "+", cerramos el panel de recordatorios (nunca los dos a la vez)
+                if (!menu) setPanelRec({ abierto: false, enfocar: false })
+                setMenu(!menu)
+              }}
               aria-label="Agregar algo nuevo"
               aria-expanded={menu}
               style={{ position: 'relative', zIndex: 60, width: 48, height: 48, borderRadius: 24, background: 'rgba(255,255,255,0.78)' }}
